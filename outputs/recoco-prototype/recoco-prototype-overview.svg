@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1120" viewBox="0 0 1600 1120">
+  <defs>
+    <style>
+      .title{font:700 34px -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;fill:#1a1a1a}
+      .sub{font:400 22px -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;fill:#6b6b6b}
+      .h{font:700 24px -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;fill:#1a1a1a}
+      .hDark{font:700 24px -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;fill:#fff}
+      .p{font:400 15px -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;fill:#6b6b6b}
+      .pDark{font:400 15px -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;fill:#b9b9b5}
+      .cap{font:700 11px -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;fill:#9b9a97;letter-spacing:1px}
+      .btn{font:700 13px -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;fill:#fff}
+      .btnDark{font:700 13px -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;fill:#0c0d0a}
+      .label{font:600 20px -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;fill:#1a1a1a}
+    </style>
+    <linearGradient id="photoA" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#ded8c9"/><stop offset=".52" stop-color="#8c9a91"/><stop offset="1" stop-color="#363b34"/>
+    </linearGradient>
+    <linearGradient id="photoB" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#c9c4bb"/><stop offset="1" stop-color="#767a80"/>
+    </linearGradient>
+    <linearGradient id="darkCard" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#303126"/><stop offset="1" stop-color="#11120f"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1120" fill="#d8d8d4"/>
+  <text x="80" y="60" class="title">recoco iOS prototype</text>
+  <text x="80" y="96" class="sub">Phase 1 화면 흐름을 빠르게 확인하기 위한 프로토타입 시트</text>
+
+  <g transform="translate(80 140)">
+    <rect width="260" height="520" rx="32" fill="#10100f"/><rect x="9" y="9" width="242" height="502" rx="24" fill="#0c0d0a"/>
+    <rect x="99" y="132" width="62" height="62" rx="18" fill="#1a1b17" stroke="#55554e"/><text x="130" y="171" text-anchor="middle" class="hDark">R</text>
+    <text x="130" y="228" text-anchor="middle" class="hDark" style="letter-spacing:3px">RECOCO</text>
+    <text x="130" y="268" text-anchor="middle" class="pDark"><tspan x="130">사진첩의 무게를 덜고</tspan><tspan x="130" dy="22">남길 기억은 더 선명하게.</tspan></text>
+    <rect x="28" y="338" width="204" height="46" rx="8" fill="#fff"/><text x="130" y="367" text-anchor="middle" class="btnDark">시작하기</text>
+    <text x="130" y="555" text-anchor="middle" class="label">S-01 Splash</text>
+  </g>
+
+  <g transform="translate(400 140)">
+    <rect width="260" height="520" rx="32" fill="#10100f"/><rect x="9" y="9" width="242" height="502" rx="24" fill="#0c0d0a"/>
+    <rect x="33" y="94" width="56" height="142" rx="14" fill="url(#darkCard)" stroke="#44443f"/><rect x="102" y="94" width="56" height="142" rx="14" fill="url(#darkCard)" stroke="#44443f"/><rect x="171" y="94" width="56" height="142" rx="14" fill="url(#darkCard)" stroke="#44443f"/>
+    <text x="130" y="305" text-anchor="middle" class="hDark"><tspan x="130">비슷한 사진 중</tspan><tspan x="130" dy="30">남길 한 장을 골라요.</tspan></text>
+    <text x="130" y="370" text-anchor="middle" class="pDark"><tspan x="130">사진 원본은 서버로 보내지 않고</tspan><tspan x="130" dy="22">기기 안에서 정리 후보를 찾아요.</tspan></text>
+    <rect x="28" y="430" width="204" height="46" rx="8" fill="#fff"/><text x="130" y="459" text-anchor="middle" class="btnDark">다음</text>
+    <text x="130" y="555" text-anchor="middle" class="label">S-02 Onboarding</text>
+  </g>
+
+  <g transform="translate(720 140)">
+    <rect width="260" height="520" rx="32" fill="#10100f"/><rect x="9" y="9" width="242" height="502" rx="24" fill="#0c0d0a"/>
+    <text x="130" y="45" text-anchor="middle" class="hDark" style="font-size:16px;letter-spacing:3px">RECOCO</text>
+    <text x="130" y="190" text-anchor="middle" class="hDark"><tspan x="130">가볍게 비우고</tspan><tspan x="130" dy="30">오래 남겨요.</tspan></text>
+    <text x="130" y="258" text-anchor="middle" class="pDark"><tspan x="130">Apple 또는 Google 계정으로</tspan><tspan x="130" dy="22">기록을 안전하게 이어갈 수 있어요.</tspan></text>
+    <rect x="28" y="336" width="204" height="46" rx="8" fill="#fff"/><text x="130" y="365" text-anchor="middle" class="btnDark">Apple로 계속하기</text>
+    <rect x="28" y="392" width="204" height="46" rx="8" fill="#f7f7f5" stroke="#e3e2de"/><text x="130" y="421" text-anchor="middle" fill="#1a1a1a" class="btnDark">Google 계정으로 계속하기</text>
+    <text x="130" y="555" text-anchor="middle" class="label">S-03 Login</text>
+  </g>
+
+  <g transform="translate(1040 140)">
+    <rect width="260" height="520" rx="32" fill="#10100f"/><rect x="9" y="9" width="242" height="502" rx="24" fill="#fff"/>
+    <text x="130" y="45" text-anchor="middle" class="h" style="font-size:16px;letter-spacing:3px">RECOCO</text>
+    <rect x="27" y="64" width="206" height="82" rx="8" fill="#f7f7f5" stroke="#e3e2de"/>
+    <text x="42" y="86" class="cap">이번 주의 작은 비움</text><text x="42" y="118" class="h" style="font-size:22px">2 / 7일</text>
+    <rect x="42" y="132" width="176" height="6" rx="3" fill="#e3e2de"/><rect x="42" y="132" width="76" height="6" rx="3" fill="#1a1a1a"/>
+    <text x="30" y="188" class="h">좋은 오후예요.</text><text x="30" y="218" class="p">기기에서 찾아낸 비우기 좋은 기록들이에요.</text>
+    <text x="30" y="260" class="cap">오늘의 정리 · 후보 4장 / 스와이프 가능</text>
+    <rect x="17" y="294" width="58" height="150" rx="16" fill="url(#photoB)" opacity=".48"/><rect x="77" y="274" width="106" height="190" rx="16" fill="url(#photoA)"/><rect x="185" y="294" width="58" height="150" rx="16" fill="url(#photoB)" opacity=".48"/>
+    <rect x="154" y="284" width="74" height="22" rx="11" fill="#efeeeb"/><text x="191" y="299" text-anchor="middle" class="cap" style="fill:#1a1a1a;font-size:9px">HIGH DETOX</text>
+    <rect y="462" width="260" height="49" fill="#fff"/><line x1="9" y1="462" x2="251" y2="462" stroke="#e3e2de"/><text x="130" y="493" text-anchor="middle" class="p" style="fill:#1a1a1a">홈        리포트        마이</text>
+    <text x="130" y="555" text-anchor="middle" class="label">S-04 Home</text>
+  </g>
+
+  <g transform="translate(80 720)">
+    <rect width="260" height="300" rx="32" fill="#10100f"/><rect x="9" y="9" width="242" height="282" rx="24" fill="#fff"/>
+    <text x="32" y="66" class="h"><tspan x="32">이 사진들을</tspan><tspan x="32" dy="29">정리할까요?</tspan></text>
+    <rect x="28" y="130" width="204" height="92" rx="8" fill="#f7f7f5" stroke="#e3e2de"/>
+    <rect x="44" y="160" width="58" height="48" rx="10" fill="url(#photoA)"/><text x="122" y="158" class="cap">정리할 사진 3장</text>
+    <rect x="122" y="174" width="28" height="28" rx="7" fill="#aaa"/><rect x="155" y="174" width="28" height="28" rx="7" fill="#999"/><rect x="188" y="174" width="28" height="28" rx="7" fill="#888"/>
+    <text x="130" y="335" text-anchor="middle" class="label">S-05 Cleanup</text>
+  </g>
+
+  <g transform="translate(400 720)">
+    <rect width="260" height="300" rx="32" fill="#10100f"/><rect x="9" y="9" width="242" height="282" rx="24" fill="#fff"/>
+    <text x="130" y="45" text-anchor="middle" class="h" style="font-size:16px">기록하기</text>
+    <text x="30" y="80" class="cap">SELECTED MOMENT</text><rect x="30" y="96" width="200" height="80" rx="14" fill="url(#photoA)"/>
+    <text x="30" y="206" class="cap">MEANING</text><rect x="30" y="222" width="200" height="44" rx="8" fill="#f7f7f5" stroke="#e3e2de"/>
+    <text x="130" y="335" text-anchor="middle" class="label">S-07 Record</text>
+  </g>
+
+  <g transform="translate(720 720)">
+    <rect width="260" height="300" rx="32" fill="#10100f"/><rect x="9" y="9" width="242" height="282" rx="24" fill="#fff"/>
+    <text x="130" y="45" text-anchor="middle" class="h" style="font-size:16px;letter-spacing:3px">RECOCO</text>
+    <text x="30" y="86" class="h">주간 리포트</text><text x="30" y="116" class="p"><tspan x="30">정리 전 11장, 오늘 3장 추가</tspan><tspan x="30" dy="20">이번 주 총 14장을 정리했어요.</tspan></text>
+    <rect x="28" y="158" width="204" height="92" rx="8" fill="#f7f7f5" stroke="#e3e2de"/>
+    <rect x="46" y="208" width="14" height="28" rx="5" fill="#1a1a1a"/><rect x="70" y="190" width="14" height="46" rx="5" fill="#1a1a1a"/><rect x="94" y="216" width="14" height="20" rx="5" fill="#1a1a1a"/><rect x="118" y="178" width="14" height="58" rx="5" fill="#1a1a1a"/><rect x="142" y="198" width="14" height="38" rx="5" fill="#1a1a1a"/><rect x="166" y="220" width="14" height="16" rx="5" fill="#1a1a1a"/><rect x="190" y="188" width="14" height="48" rx="5" fill="#1a1a1a"/>
+    <text x="130" y="335" text-anchor="middle" class="label">S-09 Report</text>
+  </g>
+
+  <g transform="translate(1040 720)">
+    <rect width="260" height="300" rx="32" fill="#10100f"/><rect x="9" y="9" width="242" height="282" rx="24" fill="#fff"/>
+    <text x="130" y="45" text-anchor="middle" class="h" style="font-size:16px;letter-spacing:3px">RECOCO</text>
+    <circle cx="130" cy="88" r="30" fill="#f7f7f5" stroke="#e3e2de"/><text x="130" y="96" text-anchor="middle" class="h">I</text>
+    <text x="130" y="136" text-anchor="middle" class="h" style="font-size:20px">insu</text><text x="130" y="158" text-anchor="middle" class="p">iiinsu23@gmail.com</text>
+    <rect x="28" y="184" width="204" height="32" rx="8" fill="#f7f7f5" stroke="#e3e2de"/><text x="42" y="205" class="p" style="fill:#1a1a1a">사진 접근 관리</text>
+    <rect x="28" y="224" width="204" height="32" rx="8" fill="#f7f7f5" stroke="#e3e2de"/><text x="42" y="245" class="p" style="fill:#1a1a1a">알림 설정</text>
+    <text x="130" y="335" text-anchor="middle" class="label">S-10 Profile</text>
+  </g>
+</svg>

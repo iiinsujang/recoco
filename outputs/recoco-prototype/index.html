@@ -1,0 +1,2114 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>recoco prototype</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f7f7f5;
+      --surface-2: #efeeeb;
+      --border: #e3e2de;
+      --border-strong: #c7c6c2;
+      --text: #1a1a1a;
+      --muted: #6b6b6b;
+      --faint: #9b9a97;
+      --danger: #eb5757;
+      --danger-bg: #fff4f2;
+      --focus: #e28a00;
+      --dark: #0c0d0a;
+      --dark-surface: #1a1b17;
+      --dark-muted: #b9b9b5;
+    }
+
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #d8d8d4;
+      color: var(--text);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .stage {
+      display: grid;
+      grid-template-columns: minmax(320px, 390px) minmax(260px, 340px);
+      gap: 28px;
+      align-items: center;
+      padding: 24px;
+      width: min(100vw, 980px);
+    }
+
+    .phone {
+      width: 390px;
+      max-width: calc(100vw - 48px);
+      aspect-ratio: 390 / 844;
+      background: var(--bg);
+      border: 10px solid #10100f;
+      border-radius: 38px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 30px 80px rgba(0,0,0,.26);
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      background: var(--bg);
+    }
+    .screen.active { display: flex; }
+    .dark { background: var(--dark); color: #fff; }
+
+    .top {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: 2px;
+      font-weight: 700;
+      font-size: 18px;
+      flex: none;
+    }
+    .nav-top {
+      height: 58px;
+      display: grid;
+      grid-template-columns: 52px 1fr 52px;
+      align-items: center;
+      flex: none;
+      padding: 0 8px;
+    }
+    .nav-title {
+      text-align: center;
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--text);
+      padding: 0;
+      font-size: 18px;
+      line-height: 1;
+      border: 1px solid var(--border);
+    }
+    .content {
+      padding: 20px;
+      overflow: auto;
+      flex: 1;
+    }
+    .center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      height: 100%;
+      padding: 32px;
+    }
+    .wordmark { letter-spacing: 3px; font-weight: 700; }
+    h1, h2, p { margin: 0; }
+    h1 { font-size: 30px; line-height: 1.18; font-weight: 600; letter-spacing: 0; }
+    h2 { font-size: 22px; line-height: 1.25; font-weight: 600; letter-spacing: 0; }
+    p { font-size: 15px; line-height: 1.55; color: var(--muted); }
+    .dark p { color: var(--dark-muted); }
+    .caption {
+      font-size: 11px;
+      color: var(--faint);
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+    .space-xl { height: 28px; }
+    .space-md { height: 16px; }
+    .space-sm { height: 10px; }
+
+    button {
+      border: 0;
+      min-height: 48px;
+      border-radius: 8px;
+      padding: 0 16px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn {
+      width: 100%;
+      background: var(--text);
+      color: #fff;
+    }
+    .btn.primary-clear {
+      background: var(--text);
+      color: #fff;
+    }
+    .btn.danger {
+      background: var(--danger);
+      color: #fff;
+    }
+    .btn.secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn.warning {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border: 1px solid rgba(235,87,87,.28);
+    }
+    .btn.dark {
+      background: #fff;
+      color: var(--dark);
+    }
+    .text-btn {
+      background: transparent;
+      color: var(--faint);
+      width: auto;
+    }
+    .action-stack {
+      display: grid;
+      gap: 10px;
+    }
+    .action-stack .text-btn {
+      justify-self: center;
+    }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .symbol {
+      width: 84px;
+      height: 84px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,.22);
+      display: grid;
+      place-items: center;
+      margin-bottom: 22px;
+      color: #fff;
+      background: radial-gradient(circle at 30% 25%, #fff 0 8%, transparent 9%),
+                  linear-gradient(145deg, #25261f, #0f100d);
+    }
+
+    .slides {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      width: 100%;
+      margin-bottom: 26px;
+    }
+    .slide-card {
+      height: 190px;
+      border-radius: 16px;
+      background: linear-gradient(160deg, #303126, #11120f);
+      border: 1px solid rgba(255,255,255,.1);
+      position: relative;
+      overflow: hidden;
+    }
+    .slide-card::after {
+      content: "";
+      position: absolute;
+      inset: auto 16px 16px;
+      height: 72px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.14);
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .summary-card {
+      width: 100%;
+      min-height: 48px;
+      text-align: left;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 36px 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      position: relative;
+    }
+    .summary-card::after {
+      content: "›";
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1;
+    }
+    .summary-card .caption {
+      letter-spacing: 0;
+      font-size: 12px;
+    }
+    .summary-card strong {
+      font-size: 14px;
+      line-height: 1;
+    }
+    .summary-card .progress {
+      width: 72px;
+      flex: none;
+    }
+    .divider { height: 1px; background: var(--border); }
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .progress {
+      height: 4px;
+      border-radius: 999px;
+      background: var(--border);
+      overflow: hidden;
+    }
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 42%;
+      background: var(--text);
+    }
+    .carousel {
+      --drag-x: 0px;
+      --drag-side-x: 0px;
+      height: 306px;
+      position: relative;
+      margin: 4px 0;
+      touch-action: pan-y;
+      user-select: none;
+      overflow: hidden;
+      cursor: grab;
+    }
+    .carousel.empty {
+      cursor: default;
+      display: grid;
+      place-items: center;
+      border: 1px dashed var(--border-strong);
+      border-radius: 16px;
+      background: var(--surface);
+    }
+    .carousel.empty::before,
+    .carousel.empty::after { display: none; }
+    .carousel.dragging { cursor: grabbing; }
+    .carousel::before,
+    .carousel::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 34px;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .carousel::before {
+      left: 0;
+      background: linear-gradient(90deg, var(--bg), rgba(255,255,255,0));
+    }
+    .carousel::after {
+      right: 0;
+      background: linear-gradient(270deg, var(--bg), rgba(255,255,255,0));
+    }
+    .photo {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      border-radius: 16px;
+      background-size: cover;
+      background-position: center;
+      border: 1px solid var(--border);
+      box-shadow: 0 18px 45px rgba(0,0,0,.12);
+      transition: transform .34s cubic-bezier(.22,.8,.25,1), opacity .34s ease, width .34s ease, height .34s ease;
+    }
+    .carousel.dragging .photo { transition: none; }
+    .photo.left, .photo.right {
+      width: 108px;
+      height: 252px;
+      opacity: .42;
+      z-index: 1;
+    }
+    .photo.left { transform: translate(calc(-50% - 150px + var(--drag-side-x)), -50%) scale(.94); }
+    .photo.center {
+      width: min(228px, 60vw);
+      height: 292px;
+      opacity: 1;
+      z-index: 2;
+      transform: translate(calc(-50% + var(--drag-x)), -50%) scale(1);
+    }
+    .photo.right { transform: translate(calc(-50% + 150px + var(--drag-side-x)), -50%) scale(.94); }
+    .carousel.single .photo.left,
+    .carousel.single .photo.right,
+    .carousel.empty .photo {
+      display: none;
+    }
+    .carousel.pair .photo.left { display: none; }
+    .carousel-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .carousel-dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: transparent;
+      opacity: 1;
+      padding: 0;
+      position: relative;
+    }
+    .carousel-dot::before {
+      content: "";
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 999px;
+      background: var(--border-strong);
+      opacity: .7;
+    }
+    .carousel-dot.active::before {
+      width: 3px;
+      height: 3px;
+      background: var(--text);
+      opacity: 1;
+    }
+    .empty-state {
+      display: none;
+      width: 100%;
+      padding: 28px;
+      text-align: center;
+    }
+    .carousel.empty .empty-state {
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+    }
+    .empty-state p {
+      font-size: 14px;
+    }
+    .badge {
+      display: inline-flex;
+      height: 22px;
+      align-items: center;
+      border-radius: 999px;
+      background: var(--surface-2);
+      padding: 0 9px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .5px;
+    }
+    .insight-toggle {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 0;
+    }
+    .insight-toggle summary {
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: pointer;
+      list-style: none;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .insight-toggle summary::-webkit-details-marker { display: none; }
+    .insight-toggle summary::after {
+      content: "+";
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1;
+    }
+    .insight-toggle[open] summary::after { content: "−"; }
+    .insight-body {
+      display: grid;
+      gap: 8px;
+      padding: 8px 0 2px;
+    }
+    .insight-body p {
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--faint);
+      flex: none;
+    }
+
+    .tabs {
+      height: 76px;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      flex: none;
+      background: #fff;
+    }
+    .tab {
+      background: transparent;
+      height: 76px;
+      color: var(--faint);
+      border-radius: 0;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 8px 0 10px;
+    }
+    .tab.active {
+      color: var(--text);
+      box-shadow: inset 0 2px 0 var(--text);
+    }
+    .tab-symbol {
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+      line-height: 1;
+      color: inherit;
+    }
+    .tab.active .tab-symbol {
+      background: var(--surface);
+      color: var(--text);
+    }
+    .list {
+      display: grid;
+      gap: 10px;
+    }
+    .menu-row {
+      width: 100%;
+      height: 58px;
+      text-align: left;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0 38px 0 16px;
+      font-size: 15px;
+      color: var(--text);
+      position: relative;
+    }
+    .menu-row::after {
+      content: "›";
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--faint);
+      font-size: 18px;
+      line-height: 1;
+    }
+    .menu-row span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .menu-row.danger { color: var(--danger); }
+    .menu-row.danger::after { color: var(--danger); }
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .selector-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .selector-cell {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1;
+      height: auto;
+      border: 0;
+      border-radius: 14px;
+      padding: 0;
+      overflow: hidden;
+      background: var(--surface);
+    }
+    .selector-cell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--photo);
+      background-size: cover;
+      background-position: center;
+    }
+    .selector-cell[aria-pressed="false"]::before { opacity: .56; }
+    .selector-cell[aria-pressed="true"] { outline: 3px solid var(--text); outline-offset: 2px; }
+    .selector-cell:focus-visible { outline-color: var(--focus); }
+    .selector-cell[aria-pressed="true"]::after {
+      content: attr(data-status-label);
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--text);
+      padding: 4px 8px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .selector-cell[data-status="deleted"]::after { color: var(--danger); }
+    .selector-cell[data-status="recorded"]::after { color: var(--text); }
+    .selector-cell[data-status="kept"]::after { color: var(--muted); }
+    .premium-card {
+      background: var(--text);
+      color: #fff;
+      border-radius: 8px;
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+    .premium-card p,
+    .premium-card .caption { color: rgba(255,255,255,.72); }
+    .bundle-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .bundle-photo {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1;
+      height: auto;
+      border-radius: 10px;
+      background: var(--surface);
+      border: 2px solid transparent;
+      padding: 0;
+      overflow: hidden;
+    }
+    .bundle-photo::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--photo);
+      background-size: cover;
+      background-position: center;
+      opacity: .64;
+    }
+    .bundle-photo[aria-pressed="true"] {
+      border-color: var(--text);
+      box-shadow: 0 0 0 2px #fff inset;
+    }
+    .bundle-photo[aria-pressed="true"]::before { opacity: 1; }
+    .bundle-photo::after {
+      content: attr(data-label);
+      position: absolute;
+      left: 6px;
+      bottom: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.92);
+      color: var(--text);
+      padding: 3px 7px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .bundle-photo[data-recommended="true"]::after {
+      content: "추천";
+    }
+    .bundle-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .bundle-summary .stat {
+      background: var(--surface);
+    }
+    .stat {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .stat strong {
+      display: block;
+      font-size: 20px;
+      margin-top: 4px;
+    }
+    .setting-group {
+      display: grid;
+      gap: 10px;
+    }
+    .switch-row {
+      min-height: 64px;
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px 14px;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .switch {
+      width: 44px;
+      height: 26px;
+      border-radius: 999px;
+      background: var(--border-strong);
+      padding: 3px;
+      flex: none;
+    }
+    .switch::before {
+      content: "";
+      display: block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      transition: transform .18s ease;
+    }
+    .switch.on { background: var(--text); }
+    .switch.on::before { transform: translateX(18px); }
+    .time-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      max-height: 215px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+    .time-chip {
+      height: 38px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--muted);
+      padding: 0;
+      font-size: 13px;
+    }
+    .time-chip.active {
+      background: var(--text);
+      color: #fff;
+      border-color: var(--text);
+    }
+    .notice {
+      border-radius: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 14px;
+    }
+    .cue-card {
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 11px 12px;
+      display: grid;
+      gap: 5px;
+    }
+    .cue-card strong {
+      font-size: 14px;
+      color: var(--text);
+    }
+    .memory-card {
+      border-radius: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 14px;
+      display: grid;
+      gap: 8px;
+    }
+    .memory-card p { color: var(--text); }
+    .preview-photo {
+      position: static;
+      width: 120px;
+      height: 120px;
+      border-radius: 12px;
+    }
+    .record-photo {
+      position: static;
+      width: 100%;
+      height: 220px;
+      border-radius: 12px;
+    }
+    .completion-stack {
+      width: 100%;
+      display: grid;
+      gap: 10px;
+      text-align: left;
+    }
+    .text-area {
+      width: 100%;
+      min-height: 118px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+      padding: 14px;
+      font: inherit;
+      font-size: 15px;
+      line-height: 1.5;
+      resize: none;
+      outline: none;
+    }
+    .text-area:focus {
+      border-color: var(--text);
+      box-shadow: 0 0 0 1px var(--text);
+    }
+    .text-area::placeholder { color: var(--faint); }
+    .btn:disabled {
+      opacity: .38;
+      cursor: default;
+    }
+    .step-list {
+      display: grid;
+      gap: 12px;
+      width: 100%;
+    }
+    .step-item {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .step-item.active { color: var(--text); font-weight: 700; }
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      border-top-color: var(--text);
+      animation: spin .8s linear infinite;
+      flex: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .quiet-link {
+      width: auto;
+      height: 34px;
+      padding: 0;
+      background: transparent;
+      color: var(--text);
+      font-size: 13px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 28px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      color: var(--text);
+      padding: 0 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .mini-photo {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      background: linear-gradient(160deg,#ded8c9,#8c9a91);
+      opacity: .86;
+    }
+    .mini-photo:nth-child(2) { background: linear-gradient(160deg,#b7b5ad,#746d64); }
+    .mini-photo:nth-child(3) { background: linear-gradient(160deg,#c9c4bb,#767a80); }
+    .mini-photo:nth-child(4) { background: linear-gradient(160deg,#c8d1c7,#7f8f83); }
+    .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .toast-line {
+      min-height: 34px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+    .plan-card {
+      background: var(--text);
+      color: #fff;
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .plan-card p, .plan-card .caption { color: rgba(255,255,255,.72); }
+    .plan-table {
+      display: grid;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .plan-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .plan-row:last-child { border-bottom: 0; }
+    .plan-row strong { display: block; font-size: 12px; color: var(--faint); margin-bottom: 4px; }
+    .locked {
+      opacity: .72;
+      position: relative;
+    }
+    .locked::after {
+      content: "더 깊은 정리";
+      display: inline-flex;
+      margin-left: 8px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      color: var(--text);
+      padding: 3px 7px;
+      font-size: 10px;
+      font-weight: 700;
+      vertical-align: middle;
+    }
+    .bar-chart {
+      height: 160px;
+      display: flex;
+      align-items: end;
+      gap: 10px;
+      padding-top: 20px;
+    }
+    .bar {
+      flex: 1;
+      border-radius: 8px 8px 0 0;
+      background: var(--text);
+      min-height: 18px;
+      opacity: .9;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    .side {
+      color: #222;
+      display: grid;
+      gap: 14px;
+    }
+    .side h2 { font-size: 24px; }
+    .side p { color: #444; }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .chip {
+      background: rgba(255,255,255,.6);
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 12px;
+    }
+
+    @media (max-width: 760px) {
+      body { place-items: start center; }
+      .stage { grid-template-columns: 1fr; padding: 16px; }
+      .side { order: -1; }
+      .phone { width: min(390px, calc(100vw - 32px)); }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <section class="phone" aria-label="recoco prototype">
+      <div class="screen active dark" data-screen="splash">
+        <div class="center">
+          <div class="symbol">R</div>
+          <h1 class="wordmark">RECOCO</h1>
+          <div class="space-sm"></div>
+          <p>사진은 가볍게,<br>기억은 또렷하게.</p>
+          <div class="space-xl"></div>
+          <button class="btn dark" data-go="onboarding">시작하기</button>
+        </div>
+      </div>
+
+      <div class="screen dark" data-screen="onboarding">
+        <div class="center">
+          <div class="slides">
+            <div class="slide-card"></div>
+            <div class="slide-card"></div>
+            <div class="slide-card"></div>
+          </div>
+          <h1>비슷한 장면은 덜고<br>마음이 가는 한 장을 남겨요.</h1>
+          <div class="space-md"></div>
+          <p>사진 원본은 기기 안에 두고<br>정리에 필요한 단서만 살펴봐요.</p>
+          <div class="space-xl"></div>
+          <button class="btn dark" data-go="login">다음</button>
+        </div>
+      </div>
+
+      <div class="screen dark" data-screen="login">
+        <div class="top wordmark">RECOCO</div>
+        <div class="center">
+          <h1>비우는 일도<br>기억하는 일이니까요.</h1>
+          <div class="space-md"></div>
+          <p>계정으로 기록을 이어두면<br>남긴 기억을 다시 만날 수 있어요.</p>
+          <div class="space-xl"></div>
+          <button class="btn dark" data-go="permission">Apple로 계속하기</button>
+          <div class="space-sm"></div>
+          <button class="btn secondary" data-go="permission">Google 계정으로 계속하기</button>
+        </div>
+      </div>
+
+      <div class="screen" data-screen="permission">
+        <div class="top wordmark">RECOCO</div>
+        <div class="center">
+          <h1>오늘 볼 사진을<br>함께 고를게요.</h1>
+          <div class="space-md"></div>
+          <p>사진 원본은 옮기지 않고<br>기기 안에서만 정리 후보를 살펴봐요.</p>
+          <div class="space-xl"></div>
+          <button class="btn" data-go="home">사진 선택하기</button>
+        </div>
+      </div>
+
+      <div class="screen" data-screen="home">
+        <div class="top wordmark">RECOCO</div>
+        <div class="content">
+          <button class="summary-card" data-go="report" aria-label="이번 주 정리 리포트 보기">
+            <span class="caption">이번 주 비움 목표</span>
+            <strong><span data-stat="weekDays">2</span> / 7일</strong>
+            <div class="progress" aria-hidden="true"><span></span></div>
+          </button>
+
+          <div class="space-md"></div>
+          <h2>오늘은 세 장만 볼게요.</h2>
+          <div class="space-sm"></div>
+          <p>비울지, 남길지, 기록할지만 고르면 돼요.</p>
+          <div class="space-md"></div>
+
+          <div class="carousel" data-carousel aria-label="오늘 큐레이션 사진 캐러셀">
+            <div class="photo left" data-carousel-slot="prev"></div>
+            <div class="photo center" data-carousel-slot="current"></div>
+            <div class="photo right" data-carousel-slot="next"></div>
+            <div class="empty-state" data-empty-state>
+              <h2>오늘 볼 사진을 모두 비웠어요.</h2>
+              <p>오늘 큐레이션은 끝났어요. 내일 새로운 세 장을 다시 골라드릴게요.</p>
+            </div>
+          </div>
+          <div class="carousel-meta">
+            <p style="color:var(--text)"><span data-carousel-count>1 / 3</span> · <span data-selected-label>오늘 1번째 사진</span></p>
+          </div>
+          <div class="carousel-dots" data-carousel-dots aria-label="사진 위치"></div>
+          <div class="space-sm"></div>
+          <details class="insight-toggle">
+            <summary>사진 단서</summary>
+            <div class="insight-body">
+              <strong data-cue-title>공간의 분위기가 남아 있어요.</strong>
+              <p data-reason-summary>장소의 분위기가 또렷해, 한 장만 남겨도 충분해 보여요.</p>
+              <p data-cue-copy>사람은 없지만 빛과 배경이 그날의 공기를 잘 붙잡고 있어요. 떠오르는 일이 있다면 기록으로 남기기 좋아요.</p>
+            </div>
+          </details>
+          <div class="row" aria-live="polite">
+            <button class="quiet-link" data-go="selector" style="height:auto">전체 보기</button>
+            <button class="quiet-link" data-go="plan" data-home-plan-nudge hidden>조금 더 이어보고 싶다면</button>
+          </div>
+          <div class="space-md"></div>
+          <div class="action-stack" data-home-actions>
+            <button class="btn primary-clear" data-go="cleanup">비우기</button>
+            <button class="btn secondary" data-go="record">기록 남기기</button>
+            <button class="text-btn" data-go="completed" data-action="keep">그대로 두기</button>
+          </div>
+          <div class="action-stack" data-empty-actions hidden>
+            <button class="btn" data-go="completed" data-action="finish">오늘 정리 마치기</button>
+            <button class="btn secondary" data-premium-go="similarBundle">비슷한 사진 묶음 보기</button>
+          </div>
+        </div>
+        <nav class="tabs">
+          <button class="tab active" data-go="home"><span class="tab-symbol" aria-hidden="true">⌂</span><span>홈</span></button>
+          <button class="tab" data-go="report"><span class="tab-symbol" aria-hidden="true">▥</span><span>리포트</span></button>
+          <button class="tab" data-go="profile"><span class="tab-symbol" aria-hidden="true">○</span><span>마이</span></button>
+        </nav>
+      </div>
+
+      <div class="screen" data-screen="cleanup">
+        <div class="content">
+          <div class="space-md"></div>
+          <h2>이 사진을 비울까요?</h2>
+          <div class="space-sm"></div>
+          <p>최근 삭제된 항목으로 옮겨져요. 마음이 바뀌면 사진 앱에서 다시 되돌릴 수 있어요.</p>
+          <div class="space-xl"></div>
+          <div class="card">
+            <div class="row">
+              <div>
+                <div class="caption">비울 사진</div>
+                <div class="space-sm"></div>
+                <div class="photo preview-photo" data-keep-photo></div>
+              </div>
+              <div style="text-align:right">
+                <div class="caption">현재 선택</div>
+                <div class="space-sm"></div>
+                <span class="status-pill" data-current-index>1 / 3</span>
+                <div class="space-sm"></div>
+                <p style="font-size:13px" data-current-label>오늘 1번째 사진</p>
+              </div>
+            </div>
+          </div>
+          <div class="space-xl"></div>
+          <div class="notice">
+            <p>비우기를 누르기 전 마지막 확인이에요. 이 화면에서는 아직 사진이 삭제되지 않았어요.</p>
+          </div>
+          <div class="space-xl"></div>
+          <div class="action-stack">
+            <button class="btn danger" data-go="completed" data-action="delete">최근 삭제된 항목으로 보내기</button>
+            <button class="btn secondary" data-go="home">취소하고 돌아가기</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen" data-screen="selector">
+        <div class="top">오늘 볼 사진</div>
+        <div class="divider"></div>
+        <div class="content">
+          <p>오늘 고른 세 장을 한눈에 보고, 어디까지 정리했는지 확인해요.</p>
+          <div class="space-xl"></div>
+          <div class="selector-grid" data-selector-grid></div>
+          <div class="space-xl"></div>
+          <div class="action-stack">
+            <button class="btn" data-go="home">선택한 사진 보기</button>
+            <button class="btn secondary" data-go="home">돌아가기</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen" data-screen="record">
+        <div class="top">기록 남기기</div>
+        <div class="divider"></div>
+        <div class="content">
+          <div class="caption">선택한 장면</div>
+          <div class="space-sm"></div>
+          <div class="photo record-photo" data-record-photo></div>
+          <div class="space-sm"></div>
+          <p style="color:var(--text)" data-record-label>오늘 1번째 사진에 남길 이유를 적고 있어요.</p>
+          <div class="space-xl"></div>
+          <div class="cue-card">
+            <span class="caption">기록 단서</span>
+            <strong data-record-cue-title>공간의 분위기가 남아 있어요.</strong>
+            <p data-record-cue-copy>이 장소에서 있었던 일이나, 함께 있던 사람을 한 줄로 적어보세요.</p>
+          </div>
+          <div class="space-xl"></div>
+          <div class="caption">남길 이유</div>
+          <div class="space-sm"></div>
+          <textarea class="text-area" data-record-input placeholder="왜 이 장면을 남기고 싶나요?"></textarea>
+          <p class="toast-line" data-record-toast aria-live="polite"></p>
+          <div class="space-xl"></div>
+          <div class="action-stack">
+            <button class="btn" data-create-record disabled>기록으로 다듬기</button>
+            <button class="text-btn" data-go="home">지금은 넘길게요</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen" data-screen="generating">
+        <div class="top">기록 정리 중</div>
+        <div class="divider"></div>
+        <div class="center">
+          <div class="spinner"></div>
+          <div class="space-xl"></div>
+          <h2>당신의 한 줄을<br>기억하기 좋게 다듬고 있어요.</h2>
+          <div class="space-xl"></div>
+          <div class="step-list">
+            <div class="step-item active"><span class="dot"></span>사진 속 단서를 살펴보고 있어요.</div>
+            <div class="step-item active"><span class="dot"></span>남긴 이유를 정돈하고 있어요.</div>
+            <div class="step-item"><span class="dot"></span>다시 읽기 좋은 문장으로 만들고 있어요.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen" data-screen="result">
+        <div class="top">남긴 기록</div>
+        <div class="divider"></div>
+        <div class="content">
+          <div class="caption">내가 남긴 이유</div>
+          <div class="space-sm"></div>
+          <div class="memory-card">
+            <p data-user-meaning>이 장소에서 있었던 일을 한 줄로 남겨보세요.</p>
+          </div>
+          <div class="space-xl"></div>
+          <div class="caption">다듬어진 기록</div>
+          <div class="space-sm"></div>
+          <div class="row" style="justify-content:flex-start">
+            <span class="badge" data-keyword-one>장소</span>
+            <span class="badge" data-keyword-two>분위기</span>
+            <span class="badge" data-keyword-three>기억</span>
+          </div>
+          <div class="space-md"></div>
+          <div class="card">
+            <textarea class="text-area" data-narrative-input>빛과 배경이 남긴 분위기 덕분에, 이 장소에서의 시간이 다시 또렷해졌어요.</textarea>
+          </div>
+          <div class="space-xl"></div>
+          <div class="action-stack">
+            <button class="btn" data-go="completed" data-action="record">기록 저장하기</button>
+            <button class="btn secondary" data-copy-narrative>문장 복사하기</button>
+            <button class="text-btn" data-create-record>다시 다듬기</button>
+          </div>
+          <p class="toast-line" data-result-toast aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="screen" data-screen="completed">
+        <div class="top wordmark">RECOCO</div>
+        <div class="center">
+          <h2 data-completion-title>오늘의 정리를 마쳤어요.</h2>
+          <div class="space-md"></div>
+          <p><span data-summary>정리한 사진 3장</span></p>
+          <div class="space-xl"></div>
+          <div class="completion-stack">
+            <div class="memory-card">
+              <span class="caption" data-completion-card-label>오늘 남긴 것</span>
+              <p data-completion-card-copy>사진첩은 조금 가벼워졌고, 남길 기억은 더 또렷해졌어요.</p>
+            </div>
+          </div>
+          <div class="space-xl"></div>
+          <div class="action-stack">
+            <button class="btn secondary" data-go="home">오늘의 정리로 돌아가기</button>
+            <button class="text-btn" data-undo-delete hidden>방금 비운 사진 되돌리기</button>
+          </div>
+        </div>
+        <nav class="tabs">
+          <button class="tab active" data-go="home"><span class="tab-symbol" aria-hidden="true">⌂</span><span>홈</span></button>
+          <button class="tab" data-go="report"><span class="tab-symbol" aria-hidden="true">▥</span><span>리포트</span></button>
+          <button class="tab" data-go="profile"><span class="tab-symbol" aria-hidden="true">○</span><span>마이</span></button>
+        </nav>
+      </div>
+
+      <div class="screen" data-screen="report">
+        <div class="top wordmark">RECOCO</div>
+        <div class="content">
+          <h2>이번 주의 정리</h2>
+          <div class="space-sm"></div>
+          <p>사진 <span data-stat="deletedPhotos">11</span>장을 비우고, 기억 <span data-stat="savedRecords">1</span>개를 글로 남겼어요.</p>
+          <div class="space-xl"></div>
+          <div class="stats">
+            <div class="stat"><span class="caption">비운 사진</span><strong><span data-stat="deletedPhotos">11</span>장</strong></div>
+            <div class="stat"><span class="caption">남긴 기억</span><strong><span data-stat="savedRecords">1</span>개</strong></div>
+          </div>
+          <div class="space-md"></div>
+          <div class="card">
+            <div class="caption">요일별 정리</div>
+            <div class="bar-chart">
+              <div class="bar" style="height:45%"></div>
+              <div class="bar" style="height:70%"></div>
+              <div class="bar" style="height:35%"></div>
+              <div class="bar" style="height:88%"></div>
+              <div class="bar" style="height:54%"></div>
+              <div class="bar" style="height:20%"></div>
+              <div class="bar" style="height:62%"></div>
+            </div>
+          </div>
+          <div class="space-md"></div>
+          <div class="card locked">
+            <div class="caption">월간 기억 묶음</div>
+            <div class="space-sm"></div>
+            <p>계절, 사람, 장소별로 남긴 기억을 차분히 다시 묶어볼 수 있어요.</p>
+            <div class="space-md"></div>
+            <button class="btn secondary" data-go="plan">더 깊게 보기</button>
+          </div>
+        </div>
+        <nav class="tabs">
+          <button class="tab" data-go="home"><span class="tab-symbol" aria-hidden="true">⌂</span><span>홈</span></button>
+          <button class="tab active" data-go="report"><span class="tab-symbol" aria-hidden="true">▥</span><span>리포트</span></button>
+          <button class="tab" data-go="profile"><span class="tab-symbol" aria-hidden="true">○</span><span>마이</span></button>
+        </nav>
+      </div>
+
+      <div class="screen" data-screen="profile">
+        <div class="top wordmark">RECOCO</div>
+        <div class="content">
+          <div class="center" style="height:auto;padding:10px 0 24px">
+            <div class="avatar" aria-hidden="true">I</div>
+            <div class="space-sm"></div>
+            <h2>insu</h2>
+            <p>iiinsu23@gmail.com</p>
+          </div>
+          <div class="divider"></div>
+          <div class="list">
+            <button class="menu-row row" data-go="plan">이용 범위 <span>기본</span></button>
+            <button class="menu-row row" data-go="photoAccess">사진 접근 관리 <span>선택 접근</span></button>
+            <button class="menu-row row" data-go="notifications">알림 설정 <span>09:30</span></button>
+            <button class="menu-row row" data-go="privacy">개인정보 안내 <span>기기 안 분석</span></button>
+            <button class="menu-row row danger" data-go="logout">로그아웃 <span>계정 종료</span></button>
+          </div>
+        </div>
+        <nav class="tabs">
+          <button class="tab" data-go="home"><span class="tab-symbol" aria-hidden="true">⌂</span><span>홈</span></button>
+          <button class="tab" data-go="report"><span class="tab-symbol" aria-hidden="true">▥</span><span>리포트</span></button>
+          <button class="tab active" data-go="profile"><span class="tab-symbol" aria-hidden="true">○</span><span>마이</span></button>
+        </nav>
+      </div>
+
+      <div class="screen" data-screen="plan">
+        <div class="nav-top">
+          <button class="icon-btn" data-go="profile" aria-label="뒤로">←</button>
+          <div class="nav-title">이용 범위</div>
+          <div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="content">
+          <div class="plan-card">
+            <div class="caption">지금의 정리 범위</div>
+            <div class="space-sm"></div>
+            <h2 style="color:#fff">하루 한 번, 세 장씩</h2>
+            <div class="space-sm"></div>
+            <p>기본 사용은 매일 세 장을 천천히 정리해요. 부담 없이 습관을 만들기 위한 범위예요.</p>
+          </div>
+          <div class="space-md"></div>
+          <div class="premium-card">
+            <div class="caption">PREMIUM MVP</div>
+            <h2 style="color:#fff">비슷한 사진 묶음 정리</h2>
+            <p>비슷한 사진 12장 중 남길 사진만 고르고, 나머지는 한 번에 비워요.</p>
+            <button class="btn dark" data-premium-go="similarBundle">묶음 정리 열기</button>
+          </div>
+          <div class="space-xl"></div>
+          <div class="plan-table">
+            <div class="plan-row">
+              <div><strong>기본</strong>하루 1개 세션<br>최근 사진 중심</div>
+              <div><strong>더 깊은 정리</strong>원할 때 이어보기<br>전체 사진첩</div>
+            </div>
+            <div class="plan-row">
+              <div><strong>비우기</strong>기본 중복·품질 단서</div>
+              <div><strong>비우기</strong>맞춤 규칙과 세밀한 필터</div>
+            </div>
+            <div class="plan-row">
+              <div><strong>Recall</strong>기본 기억 카드</div>
+              <div><strong>Recall</strong>계절·사람·장소 아카이브</div>
+            </div>
+            <div class="plan-row">
+              <div><strong>Record</strong>기본 기록</div>
+              <div><strong>Record</strong>무제한 보관과 내보내기</div>
+            </div>
+            <div class="plan-row">
+              <div><strong>리포트</strong>주간 요약</div>
+              <div><strong>리포트</strong>월간 회고와 기억 묶음</div>
+            </div>
+          </div>
+          <div class="space-xl"></div>
+          <div class="action-stack">
+            <button class="btn" data-plan-upgrade>월 4,900원으로 더 깊게 정리하기</button>
+            <button class="btn secondary" data-go="profile">지금은 하루 세 장으로 충분해요</button>
+          </div>
+          <p class="toast-line" data-plan-toast aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="screen" data-screen="similarBundleLocked">
+        <div class="nav-top">
+          <button class="icon-btn" data-go="plan" aria-label="뒤로">←</button>
+          <div class="nav-title">묶음 정리</div>
+          <div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="content">
+          <div class="premium-card">
+            <div class="caption">PREMIUM</div>
+            <h2 style="color:#fff">비슷한 사진을 한 번에 정리해요.</h2>
+            <p>같은 장면 12장 중 남길 사진만 고르면, 나머지는 한 번에 비울 수 있어요.</p>
+          </div>
+          <div class="space-xl"></div>
+          <div class="bundle-summary">
+            <div class="stat"><span class="caption">찾은 사진</span><strong>12장</strong></div>
+            <div class="stat"><span class="caption">추천 남김</span><strong>2장</strong></div>
+            <div class="stat"><span class="caption">한 번에 비움</span><strong>10장</strong></div>
+          </div>
+          <div class="space-md"></div>
+          <div class="notice">
+            <p>하나씩 비교하지 않아도 돼요. recoco가 먼저 선명한 사진을 추천하고, 선택은 직접 바꿀 수 있어요.</p>
+          </div>
+          <div class="space-xl"></div>
+          <div class="action-stack">
+            <button class="btn" data-plan-upgrade>월 4,900원으로 시작하기</button>
+            <button class="btn secondary" data-go="plan">이용 범위로 돌아가기</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen" data-screen="similarBundle">
+        <div class="nav-top">
+          <button class="icon-btn" data-go="plan" aria-label="뒤로">←</button>
+          <div class="nav-title">묶음 정리</div>
+          <div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="content">
+          <div class="caption">PREMIUM</div>
+          <div class="space-sm"></div>
+          <h2>비슷한 사진 12장을 찾았어요.</h2>
+          <div class="space-sm"></div>
+          <p>남길 사진만 선택하세요. 선택하지 않은 사진은 한 번에 비울 수 있어요.</p>
+          <div class="space-xl"></div>
+          <div class="bundle-summary">
+            <div class="stat"><span class="caption">묶음</span><strong>12장</strong></div>
+            <div class="stat"><span class="caption">남김</span><strong data-bundle-keep-count>2장</strong></div>
+            <div class="stat"><span class="caption">비움</span><strong data-bundle-delete-count>10장</strong></div>
+          </div>
+          <div class="space-md"></div>
+          <div class="notice">
+            <p>recoco가 선명도와 표정을 보고 2장을 먼저 추천했어요. 선택은 언제든 바꿀 수 있어요.</p>
+          </div>
+          <div class="space-xl"></div>
+          <div class="bundle-grid" data-bundle-grid></div>
+          <div class="space-xl"></div>
+          <div class="action-stack">
+            <button class="btn primary-clear" data-bundle-complete>선택한 사진만 남기기</button>
+            <button class="btn secondary" data-bundle-reset>추천으로 되돌리기</button>
+            <button class="text-btn" data-go="plan">나중에 할게요</button>
+          </div>
+          <p class="toast-line" data-bundle-toast aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="screen" data-screen="photoAccess">
+        <div class="nav-top">
+          <button class="icon-btn" data-go="profile" aria-label="뒤로">←</button>
+          <div class="nav-title">사진 접근</div>
+          <div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="content">
+          <div class="notice">
+            <span class="status-pill">선택한 사진만 접근 중</span>
+            <div class="space-sm"></div>
+            <h2>현재 128장의 사진을 살펴볼 수 있어요.</h2>
+            <div class="space-sm"></div>
+            <p>recoco는 사진 원본을 서버로 보내지 않고, 기기 안에서만 정리 단서를 찾습니다.</p>
+          </div>
+          <div class="space-xl"></div>
+          <div class="caption">최근 접근한 사진</div>
+          <div class="space-sm"></div>
+          <div class="mini-grid">
+            <div class="mini-photo"></div>
+            <div class="mini-photo"></div>
+            <div class="mini-photo"></div>
+            <div class="mini-photo"></div>
+          </div>
+          <div class="space-xl"></div>
+          <div class="setting-group">
+            <button class="btn" data-toast="photo">선택한 사진 바꾸기</button>
+            <button class="btn secondary" data-go="plan">전체 사진첩으로 넓히기</button>
+          </div>
+          <div class="space-md"></div>
+          <p class="toast-line" data-photo-toast aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="screen" data-screen="notifications">
+        <div class="nav-top">
+          <button class="icon-btn" data-go="profile" aria-label="뒤로">←</button>
+          <div class="nav-title">알림 설정</div>
+          <div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="content">
+          <div class="setting-group">
+            <button class="switch-row" type="button" data-toggle-notification aria-pressed="true">
+              <span>
+                <strong>정리 시간 알림</strong><br>
+                <span class="caption">하루 세 장을 볼 시간을 조용히 알려드려요.</span>
+              </span>
+              <span class="switch on" data-notification-switch></span>
+            </button>
+            <div class="card">
+              <div class="row">
+                <div>
+                  <div class="caption">알림 시간</div>
+                  <h2 data-selected-time>09:30</h2>
+                </div>
+                <span class="status-pill">30분 단위</span>
+              </div>
+              <div class="space-md"></div>
+              <div class="time-grid" data-time-grid></div>
+            </div>
+            <div class="notice">
+              <p>선택한 시간에 “오늘의 세 장을 볼 시간이에요.” 알림을 보내요. 시간은 정각 또는 30분 단위로만 설정할 수 있습니다.</p>
+            </div>
+            <button class="btn" data-save-notification>알림 시간 저장하기</button>
+            <p class="toast-line" data-notification-toast aria-live="polite"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen" data-screen="privacy">
+        <div class="nav-top">
+          <button class="icon-btn" data-go="profile" aria-label="뒤로">←</button>
+          <div class="nav-title">개인정보</div>
+          <div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="content">
+          <div class="notice">
+            <h2>사진 원본은 기기 밖으로 나가지 않아요.</h2>
+            <div class="space-sm"></div>
+            <p>사진 단서는 기기 안에서만 살펴보고, 서버에는 기록 텍스트와 계정 동기화에 필요한 최소 정보만 저장됩니다.</p>
+          </div>
+          <div class="space-xl"></div>
+          <div class="list">
+            <div class="card">
+              <div class="caption">기기에만 남는 정보</div>
+              <div class="space-sm"></div>
+              <p>사진 원본, 사진 식별자, 위치 좌표, 이미지 해시</p>
+            </div>
+            <div class="card">
+              <div class="caption">계정에 남는 정보</div>
+              <div class="space-sm"></div>
+              <p>계정 정보, 내가 쓴 이유, 저장한 기록, 주간 정리 집계</p>
+            </div>
+            <div class="card">
+              <div class="caption">사용자가 제어하는 것</div>
+              <div class="space-sm"></div>
+              <p>사진 접근 범위, 알림 시간, 로그아웃과 계정 삭제 요청</p>
+            </div>
+            <div class="card">
+              <div class="caption">사진 단서</div>
+              <div class="space-sm"></div>
+              <p>recoco는 감정이나 상황을 단정하지 않고, 인물·장소·음식·흐림·정보성 같은 관찰 단서를 기록 힌트로만 제안해요.</p>
+            </div>
+          </div>
+          <div class="space-xl"></div>
+          <button class="btn secondary" data-go="profile">확인하고 돌아가기</button>
+        </div>
+      </div>
+
+      <div class="screen" data-screen="logout">
+        <div class="nav-top">
+          <button class="icon-btn" data-go="profile" aria-label="뒤로">←</button>
+          <div class="nav-title">로그아웃</div>
+          <div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="center">
+          <h2>잠시 쉬어갈까요?</h2>
+          <div class="space-md"></div>
+          <p>기기에 저장된 초안은 유지돼요. 다시 로그인하면 남기던 기록을 이어볼 수 있어요.</p>
+          <div class="space-xl"></div>
+          <div class="action-stack">
+            <button class="btn warning" data-go="login">로그아웃</button>
+            <button class="btn secondary" data-go="profile">취소하고 돌아가기</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="side">
+      <h2>recoco prototype</h2>
+      <p>브랜드 톤은 단순합니다. 사진을 덜어내는 앱이 아니라, 남길 기억을 고르는 조용한 정리 도구입니다.</p>
+      <div class="chips">
+        <span class="chip">Splash</span>
+        <span class="chip">Onboarding</span>
+        <span class="chip">Login</span>
+        <span class="chip">Home</span>
+        <span class="chip">Cleanup</span>
+        <span class="chip">Photo Select</span>
+        <span class="chip">Record</span>
+        <span class="chip">Report</span>
+        <span class="chip">Profile</span>
+        <span class="chip">Settings Depth</span>
+      </div>
+      <p>UX 라이팅은 판단을 강요하지 않고, 되돌릴 수 있다는 안전감과 하루 세 장의 가벼운 리듬을 중심에 둡니다.</p>
+    </aside>
+  </main>
+
+  <script>
+    const screens = [...document.querySelectorAll(".screen")];
+    const curations = [
+      {
+        label: "오늘 1번째 사진",
+        gradient: "linear-gradient(160deg,#ded8c9,#8c9a91 48%,#363b34)",
+        reasonSummary: "장소의 분위기가 또렷해, 한 장만 남겨도 충분해 보여요.",
+        cueTitle: "공간의 분위기가 남아 있어요.",
+        cueCopy: "사람은 없지만 빛과 배경이 그날의 공기를 잘 붙잡고 있어요. 떠오르는 일이 있다면 기록으로 남기기 좋아요.",
+        recordHint: "이 장소에서 떠오르는 일을 한 줄로 남겨보세요.",
+        narrative: "빛과 배경이 남긴 분위기 덕분에, 그날의 시간이 다시 또렷해졌어요.",
+        keywords: ["장소", "분위기", "기억"],
+        status: "pending"
+      },
+      {
+        label: "오늘 2번째 사진",
+        gradient: "linear-gradient(160deg,#b7b5ad,#746d64)",
+        reasonSummary: "음식보다 함께한 시간이 먼저 떠오른다면 기록으로 남기기 좋아요.",
+        cueTitle: "식탁의 시간이 남아 있어요.",
+        cueCopy: "음식 자체보다 식탁, 조명, 함께 있던 사람이 기억의 중심일 수 있어요. 한 줄만 적어도 충분해요.",
+        recordHint: "누구와 먹었는지, 그때 어떤 기분이었는지 적어보세요.",
+        narrative: "음식보다 함께 앉아 있던 시간이 먼저 떠오르는 작고 따뜻한 기억이에요.",
+        keywords: ["식탁", "함께", "따뜻함"],
+        status: "pending"
+      },
+      {
+        label: "오늘 3번째 사진",
+        gradient: "linear-gradient(160deg,#c9c4bb,#767a80)",
+        reasonSummary: "초점은 흐려도 그날의 분위기가 남아 있다면 기록할 가치가 있어요.",
+        cueTitle: "흐림 속에도 분위기가 있어요.",
+        cueCopy: "초점은 완벽하지 않지만 표정과 자세가 그날의 기분을 떠올리게 할 수 있어요. 감정은 단정하지 않아요.",
+        recordHint: "흐릿해도 남기고 싶은 이유를 적어보세요.",
+        narrative: "조금 흐린 장면이지만, 사진 밖에 있던 기분까지 함께 떠올리게 해요.",
+        keywords: ["흐림", "기분", "장면"],
+        status: "pending"
+      }
+    ];
+    const similarBundle = [
+      { label: "1", gradient: "linear-gradient(160deg,#ded8c9,#8c9a91 48%,#363b34)", selected: true, recommended: true },
+      { label: "2", gradient: "linear-gradient(160deg,#d9d3c6,#7f8d84 46%,#2f3731)", selected: false, recommended: false },
+      { label: "3", gradient: "linear-gradient(160deg,#e4ddce,#93a095 50%,#3d463c)", selected: false, recommended: false },
+      { label: "4", gradient: "linear-gradient(160deg,#d7cfbf,#7a897e 52%,#313a33)", selected: false, recommended: false },
+      { label: "5", gradient: "linear-gradient(160deg,#e8e0d1,#9aa79b 48%,#485248)", selected: true, recommended: true },
+      { label: "6", gradient: "linear-gradient(160deg,#d6d0c5,#849185 50%,#384038)", selected: false, recommended: false },
+      { label: "7", gradient: "linear-gradient(160deg,#e0d8ca,#909d90 44%,#424b42)", selected: false, recommended: false },
+      { label: "8", gradient: "linear-gradient(160deg,#d4cabb,#78877d 50%,#303830)", selected: false, recommended: false },
+      { label: "9", gradient: "linear-gradient(160deg,#e7dfd2,#9ca79b 45%,#4a5349)", selected: false, recommended: false },
+      { label: "10", gradient: "linear-gradient(160deg,#d8d2c7,#879386 48%,#394139)", selected: false, recommended: false },
+      { label: "11", gradient: "linear-gradient(160deg,#e2dbce,#95a296 46%,#444d43)", selected: false, recommended: false },
+      { label: "12", gradient: "linear-gradient(160deg,#d5ccbd,#7b887c 52%,#323a32)", selected: false, recommended: false }
+    ];
+    const state = {
+      weekDays: 2,
+      deletedPhotos: 11,
+      savedRecords: 1,
+      didCleanup: false,
+      didRecord: false,
+      selectedPhotoIndex: 0,
+      notificationEnabled: true,
+      notificationTime: "09:30",
+      plan: "Free",
+      lastDeletedIndex: null,
+      recordMeaning: "",
+      generatedNarrative: ""
+    };
+
+    function visibleCurations() {
+      return curations.filter(photo => photo.status !== "deleted");
+    }
+
+    function normalizeSelectedPhoto() {
+      const photos = visibleCurations();
+      if (state.selectedPhotoIndex >= photos.length) {
+        state.selectedPhotoIndex = Math.max(0, photos.length - 1);
+      }
+      return photos;
+    }
+
+    function photoAt(offset) {
+      const photos = normalizeSelectedPhoto();
+      if (photos.length === 0) return null;
+      return photos[(state.selectedPhotoIndex + offset + photos.length) % photos.length];
+    }
+
+    function setPhotoBackground(el, photo) {
+      if (!el) return;
+      if (!photo) {
+        el.style.backgroundImage = "";
+        el.removeAttribute("role");
+        el.removeAttribute("aria-label");
+        return;
+      }
+      el.style.backgroundImage = photo.gradient;
+      el.setAttribute("role", "img");
+      el.setAttribute("aria-label", photo.label);
+    }
+
+    function renderCarousel() {
+      const photos = normalizeSelectedPhoto();
+      const current = photoAt(0);
+      const carouselEl = document.querySelector("[data-carousel]");
+      carouselEl.classList.toggle("empty", photos.length === 0);
+      carouselEl.classList.toggle("single", photos.length === 1);
+      carouselEl.classList.toggle("pair", photos.length === 2);
+      document.querySelector("[data-home-actions]").hidden = photos.length === 0;
+      document.querySelector("[data-empty-actions]").hidden = photos.length > 0;
+      document.querySelector(".carousel-meta").hidden = photos.length === 0;
+      document.querySelector(".insight-toggle").hidden = photos.length === 0;
+
+      setPhotoBackground(document.querySelector('[data-carousel-slot="prev"]'), photos.length > 2 ? photoAt(-1) : null);
+      setPhotoBackground(document.querySelector('[data-carousel-slot="current"]'), current);
+      setPhotoBackground(document.querySelector('[data-carousel-slot="next"]'), photos.length > 1 ? photoAt(1) : null);
+
+      if (!current) {
+        document.querySelector('[data-carousel-count]').textContent = "0 / 0";
+        document.querySelector('[data-selected-label]').textContent = "오늘 볼 사진 없음";
+        document.querySelector('[data-reason-summary]').textContent = "";
+        document.querySelector('[data-cue-title]').textContent = "";
+        document.querySelector('[data-cue-copy]').textContent = "";
+      } else {
+        document.querySelector('[data-carousel-count]').textContent = `${state.selectedPhotoIndex + 1} / ${photos.length}`;
+        document.querySelector('[data-selected-label]').textContent = current.label;
+        document.querySelector('[data-reason-summary]').textContent = current.reasonSummary;
+        document.querySelector('[data-cue-title]').textContent = current.cueTitle;
+        document.querySelector('[data-cue-copy]').textContent = current.cueCopy;
+      }
+      document.querySelector("[data-home-plan-nudge]").hidden = true;
+
+      const dots = document.querySelector('[data-carousel-dots]');
+      dots.innerHTML = "";
+      dots.hidden = photos.length <= 1;
+      photos.forEach((curation, index) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = `carousel-dot${index === state.selectedPhotoIndex ? " active" : ""}`;
+        dot.setAttribute("aria-label", `${index + 1}번 사진 보기, ${statusLabel(curation.status)}`);
+        dot.addEventListener("click", () => {
+          state.selectedPhotoIndex = index;
+          renderPhotoState();
+        });
+        dots.appendChild(dot);
+      });
+    }
+
+    function renderCleanupPreview() {
+      const photos = normalizeSelectedPhoto();
+      const current = photoAt(0);
+      setPhotoBackground(document.querySelector("[data-keep-photo]"), current);
+      document.querySelector("[data-current-index]").textContent = current ? `${state.selectedPhotoIndex + 1} / ${photos.length}` : "0 / 0";
+      document.querySelector("[data-current-label]").textContent = current ? current.label : "오늘 볼 사진 없음";
+      setPhotoBackground(document.querySelector("[data-record-photo]"), current);
+      document.querySelector("[data-record-label]").textContent = current ? `${current.label}에 남길 이유를 적고 있어요.` : "오늘 기록할 사진이 없어요.";
+      document.querySelector("[data-record-cue-title]").textContent = current ? current.cueTitle : "";
+      document.querySelector("[data-record-cue-copy]").textContent = current ? current.recordHint : "";
+      renderRecordResult();
+    }
+
+    function renderRecordResult() {
+      const current = photoAt(0);
+      if (!current) return;
+      const meaning = state.recordMeaning.trim() || current.recordHint;
+      document.querySelector("[data-user-meaning]").textContent = meaning;
+      state.generatedNarrative = buildNarrative(current, meaning);
+      document.querySelector("[data-narrative-input]").value = state.generatedNarrative;
+      document.querySelector("[data-keyword-one]").textContent = current.keywords[0];
+      document.querySelector("[data-keyword-two]").textContent = current.keywords[1];
+      document.querySelector("[data-keyword-three]").textContent = current.keywords[2];
+    }
+
+    function buildNarrative(item, meaning) {
+      if (!meaning) return item.narrative;
+      return `${meaning} ${item.narrative}`;
+    }
+
+    function updateRecordButton() {
+      const value = document.querySelector("[data-record-input]").value.trim();
+      document.querySelectorAll("[data-create-record]").forEach(button => {
+        if (button.closest('[data-screen="result"]')) return;
+        button.disabled = value.length === 0;
+      });
+    }
+
+    function createRecord() {
+      const input = document.querySelector("[data-record-input]");
+      const toast = document.querySelector("[data-record-toast]");
+      state.recordMeaning = input.value.trim();
+      if (!state.recordMeaning) {
+        toast.textContent = "짧게 한 줄만 적어도 충분해요.";
+        input.focus();
+        return;
+      }
+      toast.textContent = "";
+      go("generating");
+      window.setTimeout(() => {
+        renderRecordResult();
+        go("result");
+      }, 900);
+    }
+
+    function resetRecordDraft() {
+      state.recordMeaning = "";
+      document.querySelector("[data-record-input]").value = "";
+      document.querySelector("[data-record-toast]").textContent = "";
+      document.querySelector("[data-result-toast]").textContent = "";
+      updateRecordButton();
+      renderRecordResult();
+    }
+
+    function renderCompletion(action, item) {
+      const title = document.querySelector("[data-completion-title]");
+      const label = document.querySelector("[data-completion-card-label]");
+      const copy = document.querySelector("[data-completion-card-copy]");
+
+      if (action === "delete") {
+        title.textContent = "한 장을 비웠어요.";
+        label.textContent = "오늘 비운 것";
+        copy.textContent = "사진첩은 조금 가벼워졌고, 남길 장면은 더 또렷해졌어요.";
+      } else if (action === "record") {
+        title.textContent = "기억이 더 또렷해졌어요.";
+        label.textContent = "오늘 남긴 기록";
+        copy.textContent = document.querySelector("[data-narrative-input]").value.trim() || item.narrative;
+      } else if (action === "keep") {
+        title.textContent = "오늘은 그대로 두었어요.";
+        label.textContent = "오늘 남긴 것";
+        copy.textContent = "지우지 않아도 괜찮아요. 지금 남겨두는 것도 하나의 결정이에요.";
+      } else {
+        title.textContent = "오늘의 정리를 마쳤어요.";
+        label.textContent = "오늘 남긴 것";
+        copy.textContent = "사진첩은 조금 가벼워졌고, 남길 기억은 더 또렷해졌어요.";
+      }
+      document.querySelector("[data-undo-delete]").hidden = action !== "delete";
+    }
+
+    function renderSelector() {
+      const grid = document.querySelector("[data-selector-grid]");
+      grid.innerHTML = "";
+      curations.forEach((photo, index) => {
+        const cell = document.createElement("button");
+        cell.type = "button";
+        cell.className = "selector-cell";
+        cell.style.setProperty("--photo", photo.gradient);
+        cell.dataset.status = photo.status;
+        cell.dataset.statusLabel = statusLabel(photo.status);
+        cell.setAttribute("aria-pressed", photo === photoAt(0) ? "true" : "false");
+        cell.setAttribute("aria-label", `${photo.label}, ${statusLabel(photo.status)}`);
+        cell.addEventListener("click", () => {
+          const visibleIndex = visibleCurations().indexOf(photo);
+          if (visibleIndex >= 0) state.selectedPhotoIndex = visibleIndex;
+          renderPhotoState();
+        });
+        grid.appendChild(cell);
+      });
+    }
+
+    function renderSimilarBundle() {
+      const grid = document.querySelector("[data-bundle-grid]");
+      grid.innerHTML = "";
+      const keepCount = similarBundle.filter(photo => photo.selected).length;
+      const deleteCount = similarBundle.length - keepCount;
+      document.querySelector("[data-bundle-keep-count]").textContent = `${keepCount}장`;
+      document.querySelector("[data-bundle-delete-count]").textContent = `${deleteCount}장`;
+      document.querySelector("[data-bundle-complete]").disabled = keepCount === 0 || deleteCount === 0;
+
+      similarBundle.forEach((photo, index) => {
+        const cell = document.createElement("button");
+        cell.type = "button";
+        cell.className = "bundle-photo";
+        cell.style.setProperty("--photo", photo.gradient);
+        cell.dataset.label = photo.selected ? "남김" : photo.label;
+        cell.dataset.recommended = photo.recommended ? "true" : "false";
+        cell.setAttribute("aria-pressed", photo.selected ? "true" : "false");
+        cell.setAttribute("aria-label", `${index + 1}번째 비슷한 사진, ${photo.selected ? "남길 사진" : "비울 후보"}`);
+        cell.addEventListener("click", () => {
+          photo.selected = !photo.selected;
+          document.querySelector("[data-bundle-toast]").textContent = "";
+          renderSimilarBundle();
+        });
+        grid.appendChild(cell);
+      });
+    }
+
+    function renderPhotoState() {
+      renderCarousel();
+      renderCleanupPreview();
+      renderSelector();
+      renderSimilarBundle();
+    }
+
+    function moveCarousel(direction) {
+      const photos = normalizeSelectedPhoto();
+      if (photos.length <= 1) return;
+      state.selectedPhotoIndex = (state.selectedPhotoIndex + direction + photos.length) % photos.length;
+      renderPhotoState();
+    }
+
+    function statusLabel(status) {
+      if (status === "deleted") return "비움";
+      if (status === "recorded") return "기록됨";
+      if (status === "kept") return "그대로 둠";
+      return "검토 전";
+    }
+
+    function moveToNextPending() {
+      normalizeSelectedPhoto();
+    }
+
+    function notificationTimes() {
+      const times = [];
+      for (let hour = 7; hour <= 22; hour += 1) {
+        times.push(`${String(hour).padStart(2, "0")}:00`);
+        times.push(`${String(hour).padStart(2, "0")}:30`);
+      }
+      return times;
+    }
+
+    function renderNotificationSettings() {
+      document.querySelector("[data-toggle-notification]").setAttribute("aria-pressed", state.notificationEnabled ? "true" : "false");
+      document.querySelector("[data-notification-switch]").classList.toggle("on", state.notificationEnabled);
+      document.querySelector("[data-selected-time]").textContent = state.notificationTime;
+
+      const grid = document.querySelector("[data-time-grid]");
+      grid.innerHTML = "";
+      notificationTimes().forEach(time => {
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = `time-chip${time === state.notificationTime ? " active" : ""}`;
+        chip.textContent = time;
+        chip.setAttribute("aria-pressed", time === state.notificationTime ? "true" : "false");
+        chip.addEventListener("click", () => {
+          state.notificationTime = time;
+          document.querySelector("[data-notification-toast]").textContent = "";
+          renderNotificationSettings();
+        });
+        grid.appendChild(chip);
+      });
+    }
+
+    function renderStats() {
+      document.querySelectorAll('[data-stat="weekDays"]').forEach(el => el.textContent = state.weekDays);
+      document.querySelectorAll('[data-stat="deletedPhotos"]').forEach(el => el.textContent = state.deletedPhotos);
+      document.querySelectorAll('[data-stat="savedRecords"]').forEach(el => el.textContent = state.savedRecords);
+      document.querySelector(".progress span").style.width = `${Math.round(state.weekDays / 7 * 100)}%`;
+    }
+
+    function renderEmptyCompletion() {
+      document.querySelector("[data-summary]").textContent = "오늘 볼 사진을 모두 정리했어요.";
+      document.querySelector("[data-completion-title]").textContent = "오늘은 여기까지.";
+      document.querySelector("[data-completion-card-label]").textContent = "오늘의 비움";
+      document.querySelector("[data-completion-card-copy]").textContent = "오늘 큐레이션은 끝났어요. 더 정리하고 싶을 때는 비슷한 사진 묶음으로 이어갈 수 있어요.";
+      document.querySelector("[data-undo-delete]").hidden = true;
+    }
+
+    function complete(action) {
+      const summary = document.querySelector("[data-summary]");
+      const current = photoAt(0);
+      if (!current) {
+        renderEmptyCompletion();
+        go("completed");
+        return;
+      }
+      if (action === "delete" && current.status === "pending") {
+        current.status = "deleted";
+        state.lastDeletedIndex = curations.indexOf(current);
+        state.weekDays = Math.max(state.weekDays, 3);
+        state.deletedPhotos += 1;
+        summary.textContent = `${current.label}을 비웠어요.`;
+        renderCompletion("delete", current);
+        moveToNextPending();
+      } else if (action === "record" && current.status === "pending") {
+        current.status = "recorded";
+        current.narrative = document.querySelector("[data-narrative-input]").value.trim() || current.narrative;
+        state.weekDays = Math.max(state.weekDays, 3);
+        state.savedRecords += 1;
+        summary.textContent = `${current.label}에 기억을 남겼어요.`;
+        renderCompletion("record", current);
+        moveToNextPending();
+      } else if (action === "keep" && current.status === "pending") {
+        current.status = "kept";
+        state.weekDays = Math.max(state.weekDays, 3);
+        summary.textContent = `${current.label}을 그대로 두었어요.`;
+        renderCompletion("keep", current);
+        moveToNextPending();
+      } else {
+        summary.textContent = `${current.label}은 이미 정리했어요.`;
+        renderCompletion("done", current);
+      }
+      renderStats();
+      renderPhotoState();
+    }
+
+    function openPremiumFeature(screenName) {
+      if (state.plan !== "Premium") {
+        go("similarBundleLocked");
+        return;
+      }
+      if (screenName === "similarBundle") renderSimilarBundle();
+      go(screenName);
+    }
+
+    function upgradePlan() {
+      state.plan = "Premium";
+      document.querySelectorAll("[data-plan-toast]").forEach(el => {
+        el.textContent = "더 깊은 정리가 열렸어요. 비슷한 사진 묶음 정리를 바로 시작할 수 있어요.";
+      });
+      window.setTimeout(() => openPremiumFeature("similarBundle"), 500);
+    }
+
+    function resetBundleRecommendation() {
+      similarBundle.forEach(photo => {
+        photo.selected = photo.recommended;
+      });
+      document.querySelector("[data-bundle-toast]").textContent = "추천 선택으로 되돌렸어요.";
+      renderSimilarBundle();
+    }
+
+    function completeBundleCleanup() {
+      const keepCount = similarBundle.filter(photo => photo.selected).length;
+      const deleteCount = similarBundle.length - keepCount;
+      if (keepCount === 0 || deleteCount === 0) {
+        document.querySelector("[data-bundle-toast]").textContent = "남길 사진과 비울 사진이 모두 있어야 해요.";
+        return;
+      }
+
+      state.deletedPhotos += deleteCount;
+      state.weekDays = Math.max(state.weekDays, 3);
+      document.querySelector("[data-summary]").textContent = `비슷한 사진 ${similarBundle.length}장 중 ${keepCount}장을 남겼어요.`;
+      document.querySelector("[data-completion-title]").textContent = "묶음 정리를 마쳤어요.";
+      document.querySelector("[data-completion-card-label]").textContent = "오늘 비운 묶음";
+      document.querySelector("[data-completion-card-copy]").textContent = `${deleteCount}장은 비우고, 가장 선명한 ${keepCount}장만 남겼어요.`;
+      document.querySelector("[data-undo-delete]").hidden = true;
+      renderStats();
+      renderPhotoState();
+      go("completed");
+    }
+
+    function go(name) {
+      if (name === "record") resetRecordDraft();
+      screens.forEach(screen => {
+        screen.classList.toggle("active", screen.dataset.screen === name);
+      });
+    }
+    document.addEventListener("click", event => {
+      const target = event.target.closest("[data-go]");
+      if (target) {
+        if (!target.dataset.action && ["cleanup", "record"].includes(target.dataset.go) && visibleCurations().length === 0) {
+          renderEmptyCompletion();
+          go("completed");
+          return;
+        }
+        if (target.dataset.action) complete(target.dataset.action);
+        go(target.dataset.go);
+      }
+    });
+    document.querySelectorAll("[data-premium-go]").forEach(button => {
+      button.addEventListener("click", () => openPremiumFeature(button.dataset.premiumGo));
+    });
+    document.querySelector("[data-bundle-reset]").addEventListener("click", resetBundleRecommendation);
+    document.querySelector("[data-bundle-complete]").addEventListener("click", completeBundleCleanup);
+    document.querySelector("[data-toggle-notification]").addEventListener("click", () => {
+      state.notificationEnabled = !state.notificationEnabled;
+      document.querySelector("[data-toggle-notification]").setAttribute("aria-pressed", state.notificationEnabled ? "true" : "false");
+      document.querySelector("[data-notification-toast]").textContent = state.notificationEnabled ? "정리 시간 알림을 켰어요." : "정리 시간 알림을 껐어요.";
+      renderNotificationSettings();
+    });
+    document.querySelector("[data-undo-delete]").addEventListener("click", () => {
+      if (state.lastDeletedIndex === null) return;
+      const restored = curations[state.lastDeletedIndex];
+      if (!restored || restored.status !== "deleted") return;
+
+      restored.status = "pending";
+      state.deletedPhotos = Math.max(0, state.deletedPhotos - 1);
+      state.selectedPhotoIndex = state.lastDeletedIndex;
+      state.lastDeletedIndex = null;
+      document.querySelector("[data-summary]").textContent = `${restored.label}을 다시 가져왔어요.`;
+      document.querySelector("[data-completion-title]").textContent = "다시 살펴볼 수 있어요.";
+      document.querySelector("[data-completion-card-label]").textContent = "되돌린 사진";
+      document.querySelector("[data-completion-card-copy]").textContent = "사진을 오늘의 정리 목록에 다시 올려두었어요.";
+      document.querySelector("[data-undo-delete]").hidden = true;
+      renderStats();
+      renderPhotoState();
+    });
+    document.querySelector("[data-save-notification]").addEventListener("click", () => {
+      const message = state.notificationEnabled
+        ? `매일 ${state.notificationTime}에 세 장을 볼게요.`
+        : "알림 설정이 꺼져 있어요.";
+      document.querySelector("[data-notification-toast]").textContent = message;
+    });
+    document.querySelectorAll("[data-toast]").forEach(button => {
+      button.addEventListener("click", () => {
+        const message = button.dataset.toast === "photoAll"
+          ? "전체 사진첩으로 정리 범위를 넓힐 수 있어요."
+          : "오늘 살펴볼 사진을 다시 고를 수 있어요.";
+        document.querySelector("[data-photo-toast]").textContent = message;
+      });
+    });
+    document.querySelectorAll("[data-plan-upgrade]").forEach(button => {
+      button.addEventListener("click", upgradePlan);
+    });
+    document.querySelector("[data-record-input]").addEventListener("input", () => {
+      document.querySelector("[data-record-toast]").textContent = "";
+      updateRecordButton();
+    });
+    document.querySelectorAll("[data-create-record]").forEach(button => {
+      button.addEventListener("click", createRecord);
+    });
+    document.querySelector("[data-copy-narrative]").addEventListener("click", async () => {
+      const text = document.querySelector("[data-narrative-input]").value.trim();
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        document.querySelector("[data-result-toast]").textContent = "기록 문장을 복사했어요.";
+      } catch {
+        document.querySelector("[data-result-toast]").textContent = "문장을 직접 선택해 복사할 수 있어요.";
+      }
+    });
+    const carousel = document.querySelector("[data-carousel]");
+    let dragStartX = null;
+    let dragX = 0;
+    function setCarouselDrag(value) {
+      dragX = Math.max(-90, Math.min(90, value));
+      carousel.style.setProperty("--drag-x", `${dragX}px`);
+      carousel.style.setProperty("--drag-side-x", `${dragX * 0.45}px`);
+    }
+    carousel.addEventListener("pointerdown", event => {
+      if (visibleCurations().length <= 1) return;
+      dragStartX = event.clientX;
+      setCarouselDrag(0);
+      carousel.classList.add("dragging");
+      carousel.setPointerCapture(event.pointerId);
+    });
+    carousel.addEventListener("pointermove", event => {
+      if (dragStartX === null) return;
+      setCarouselDrag(event.clientX - dragStartX);
+    });
+    carousel.addEventListener("pointerup", event => {
+      if (dragStartX === null) return;
+      const delta = dragX || (event.clientX - dragStartX);
+      dragStartX = null;
+      carousel.classList.remove("dragging");
+      setCarouselDrag(0);
+      if (Math.abs(delta) < 35) return;
+      moveCarousel(delta < 0 ? 1 : -1);
+    });
+    carousel.addEventListener("pointercancel", () => {
+      dragStartX = null;
+      carousel.classList.remove("dragging");
+      setCarouselDrag(0);
+    });
+
+    renderStats();
+    renderPhotoState();
+    renderNotificationSettings();
+    updateRecordButton();
+  </script>
+</body>
+</html>
