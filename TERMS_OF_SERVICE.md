@@ -2,11 +2,11 @@
 
 시행일: 2026년 11월 10일
 
-이 약관은 로그인·구독 없이 사용하는 Recoco의 현재 무료 iOS 사진 정리 서비스에 적용됩니다. 개인정보 처리 방식은 [개인정보처리방침](https://github.com/iiinsujang/recoco/blob/main/PRIVACY_POLICY.md)에서 확인할 수 있습니다.
+이 약관은 Recoco의 현재 무료 iOS 사진 정리 서비스와 선택형 Apple 로그인에 적용됩니다. 로그인이나 구독 없이도 사진 정리 기능을 모두 사용할 수 있습니다. 개인정보 처리 방식은 [개인정보처리방침](https://github.com/iiinsujang/recoco/blob/main/PRIVACY_POLICY.md)에서 확인할 수 있습니다.
 
 ## 1. 서비스 내용
 
-Recoco는 사용자가 접근을 허용한 사진에서 정리할 후보와 그 이유를 보여줍니다. 사용자는 비울 사진을 직접 선택하고, 비운 날짜와 사진 수를 리포트에서 확인할 수 있습니다. 현재 버전은 계정 가입, 구독·앱 내 결제, 새 기록 작성 기능을 제공하지 않습니다.
+Recoco는 사용자가 접근을 허용한 사진에서 정리할 후보와 그 이유를 보여줍니다. 사용자는 비울 사진을 직접 선택하고, 비운 날짜와 사진 수를 리포트에서 확인할 수 있습니다. 원하면 Apple로 로그인할 수 있으며, 로그인 여부에 따라 사진 정리 기능이 제한되지 않습니다. 현재 버전은 구독·앱 내 결제, 새 기록 작성 기능을 제공하지 않습니다.
 
 ## 2. 추천 범위와 갱신
 
@@ -26,6 +26,8 @@ Recoco는 추천만으로 사진을 자동 삭제하지 않습니다. 사용자�
 ## 4. 기기 내 내역과 백업
 
 정리 내역, 추천 진행 상태와 설정은 기기에 저장되며 Recoco 계정이나 서버로 자동 동기화되지 않습니다. 앱 삭제·기기 초기화 시 이 내역이 사라질 수 있습니다. Apple 기기 또는 iCloud 백업의 포함 범위와 복원 여부는 사용자 설정 및 Apple의 정책에 따릅니다.
+
+Apple 로그인은 계정 인증을 위한 선택 기능이며 사진이나 내역을 백업하지 않습니다. **내 정보**에서 로그아웃하거나 **회원탈퇴**를 요청할 수 있습니다. 계정 삭제에는 본인 확인이 필요할 수 있습니다. 로그아웃·회원탈퇴 후에도 기기의 사진·비움 내역·기존 기록·사진 선택은 유지됩니다. 앱 삭제만으로 인증 계정이 삭제되지는 않습니다.
 
 이전 개발·체험 버전의 기록이 기기에 남아 있다면 업데이트 과정에서 보존할 수 있지만, 현재 버전에서 새 기록 작성 기능을 제공한다는 뜻은 아닙니다. 앱 내역이나 사진 미리보기는 원본 사진의 백업이 아닙니다. Recoco 앱을 삭제하는 것만으로 사진 앱의 원본이 삭제되지는 않습니다.
 
@@ -51,7 +53,9 @@ Recoco는 추천만으로 사진을 자동 삭제하지 않습니다. 사용자�
 
 ## Terms Summary in English
 
-Recoco's current free iOS release offers photo curation, user-confirmed cleanup and cleanup history without an account or subscription. An initial daily set contains up to three eligible photos; the available library and reading conditions may result in fewer or none. Remaining recommendations continue within the same local day. A new local date starts a new search, and undeleted recommendations can become eligible again after 30 days.
+Recoco's current free iOS release offers photo curation, user-confirmed cleanup and cleanup history. Sign in with Apple is optional; all photo-cleanup features are available without an account or subscription. An initial daily set contains up to three eligible photos; the available library and reading conditions may result in fewer or none. Remaining recommendations continue within the same local day. A new local date starts a new search, and undeleted recommendations can become eligible again after 30 days.
+
+Signing in does not upload or back up photos or local history. Users can sign out or request account deletion in Profile; deletion may require reauthentication. Signing out or deleting an account preserves local photos, history, saved records and selections. Deleting the app does not itself delete the authentication account.
 
 Recommendations are informational. Users choose which photos to delete, and Apple Photos handles deletion, iCloud synchronization and any available recovery. Recoco does not guarantee recovery, immediate storage savings or that a recommendation is personally unimportant. Local app history is not a backup of original photos and may be lost when the app is deleted. Current use does not start a subscription or automatic charge.
 
