@@ -51,9 +51,13 @@ Recoco의 정리 내역과 설정은 앱을 사용하는 동안 기기에 보관
 
 ## 6. 문의
 
-개인정보 및 앱 이용에 관한 문의는 [Recoco GitHub 문의 페이지](https://github.com/iiinsujang/recoco/issues)를 이용해주세요. 문의를 작성하려면 GitHub 계정이 필요할 수 있으며, 공개 이슈에 올린 내용은 다른 사람이 볼 수 있습니다. 개인 사진, 사진 위치, 비밀번호 등 민감한 내용은 올리지 말아주세요.
+개인정보 및 앱 이용에 관한 안내는 [Recoco 고객지원 페이지](https://github.com/iiinsujang/recoco/blob/main/SUPPORT.md)에서 확인하고, [contact.dooooo@gmail.com](mailto:contact.dooooo@gmail.com)으로 문의할 수 있습니다.
 
-문의 내용은 답변과 문제 해결에 사용되며, GitHub에서의 게시·보관 및 계정 정보 처리는 [GitHub 개인정보처리방침](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement)에 따릅니다. Recoco 앱이 자동으로 사진이나 진단 자료를 이슈에 첨부하지는 않습니다.
+이메일로 문의하면 사용자가 직접 보낸 발신 이메일 주소와 문의 내용을 답변과 문제 해결을 위해 처리합니다. 이는 앱이 사진이나 이용 내역을 자동 수집하는 것과 구분됩니다. 문의 메일은 Gmail을 통해 수신·보관하며, 이메일 서비스 제공자의 정보 처리에는 [Google 개인정보처리방침](https://policies.google.com/privacy?hl=ko)이 적용됩니다.
+
+[GitHub 문의 페이지](https://github.com/iiinsujang/recoco/issues)도 선택해 이용할 수 있습니다. 문의 작성에 GitHub 계정이 필요할 수 있으며, 공개 이슈의 내용은 다른 사람이 볼 수 있습니다. GitHub에서의 게시·보관 및 계정 정보 처리에는 [GitHub 개인정보처리방침](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement)이 적용됩니다.
+
+문의에 개인 사진, 사진 위치, 비밀번호·인증코드나 전체 진단 파일을 보내지 않아도 됩니다. 화면을 첨부할 경우 개인정보를 가려주세요. Recoco 앱은 사진이나 진단 자료를 문의에 자동 첨부하지 않습니다.
 
 ## 7. 방침 변경
 
@@ -67,4 +71,6 @@ The current free iOS version of Recoco provides on-device photo curation and use
 
 Recommendation history, selections, cleanup counts and preferences remain in the app's local storage. Older locally saved records may be preserved during updates; new record creation is not part of this release. Recoco provides no account-based sync or server backup. Deleting the app may erase its local history but does not itself delete original photos in Apple Photos. Apple handles iCloud downloads, synchronized deletion and Recently Deleted recovery. Notifications are local; Recoco does not use advertising tracking or server-side usage analytics.
 
-Questions can be submitted through the [public GitHub issue tracker](https://github.com/iiinsujang/recoco/issues). Do not include private photos or sensitive information in a public issue. GitHub's own privacy policy applies to that service.
+Visit the [Recoco support page](https://github.com/iiinsujang/recoco/blob/main/SUPPORT.md) or email [contact.dooooo@gmail.com](mailto:contact.dooooo@gmail.com). When you contact us, we process the sender email address and inquiry you voluntarily provide to reply and resolve the issue. This is separate from automatic collection by the app. Support emails are received and stored through Gmail, whose processing is covered by [Google's Privacy Policy](https://policies.google.com/privacy).
+
+You may also use the [public GitHub issue tracker](https://github.com/iiinsujang/recoco/issues); posting may require a GitHub account and others can see public issues. [GitHub's Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement) applies to that service. Private photos, photo locations, passwords, verification codes and full diagnostic files are not needed for an inquiry. Hide personal information in any screenshots. Recoco does not automatically attach photos or diagnostics to support requests.
