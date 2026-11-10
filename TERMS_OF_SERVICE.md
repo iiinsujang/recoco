@@ -43,7 +43,9 @@ Recoco는 추천만으로 사진을 자동 삭제하지 않습니다. 사용자�
 
 ## 7. 문의
 
-서비스 관련 문의는 [Recoco GitHub 문의 페이지](https://github.com/iiinsujang/recoco/issues)를 이용해주세요. 공개 이슈에는 개인 사진이나 민감한 정보를 올리지 말아주세요. GitHub 이용에는 해당 서비스의 약관과 개인정보처리방침이 적용됩니다.
+서비스 관련 안내는 [Recoco 고객지원 페이지](https://github.com/iiinsujang/recoco/blob/main/SUPPORT.md)에서 확인하고, [contact.dooooo@gmail.com](mailto:contact.dooooo@gmail.com)으로 문의할 수 있습니다. 직접 보낸 발신 이메일 주소와 문의 내용은 답변과 문제 해결을 위해 처리되며, 앱의 자동 정보 수집과 구분됩니다. 자세한 내용은 [개인정보처리방침](https://github.com/iiinsujang/recoco/blob/main/PRIVACY_POLICY.md)의 문의 항목을 확인해주세요.
+
+[GitHub 문의 페이지](https://github.com/iiinsujang/recoco/issues)도 선택해 이용할 수 있습니다. 공개 이슈는 다른 사람이 볼 수 있으므로 개인 사진이나 민감한 정보를 올리지 말아주세요. GitHub 이용에는 해당 서비스의 약관과 개인정보처리방침이 적용됩니다.
 
 ---
 
@@ -51,4 +53,6 @@ Recoco는 추천만으로 사진을 자동 삭제하지 않습니다. 사용자�
 
 Recoco's current free iOS release offers photo curation, user-confirmed cleanup and cleanup history without an account or subscription. An initial daily set contains up to three eligible photos; the available library and reading conditions may result in fewer or none. Remaining recommendations continue within the same local day. A new local date starts a new search, and undeleted recommendations can become eligible again after 30 days.
 
-Recommendations are informational. Users choose which photos to delete, and Apple Photos handles deletion, iCloud synchronization and any available recovery. Recoco does not guarantee recovery, immediate storage savings or that a recommendation is personally unimportant. Local app history is not a backup of original photos and may be lost when the app is deleted. Current use does not start a subscription or automatic charge. Questions can be submitted through the [public GitHub issue tracker](https://github.com/iiinsujang/recoco/issues).
+Recommendations are informational. Users choose which photos to delete, and Apple Photos handles deletion, iCloud synchronization and any available recovery. Recoco does not guarantee recovery, immediate storage savings or that a recommendation is personally unimportant. Local app history is not a backup of original photos and may be lost when the app is deleted. Current use does not start a subscription or automatic charge.
+
+Visit the [Recoco support page](https://github.com/iiinsujang/recoco/blob/main/SUPPORT.md) or email [contact.dooooo@gmail.com](mailto:contact.dooooo@gmail.com). The sender email address and inquiry you voluntarily provide are processed to reply and resolve the issue, separately from automatic collection by the app; see the support section of the [Privacy Policy](https://github.com/iiinsujang/recoco/blob/main/PRIVACY_POLICY.md). You may also use the [public GitHub issue tracker](https://github.com/iiinsujang/recoco/issues). Do not post private photos or sensitive information there. GitHub's terms and privacy policy apply to that service.
