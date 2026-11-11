@@ -1,10 +1,12 @@
 # recoco 개인정보처리방침
 
-시행일: 2026년 11월 10일
+시행일: 2026년 11월 11일
 
 Recoco는 사용자가 허용한 사진에서 정리할 후보를 찾고, 사용자가 선택한 사진을 비우도록 돕는 iOS 앱입니다. 이 방침은 **현재 무료 사진 정리 버전과 선택형 Apple 로그인**에 적용됩니다. 로그인이나 구독 없이도 사진 정리 기능을 모두 사용할 수 있습니다.
 
 Apple 로그인이 없던 이전 버전에는 아래 계정 인증 관련 처리가 적용되지 않습니다.
+
+빌드 90부터 리포트에서 다음 정리 주제에 투표할 수 있습니다. 아래 투표 안내는 이 기능을 이용할 때 적용됩니다.
 
 ## 1. 사진과 정보의 처리
 
@@ -25,6 +27,12 @@ Recoco는 iOS에서 사용자가 허용한 범위의 사진과 관련 정보(사
 삭제하지 않은 추천 사진을 일정 기간 다시 추천하지 않기 위해 추천 이력을 사용합니다. 현재 재추천 간격은 30일이며, 이는 모든 앱 데이터의 자동 삭제 기한을 뜻하지 않습니다.
 
 이전 개발·체험 버전에서 작성한 글이나 사진 미리보기가 기기에 남아 있다면 업데이트 중 이를 보존할 수 있습니다. 현재 버전은 새 기록 작성이나 기록의 서버 동기화 기능을 제공하지 않습니다.
+
+### 리포트의 선택형 투표
+
+‘다른 것도 정리하기’에서 ‘투표하기’를 누르면 사용자가 고른 주제와 앱이 해당 표에 부여한 무작위 요청 번호가 투표 서버로 전송됩니다. 요청 번호는 연결이 끊겼다가 다시 시도할 때 한 표를 두 번 세지 않기 위해 사용합니다. 서버는 Cloudflare D1에 제출 경로(출시 앱), 주제, 요청 번호를 보관합니다. Recoco는 이 응답으로 항목별 합계를 보여주고 다음에 개발할 정리 기능을 결정합니다.
+
+투표에 계정·기기 식별자, 사진, 연락처 내용이나 메시지 내용은 첨부하지 않습니다. 앱 이용자는 공개 합계를 볼 수 있으며, 새 표를 다시 낼 수 있습니다. 합계는 참여 인원수가 아니라 제출된 표 수입니다. 앱의 비움 내역은 이 집계에 포함되지 않습니다.
 
 ## 2. 계정·결제·추적
 
@@ -83,6 +91,8 @@ Recoco의 정리 내역과 설정은 앱을 사용하는 동안 기기에 보관
 ---
 
 ## Privacy Policy Summary in English
+
+Starting with build 90, the optional poll in Report sends the topic the user chose and a random ID generated for that ballot. Recoco stores the submission channel, topic and ballot ID in Cloudflare D1 to display totals, avoid double counting network retries, and decide which cleanup features to develop. A new intentional vote counts again. Ballots do not include account or device IDs, photos, contacts, messages, or personal cleanup history.
 
 The current free iOS version of Recoco provides on-device photo curation and user-confirmed cleanup. An account or subscription is not required. It analyzes photos within the access granted by the user. Original photos and Photo Library identifiers are not uploaded to a Recoco server or an AI service. The current cleanup flow does not request the user's location or perform an external lookup of photo GPS coordinates.
 
