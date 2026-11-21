@@ -1,6 +1,6 @@
 # recoco 개인정보처리방침
 
-시행일: 2026년 11월 11일
+시행일: 2026년 11월 21일
 
 Recoco는 사용자가 허용한 사진에서 정리할 후보를 찾고, 사용자가 선택한 사진을 비우도록 돕는 iOS 앱입니다. 이 방침은 **현재 무료 사진 정리 버전과 선택형 Apple 로그인**에 적용됩니다. 로그인이나 구독 없이도 사진 정리 기능을 모두 사용할 수 있습니다.
 
@@ -23,6 +23,7 @@ Recoco는 iOS에서 사용자가 허용한 범위의 사진과 관련 정보(사
 - 추천 사진의 식별자·추천 날짜·선정 근거 및 확인 진행 상태
 - 사용자가 선택한 사진과 처리 결과, 비운 날짜 및 사진 수
 - 온보딩 완료 여부와 알림 설정
+- 홈에서 보거나 다음 추천으로 준비한 사진을 빠르게 표시하기 위한 작은 미리보기 캐시(최대 6장). 이 임시 파일은 기기에만 보관하며 백업에서 제외합니다. 24시간이 지난 캐시는 다시 사용하지 않고 앱을 다시 사용할 때 정리합니다. 표시 전 사진 접근 권한과 수정 여부를 다시 확인하고, 원본 삭제 판단의 근거로 사용하지 않습니다.
 
 삭제하지 않은 추천 사진을 일정 기간 다시 추천하지 않기 위해 추천 이력을 사용합니다. 현재 재추천 간격은 30일이며, 이는 모든 앱 데이터의 자동 삭제 기한을 뜻하지 않습니다.
 
@@ -105,6 +106,8 @@ Firebase also processes IP addresses and user agents for authentication security
 The Firebase Authentication SDK also collects diagnostic user-agent information about the device, OS, app bundle and developer platform. Firebase states that this information is not linked to user or device identifiers and is used to understand platform/version adoption and improve its SDK. [Firebase Apple SDK data disclosure guide](https://firebase.google.com/docs/ios/app-store-data-collection)
 
 Recommendation history, selections, cleanup counts and preferences remain in the app's local storage. Older locally saved records may be preserved during updates; new record creation is not part of this release. Recoco provides no account-based sync or server backup. Deleting the app may erase its local history but does not itself delete original photos in Apple Photos. Apple handles iCloud downloads, synchronized deletion and Recently Deleted recovery. Notifications are local. Recoco does not use advertising tracking or Google Analytics behavioral tracking; the Firebase authentication and SDK diagnostics described above are separate.
+
+To display Home photos promptly, Recoco temporarily caches up to six small previews of displayed or next-prepared photos on the device. These files are excluded from backup and are not reused after 24 hours; expired files are removed when the app is used again. Current Photos access and the photo's modification state are checked before display. These previews are not evidence for authorizing deletion and are not uploaded to a Recoco server.
 
 Signing out or deleting an account preserves the device's photos, history, saved records and selections. Signed-in users can request account deletion from **내 정보 → 회원탈퇴** (Profile → Delete account). Deleting the app does not itself delete the server-side authentication account.
 
