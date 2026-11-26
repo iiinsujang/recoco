@@ -1,0 +1,37 @@
+GoogleService-Info.plist
+*.p8
+*.p12
+*.pfx
+*.pem
+*.mobileprovision
+.firebaserc
+.firebase/
+.env
+.env.*
+!.env.example
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+.swiftpm/
+outputs/
+*.log
+Config.xcconfig
+functions/.env
+functions/.env.local
+DerivedData/
+build/
+.codex-tmp/
+work/
+*.xcuserstate
+xcuserdata/
+*.xcresult
+*.xcarchive
+*.ipa
+.DS_Store
+
+# Local test media can contain personal photos.
+outputs/recoco-prototype/assets/test-photos/
+
+# Local repository recovery artifact.
+recoco-current.bundle

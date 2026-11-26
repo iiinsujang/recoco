@@ -5,7 +5,7 @@ import SwiftUI
 // MARK: - 상단 네비게이션 바
 
 struct RNavigationBar: View {
-    enum Theme { case light, dark }
+    enum Theme { case light, dark, inverse }
 
     let title: String
     var theme: Theme = .light
@@ -14,44 +14,45 @@ struct RNavigationBar: View {
     var trailingAction: (() -> Void)? = nil
 
     var body: some View {
-        HStack {
-            // 뒤로가기 버튼
+        HStack(spacing: RSpacing.xs) {
             if let leadingAction {
                 Button(action: leadingAction) {
                     Image(systemName: "chevron.left")
                         .font(.system(size: 17, weight: .medium))
-                        .foregroundColor(textColor)
                         .frame(width: RSize.minTouchTarget, height: RSize.minTouchTarget)
                 }
+                .accessibilityLabel("뒤로")
             } else {
-                Spacer().frame(width: RSize.minTouchTarget)
+                Color.clear.frame(width: RSize.minTouchTarget, height: RSize.minTouchTarget)
+                    .accessibilityHidden(true)
             }
 
-            Spacer()
-
-            // 제목
             Text(title)
-                .rTextStyle(.subLabel, color: textColor)
-                .fontWeight(.medium)
+                .font(.rButton)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity)
+                .accessibilityAddTraits(.isHeader)
 
-            Spacer()
-
-            // 우측 액션
             if let trailingTitle, let trailingAction {
-                Button(action: trailingAction) {
-                    Text(trailingTitle)
-                        .rTextStyle(.subLabel, color: textColor.opacity(0.6))
-                        .frame(minWidth: RSize.minTouchTarget, minHeight: RSize.minTouchTarget)
-                }
+                Button(trailingTitle, action: trailingAction)
+                    .font(.rSubLabel.weight(.medium))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(minWidth: RSize.minTouchTarget, minHeight: RSize.minTouchTarget)
             } else {
-                Spacer().frame(width: RSize.minTouchTarget)
+                Color.clear.frame(width: RSize.minTouchTarget, height: RSize.minTouchTarget)
+                    .accessibilityHidden(true)
             }
         }
-        .padding(.horizontal, RSpacing.xs)
+        .foregroundColor(textColor)
+        .buttonStyle(RPressFeedbackStyle())
+        .padding(.horizontal, RSpacing.sm)
+        .padding(.vertical, RSpacing.xxs)
+        .frame(minHeight: RLayout.navigationHeight)
     }
 
     private var textColor: Color {
-        theme == .dark ? .rDarkTextPrimary : .rTextPrimary
+        theme == .inverse ? .white : .rTextPrimary
     }
 }
 
@@ -59,22 +60,22 @@ struct RNavigationBar: View {
 
 struct RWordmarkHeader: View {
     var theme: RNavigationBar.Theme = .light
+    var height: CGFloat = RLayout.headerHeight
     var trailingContent: AnyView? = nil
 
     var body: some View {
-        HStack {
-            Spacer()
-            Text("RECOCO")
-                .rTextStyle(.wordmark, color: theme == .dark ? .rDarkTextPrimary : .rTextPrimary)
-                .tracking(2)
-            Spacer()
-
+        ZStack {
+            RBrandWordmark()
             if let trailing = trailingContent {
-                trailing
-                    .frame(width: RSize.minTouchTarget, height: RSize.minTouchTarget)
+                HStack {
+                    Spacer()
+                    trailing
+                        .frame(width: RSize.minTouchTarget, height: RSize.minTouchTarget)
+                }
             }
         }
-        .padding(.horizontal, RSpacing.md)
+        .padding(.horizontal, RLayout.screenInset)
+        .frame(minHeight: height)
     }
 }
 
@@ -87,34 +88,26 @@ enum RTab: Int, CaseIterable {
 
     var title: String {
         switch self {
-        case .home:    return "홈"
-        case .report:  return "리포트"
-        case .profile: return "마이페이지"
+        case .home:    return String(localized: "홈")
+        case .report:  return String(localized: "리포트")
+        case .profile: return String(localized: "내 정보")
         }
     }
 
-    var icon: String {
+    var accessibilityID: String {
         switch self {
-        case .home:    return "house"
-        case .report:  return "chart.bar"
-        case .profile: return "person"
-        }
-    }
-
-    var selectedIcon: String {
-        switch self {
-        case .home:    return "house.fill"
-        case .report:  return "chart.bar.fill"
-        case .profile: return "person.fill"
+        case .home: return "tab.home"
+        case .report: return "tab.report"
+        case .profile: return "tab.profile"
         }
     }
 
     /// 접근성 레이블
     var accessibilityLabel: String {
         switch self {
-        case .home:    return "홈 탭"
-        case .report:  return "주간 리포트 탭"
-        case .profile: return "마이페이지 탭"
+        case .home:    return String(localized: "홈 탭")
+        case .report:  return String(localized: "리포트 탭")
+        case .profile: return String(localized: "마이페이지 탭")
         }
     }
 }
@@ -123,6 +116,7 @@ enum RTab: Int, CaseIterable {
 
 struct RTabBar: View {
     @Binding var selectedTab: RTab
+    @ScaledMetric(relativeTo: .caption) private var labelSize: CGFloat = 12
 
     var body: some View {
         VStack(spacing: 0) {
@@ -133,7 +127,8 @@ struct RTabBar: View {
                     tabItem(tab)
                 }
             }
-            .frame(height: RSize.tabBarHeight)
+            .padding(.horizontal, RSpacing.xxs)
+            .frame(minHeight: RSize.tabBarHeight)
             .background(Color.rBackground)
         }
     }
@@ -143,18 +138,63 @@ struct RTabBar: View {
             selectedTab = tab
         } label: {
             VStack(spacing: RSpacing.xxs) {
-                Image(systemName: selectedTab == tab ? tab.selectedIcon : tab.icon)
-                    .font(.system(size: 22))
-                    .foregroundColor(selectedTab == tab ? .rTextPrimary : .rTextTertiary)
+                RTabGlyph(tab: tab)
+                    .stroke(style: StrokeStyle(lineWidth: 1.75 * 21 / 24, lineCap: .round, lineJoin: .round))
+                    .frame(width: 21, height: 21)
+                    .frame(width: 46, height: 28)
+                    .background(selectedTab == tab ? Color.rBrandMist : Color.clear, in: Capsule())
+                    .foregroundColor(selectedTab == tab ? .rAccent : .rTextTertiary)
 
                 Text(tab.title)
-                    .rTextStyle(.caption, color: selectedTab == tab ? .rTextPrimary : .rTextTertiary)
+                    .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+                    .font(.system(size: min(labelSize, 18), weight: selectedTab == tab ? .bold : .medium))
+                    .foregroundColor(selectedTab == tab ? .rAccent : .rTextTertiary)
             }
             .frame(maxWidth: .infinity)
-            .frame(height: RSize.tabBarHeight)
+            .frame(minHeight: RSize.tabBarHeight)
             .contentShape(Rectangle())
         }
+        .buttonStyle(RPressFeedbackStyle())
+        .accessibilityIdentifier(tab.accessibilityID)
         .accessibilityLabel(tab.accessibilityLabel)
+        .accessibilityAddTraits(selectedTab == tab ? .isSelected : [])
+    }
+}
+
+/// The same 24-unit outline paths as the web v32 navigation, rendered natively.
+private struct RTabGlyph: Shape {
+    let tab: RTab
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        func point(_ x: CGFloat, _ y: CGFloat) -> CGPoint {
+            CGPoint(x: rect.minX + x / 24 * rect.width, y: rect.minY + y / 24 * rect.height)
+        }
+        func line(_ coordinates: [(CGFloat, CGFloat)]) {
+            guard let first = coordinates.first else { return }
+            path.move(to: point(first.0, first.1))
+            for coordinate in coordinates.dropFirst() {
+                path.addLine(to: point(coordinate.0, coordinate.1))
+            }
+        }
+        switch tab {
+        case .home:
+            line([(3,11), (12,3), (21,11)])
+            line([(5,10), (5,20), (19,20), (19,10)])
+            line([(9,20), (9,14), (15,14), (15,20)])
+        case .report:
+            line([(4,20), (4,10)])
+            line([(10,20), (10,4)])
+            line([(16,20), (16,13)])
+            line([(22,20), (2,20)])
+        case .profile:
+            path.addEllipse(in: CGRect(x: point(7,3).x, y: point(7,3).y,
+                                       width: rect.width * 10 / 24, height: rect.height * 10 / 24))
+            path.move(to: point(20,21))
+            path.addCurve(to: point(12,13), control1: point(20,16.582), control2: point(16.418,13))
+            path.addCurve(to: point(4,21), control1: point(7.582,13), control2: point(4,16.582))
+        }
+        return path
     }
 }
 

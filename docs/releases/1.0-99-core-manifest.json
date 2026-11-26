@@ -1,0 +1,18 @@
+{
+  "release": "1.0 (99)",
+  "released": "2026-11-24",
+  "purpose": "Frozen core-file SHA-256 values from the source used to create the shipped archive. These 11 files are a scoped core manifest, not a complete archive or all-source attestation.",
+  "files": {
+    "Recoco.xcodeproj/project.pbxproj": "46552ff598a2a82c6b5849ead7facc26a46a6a631a4a68cb305e6dcf97367ea9",
+    "Recoco/Core/Services/LocalActivityStore.swift": "bfda9348b2adad5e4aefa389104099094b5023180c47f6010ec268c806461313",
+    "Recoco/Core/Services/PhotoCurationService.swift": "19e7083dde6abfccd9b6a799d56462885b645e287caadcaf47e02127ec4c3246",
+    "Recoco/Features/Auth/PhotoPermissionView.swift": "fe22d28b6bd19d647584a2e442b50e53cbf331ea6b5ffc5303838861c5de8333",
+    "Recoco/Features/Home/DecisionUnitCards.swift": "a76318906d420c00f4227f0a3bc2482c474e2a2dd33c1ffa120a25627f1cece4",
+    "Recoco/Features/Home/HomeView.swift": "5b081b3148969a1ecf1e3640094d3ab4e9be11e12a1f01039bb5b8d0f1105400",
+    "Recoco/Features/Home/HomeViewModel.swift": "dfc500d03b0b272c51eb12ced09d6502dcd88f7dc803cee271eb5a13fedbdfbb",
+    "Recoco/Features/Home/MainTabView.swift": "995e6a2d1e81b153afe0a04b067c8e9dc53377146fe93d36ed610f2feb65abb9",
+    "Recoco/Info.Release.plist": "028894c50ce1e20a50bca4c1f52c8e9f6128e3aa910c6ab295d8cb912a0a96b4",
+    "Recoco/Resources/Localizable.xcstrings": "23c1cdac0374cdf3472de8a1e306a9a82f2bd7b473a8c7eabcbdf4252a1b0ce2",
+    "Recoco/App/RecocoApp.swift": "05cdc181c3a6e91c4eacfa66ebb061db98a279e90f56408260ebcbe2c0200d20"
+  }
+}

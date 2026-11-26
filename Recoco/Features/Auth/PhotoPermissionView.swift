@@ -6,7 +6,7 @@ import PhotosUI
 // 명세서 §8 S-03A
 // - 사진 원본 미전송 안내
 // - 전체 허용 / 제한적 허용 / 거부 분기
-// - 나중에: S-04 권한 미허용 상태로 이동
+// - 중립적인 ‘다음’ 한 가지 액션으로 시스템 권한 선택창 연결
 
 struct PhotoPermissionView: View {
     @EnvironmentObject private var router: AppRouter
@@ -16,62 +16,54 @@ struct PhotoPermissionView: View {
         ZStack {
             Color.rBackground.ignoresSafeArea()
 
-            VStack(spacing: 0) {
-                Spacer()
-
-                // 일러스트 영역
-                illustrationSection
-
-                // 안내 텍스트
-                descriptionSection
-
-                Spacer()
-
-                // 액션 버튼
-                actionSection
-                    .padding(.bottom, RSpacing.xxxl)
+            GeometryReader { geometry in
+                ScrollView {
+                    VStack(spacing: RSpacing.xl) {
+                        Spacer(minLength: 0)
+                        illustrationSection
+                        descriptionSection
+                        Spacer(minLength: RSpacing.md)
+                        actionSection
+                    }
+                    .padding(RLayout.screenInset)
+                    .frame(minHeight: geometry.size.height)
+                }
             }
-            .padding(.horizontal, RSpacing.md)
         }
     }
 
     // MARK: - 일러스트
 
     private var illustrationSection: some View {
-        // 에셋이 없으면 최소 아이콘으로 대체
-        ZStack {
-            Circle()
-                .fill(Color.rSurface)
-                .frame(width: 100, height: 100)
-
-            Image(systemName: "photo.on.rectangle.angled")
-                .font(.system(size: 40))
-                .foregroundColor(.rTextSecondary)
-        }
-        .padding(.bottom, RSpacing.xxxl)
+        RSealIllustration(pose: .curious, width: RCharacterSize.state)
     }
 
     // MARK: - 안내 텍스트
 
     private var descriptionSection: some View {
         VStack(spacing: RSpacing.md) {
-            Text("사진을 직접 올리지\n않아도 돼요.")
+            Text("내 사진에서\n살펴볼 이유를 찾아요.")
                 .rTextStyle(.headlineLarge)
                 .multilineTextAlignment(.center)
                 .lineSpacing(RLineSpacing.body)
 
+            Text("허용한 사진 안에서\n매일 새 후보를 최대 세 장 찾아요.")
+                .rTextStyle(.body, color: .rTextSecondary)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+
             VStack(spacing: RSpacing.sm) {
                 permissionRow(
-                    icon: "lock.shield",
-                    text: "사진은 기기 안에서만 분석돼요."
+                    icon: "photo.on.rectangle",
+                    text: String(localized: "선택한 사진만 허용해도 괜찮아요.")
                 )
                 permissionRow(
                     icon: "icloud.slash",
-                    text: "원본은 서버로 전송되지 않아요."
+                    text: String(localized: "기기에서 분석해요. 원본은 서버로 보내지 않아요.")
                 )
                 permissionRow(
                     icon: "hand.tap",
-                    text: "삭제는 항상 직접 확인 후 진행돼요."
+                    text: String(localized: "삭제는 항상 직접 확인 후 진행돼요.")
                 )
             }
             .padding(.top, RSpacing.sm)
@@ -90,26 +82,21 @@ struct PhotoPermissionView: View {
 
             Spacer()
         }
-        .padding(.horizontal, RSpacing.xl)
     }
 
     // MARK: - 액션 버튼
 
     private var actionSection: some View {
-        VStack(spacing: RSpacing.sm) {
+        VStack(spacing: RLayout.actionGap) {
             RButton(
-                title: "사진 접근 허용하기",
+                title: String(localized: "다음"),
                 variant: .primary,
                 isLoading: isRequesting
             ) {
                 requestPhotoAccess()
             }
+            .accessibilityIdentifier("photoPermission.request")
 
-            Button("나중에 할게요") {
-                router.navigateTo(.main)
-            }
-            .rTextStyle(.subLabel, color: .rTextTertiary)
-            .frame(minHeight: RSize.minTouchTarget)
         }
     }
 

@@ -1,137 +1,225 @@
 import SwiftUI
-import UIKit
-
-// MARK: - S-02 온보딩
-// 명세서 §8 S-02
-// - 다크 배경
-// - 3장 슬라이드 (스와이프 또는 다음 버튼)
-// - Skip: 즉시 S-03
-// - 최초 1회만 표시
 
 struct OnboardingView: View {
     @EnvironmentObject private var router: AppRouter
     @StateObject private var vm = OnboardingViewModel()
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
-        ZStack {
-            Color.rDarkBackground.ignoresSafeArea()
+        VStack(spacing: 0) {
+            header
 
-            VStack(spacing: 0) {
-                // Skip 버튼
-                HStack {
-                    Spacer()
-                    Button("Skip") {
-                        completeOnboarding()
-                    }
-                    .rTextStyle(.subLabel, color: .rDarkTextSecondary)
-                    .frame(minWidth: RSize.minTouchTarget, minHeight: RSize.minTouchTarget)
-                    .padding(.trailing, RSpacing.md)
+            TabView(selection: $vm.currentIndex) {
+                ForEach(vm.slides.indices, id: \.self) { index in
+                    OnboardingSlideView(slide: vm.slides[index], isCurrent: index == vm.currentIndex)
+                        .tag(index)
                 }
-                .padding(.top, RSpacing.sm)
-
-                // 슬라이드 영역
-                TabView(selection: $vm.currentIndex) {
-                    ForEach(Array(vm.slides.enumerated()), id: \.offset) { index, slide in
-                        OnboardingSlideView(slide: slide)
-                            .tag(index)
-                    }
-                }
-                .tabViewStyle(.page(indexDisplayMode: .never))
-                .animation(.easeInOut(duration: 0.35), value: vm.currentIndex)
-
-                // 페이지 인디케이터 + 버튼
-                VStack(spacing: RSpacing.xl) {
-                    // 도트 인디케이터
-                    HStack(spacing: RSpacing.xs) {
-                        ForEach(0..<vm.slides.count, id: \.self) { index in
-                            Capsule()
-                                .fill(index == vm.currentIndex
-                                      ? Color.rDarkTextPrimary
-                                      : Color.rDarkTextSecondary.opacity(0.3))
-                                .frame(
-                                    width: index == vm.currentIndex ? 20 : 6,
-                                    height: 6
-                                )
-                                .animation(.spring(response: 0.3), value: vm.currentIndex)
-                        }
-                    }
-
-                    // CTA 버튼
-                    RDarkButton(
-                        title: vm.isLastSlide ? "시작하기" : "다음"
-                    ) {
-                        if vm.isLastSlide {
-                            completeOnboarding()
-                        } else {
-                            withAnimation {
-                                vm.next()
-                            }
-                        }
-                    }
-                    .padding(.horizontal, RSpacing.md)
-                }
-                .padding(.bottom, RSpacing.xxxl)
             }
-        }
-        // 스와이프로 인덱스 변경 허용
-        .gesture(
-            DragGesture()
-                .onEnded { value in
-                    if value.translation.width < -50, !vm.isLastSlide {
-                        withAnimation { vm.next() }
-                    } else if value.translation.width > 50, vm.currentIndex > 0 {
-                        withAnimation { vm.currentIndex -= 1 }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+
+            VStack(spacing: RSpacing.xs) {
+                if let message = vm.errorMessage {
+                    Text(message)
+                        .rTextStyle(.subLabel, color: .rTextSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .accessibilityIdentifier("onboarding.startError")
+                }
+                RButton(title: vm.slides[vm.currentIndex].actionTitle, variant: .primary) {
+                    withAnimation(reduceMotion ? nil : RMotion.transition) {
+                        if vm.isLastSlide {
+                            if let destination = vm.finishIntroduction() {
+                                router.navigateTo(destination)
+                            }
+                        } else {
+                            vm.next()
+                        }
                     }
                 }
-        )
+                .accessibilityIdentifier("onboarding.next")
+                if vm.isLastSlide && !dynamicTypeSize.isAccessibilitySize {
+                    OnboardingLegalNotice()
+                }
+            }
+            .padding(.horizontal, RLayout.screenInset)
+            .padding(.vertical, RSpacing.md)
+        }
+        .background(Color.rBackground.ignoresSafeArea())
     }
 
-    private func completeOnboarding() {
-        vm.markCompleted()
-        withAnimation(.easeOut(duration: 0.3)) {
-            router.navigateTo(.login)
+    private var header: some View {
+        HStack(spacing: RSpacing.sm) {
+            if vm.currentIndex == 0 {
+                RBrandWordmark()
+            } else {
+                Button {
+                    withAnimation(reduceMotion ? nil : RMotion.transition) { vm.currentIndex -= 1 }
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .font(.rButton)
+                        .frame(minWidth: RSize.minTouchTarget, minHeight: RSize.minTouchTarget)
+                        .contentShape(Rectangle())
+                }
+                .foregroundStyle(Color.rTextPrimary)
+                .accessibilityLabel("이전 소개")
+                .accessibilityIdentifier("onboarding.previous")
+            }
+
+            Spacer()
+
+            if !vm.isLastSlide {
+                Button("건너뛰기") {
+                    withAnimation(reduceMotion ? nil : RMotion.transition) { vm.skipToLastSlide() }
+                }
+                .rTextStyle(.subLabel, color: .rTextSecondary)
+                .frame(minWidth: RSize.minTouchTarget, minHeight: RSize.minTouchTarget)
+                .accessibilityIdentifier("onboarding.skip")
+            }
+            HStack(spacing: RSpacing.xxs) {
+                ForEach(vm.slides.indices, id: \.self) { index in
+                    Capsule()
+                        .fill(index == vm.currentIndex ? Color.rAccent : Color.rBorderStrong)
+                        .frame(width: index == vm.currentIndex ? 19 : 6, height: 6)
+                }
+            }
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("소개 \(vm.currentIndex + 1)/\(vm.slides.count)페이지")
+        }
+        .padding(.horizontal, RLayout.screenInset)
+        .frame(minHeight: RLayout.navigationHeight)
+    }
+}
+
+private struct OnboardingSlideView: View {
+    let slide: OnboardingSlide
+    let isCurrent: Bool
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: RSpacing.sm) {
+                OnboardingIllustration(scene: slide.scene, isCurrent: isCurrent)
+                    .padding(.bottom, RSpacing.sm)
+
+                Text(slide.headline)
+                    .rTextStyle(.headlineLarge)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityAddTraits(.isHeader)
+                Text(slide.subText)
+                    .rTextStyle(.body, color: .rTextSecondary)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                if slide.scene == .cherishing && dynamicTypeSize.isAccessibilitySize {
+                    OnboardingLegalNotice()
+                        .padding(.top, RSpacing.md)
+                        .frame(maxWidth: .infinity)
+                }
+            }
+            .frame(maxWidth: 500, alignment: .leading)
+            .padding(.horizontal, RLayout.screenInset)
+            .padding(.vertical, RSpacing.sm)
+            .frame(maxWidth: .infinity)
         }
     }
 }
 
-// MARK: - 슬라이드 단위 뷰
+private struct OnboardingIllustration: View {
+    let scene: OnboardingSlide.Scene
+    let isCurrent: Bool
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var floating = false
+    @Environment(\.locale) private var locale
 
-private struct OnboardingSlideView: View {
-    let slide: OnboardingSlide
+    @ViewBuilder var body: some View {
+        switch scene {
+        case .floating:
+            Image("recoco_intro_water")
+                .resizable()
+                .scaledToFit()
+                .overlay {
+                    GeometryReader { geometry in
+                        let size = geometry.size
+                        Image(RSealIllustration.Pose.floating.rawValue)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: size.width * 0.43, height: size.height * 0.54)
+                            .rotationEffect(.degrees(floating ? 0 : -4))
+                            .offset(y: floating ? -5 : 0)
+                            .position(x: size.width * 0.495, y: size.height * 0.50)
+                    }
+                }
+                .onChange(of: isCurrent && !reduceMotion) { enabled in
+                    floatIfNeeded(enabled: enabled)
+                }
+                .onAppear { floatIfNeeded(enabled: isCurrent && !reduceMotion) }
+                .accessibilityHidden(true)
 
-    var body: some View {
-        VStack(spacing: 0) {
-            Spacer()
-
-            // 브랜드 심볼 영역
-            if UIImage(named: "recoco_symbol") != nil {
-                Image("recoco_symbol")
+        case .choosing:
+            VStack(spacing: RSpacing.xxs) {
+                Image(RSealIllustration.Pose.choose.rawValue)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 40, height: 40)
-                    .padding(.bottom, RSpacing.xxxl)
-            } else {
-                // 심볼 없을 때 여백 유지
-                Spacer().frame(height: 72)
+                    .frame(maxWidth: .infinity)
+                    .aspectRatio(1.8, contentMode: .fit)
+                    .accessibilityHidden(true)
+                Text(verbatim: (locale.quotationBeginDelimiter ?? "“") + CurationReasonCode.exactDuplicate.displayText + (locale.quotationEndDelimiter ?? "”"))
+                    .rTextStyle(.caption, color: .rTextSecondary)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
             }
+            .padding(RSpacing.sm)
+            .frame(maxWidth: .infinity)
+            .background(Color.rBrandMist, in: RoundedRectangle(cornerRadius: RRadius.photo))
 
-            // 헤드라인
-            Text(slide.headline)
-                .rTextStyle(.headlineLarge, color: .rDarkTextPrimary)
-                .multilineTextAlignment(.center)
-                .lineSpacing(RLineSpacing.body)
-                .padding(.horizontal, RSpacing.xl)
-
-            // 서브 문구
-            Text(slide.subText)
-                .rTextStyle(.body, color: .rDarkTextSecondary)
-                .multilineTextAlignment(.center)
-                .lineSpacing(RLineSpacing.body)
-                .padding(.horizontal, RSpacing.xl)
-                .padding(.top, RSpacing.md)
-
-            Spacer()
+        case .cherishing:
+            Image("recoco_intro_cherish")
+                .resizable()
+                .scaledToFit()
+                .accessibilityHidden(true)
         }
+    }
+
+    private func floatIfNeeded(enabled: Bool) {
+        floating = false
+        if enabled {
+            withAnimation(.easeInOut(duration: 2.15).repeatCount(4, autoreverses: true)) {
+                floating = true
+            }
+        }
+    }
+}
+
+private struct OnboardingLegalNotice: View {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    var body: some View {
+        VStack(spacing: RSpacing.xxs) {
+            Text("로그인 없이도 모든 기능을 이용할 수 있어요.")
+                .rTextStyle(.caption, color: .rTextSecondary)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+            let layout = dynamicTypeSize.isAccessibilitySize
+                ? AnyLayout(VStackLayout(spacing: 0))
+                : AnyLayout(HStackLayout(spacing: RSpacing.sm))
+            layout {
+                Link("서비스 이용약관", destination: URL(string: "https://github.com/iiinsujang/recoco/blob/main/TERMS_OF_SERVICE.md")!)
+                    .accessibilityIdentifier("onboarding.terms")
+                Link("개인정보처리방침", destination: URL(string: "https://github.com/iiinsujang/recoco/blob/main/PRIVACY_POLICY.md")!)
+                    .accessibilityIdentifier("onboarding.privacy")
+            }
+            .rTextStyle(.caption, color: .rTextSecondary)
+            .underline()
+            .buttonStyle(OnboardingLegalLinkStyle())
+        }
+    }
+}
+
+private struct OnboardingLegalLinkStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .frame(minWidth: RSize.minTouchTarget, minHeight: RSize.minTouchTarget)
+            .contentShape(Rectangle())
+            .opacity(configuration.isPressed ? 0.7 : 1)
     }
 }
 

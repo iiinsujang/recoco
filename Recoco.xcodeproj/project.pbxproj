@@ -5,232 +5,849 @@
 	};
 	objectVersion = 56;
 	objects = {
-		F225EB276641382468272892 /* Recoco.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Recoco.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		395579961ADF49A2377A5094 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		AE5483175CF1AAD64427CA1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3C524A2CD02F93C615491ED5 /* Recoco.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Recoco.entitlements; sourceTree = "<group>"; };
-		487A19F9D65B67A9F422433A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		9A603697F768BE31D36F8A7A /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
-		B2F3C33211B2FF0874DF604C /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A603697F768BE31D36F8A7A /* AppRouter.swift */; };
-		C1FC6F0FAC9451EB82C5B57F /* RecocoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecocoApp.swift; sourceTree = "<group>"; };
-		18A88E251EBB98ACBEAF616B /* RecocoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FC6F0FAC9451EB82C5B57F /* RecocoApp.swift */; };
-		43DA021CB0996B3C6AA32954 /* DecisionUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecisionUnit.swift; sourceTree = "<group>"; };
-		471D5BDEC67EB7E6A5E68629 /* DecisionUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DA021CB0996B3C6AA32954 /* DecisionUnit.swift */; };
-		367A71EE3574BFB9D9206C25 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		BA698E9EFC533A83FC82F0E6 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A71EE3574BFB9D9206C25 /* Colors.swift */; };
-		2DD9C755DC91BAC36052AE94 /* RButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RButton.swift; sourceTree = "<group>"; };
-		328A49BB6F36E232B6B6A424 /* RButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD9C755DC91BAC36052AE94 /* RButton.swift */; };
-		C1134239CFAEAD3E444552B2 /* RCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCard.swift; sourceTree = "<group>"; };
-		2EA95D78DE2E888925575FFD /* RCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1134239CFAEAD3E444552B2 /* RCard.swift */; };
-		FFDA9864F5FAFCBAABA49981 /* RNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNavigation.swift; sourceTree = "<group>"; };
-		2085302921445D55613BF1EE /* RNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDA9864F5FAFCBAABA49981 /* RNavigation.swift */; };
-		F8E17DD0D40CFCF65A421C7B /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
-		F4ED7B9BA6F026FF28179A68 /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E17DD0D40CFCF65A421C7B /* DesignSystem.swift */; };
-		A00F49E30D22872A6F6BAD06 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
-		A4F5953E1CF47C5716A280BA /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00F49E30D22872A6F6BAD06 /* Spacing.swift */; };
-		E1F37176347CA26BB9EA5B59 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
-		2318006388B2E801C9CD5ACF /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F37176347CA26BB9EA5B59 /* Typography.swift */; };
-		7320C168A3636F1CA32D76D6 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+
+/* Begin PBXBuildFile section */
+		A93000000000000000000002 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A93000000000000000000001 /* Localizable.xcstrings */; };
+		A92000000000000000000003 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A92000000000000000000002 /* InfoPlist.strings */; };
+		A88000000000000000000002 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A88000000000000000000001 /* GoogleService-Info.plist */; };
+		A88000000000000000000004 /* StartupSafetyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A88000000000000000000003 /* StartupSafetyTests.swift */; };
+		AA9000000000000000030002 /* CleanupInterestPollTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9000000000000000030001 /* CleanupInterestPollTests.swift */; };
+		A82000000000000000000002 /* CurationBatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82000000000000000000001 /* CurationBatchTests.swift */; };
+		A81000000000000000000006 /* RecordPhotoPreservationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A81000000000000000000005 /* RecordPhotoPreservationTests.swift */; };
+		A81000000000000000000004 /* RecordPhotoPreviewServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A81000000000000000000003 /* RecordPhotoPreviewServiceTests.swift */; };
+		A81000000000000000000002 /* RecordPhotoPreviewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A81000000000000000000001 /* RecordPhotoPreviewService.swift */; };
+		A71000000000000000000008 /* RecocoSubscriptions.storekit in Resources */ = {isa = PBXBuildFile; fileRef = A71000000000000000000007 /* RecocoSubscriptions.storekit */; };
+		A71000000000000000000006 /* SubscriptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71000000000000000000005 /* SubscriptionTests.swift */; };
+		A71000000000000000000004 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71000000000000000000003 /* SubscriptionView.swift */; };
+		A71000000000000000000002 /* SubscriptionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71000000000000000000001 /* SubscriptionStore.swift */; };
+		A50000000000000000000002 /* CurationContextPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50000000000000000000001 /* CurationContextPolicy.swift */; };
 		1577FAC98E40B54B3D373102 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7320C168A3636F1CA32D76D6 /* AuthViewModel.swift */; };
-		BD8CD0E39F9A5391597DF38F /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		63406CA6132399561C3E83E0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8CD0E39F9A5391597DF38F /* LoginView.swift */; };
-		730AD2F7965BB2BAA4D886CB /* PhotoPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPermissionView.swift; sourceTree = "<group>"; };
-		3C4CA2F956E216AACC147816 /* PhotoPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730AD2F7965BB2BAA4D886CB /* PhotoPermissionView.swift */; };
-		F508FEEAB65C8995B99B0D64 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
-		E709C2B4622A4E4AD9175694 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F508FEEAB65C8995B99B0D64 /* SplashView.swift */; };
-		3AEE2F44935DB2880D8788FD /* CleanupConfirmSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanupConfirmSheet.swift; sourceTree = "<group>"; };
-		827A59037729BB31CBE760F3 /* CleanupConfirmSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE2F44935DB2880D8788FD /* CleanupConfirmSheet.swift */; };
-		5103A9E1563E301993CDE665 /* DecisionUnitCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecisionUnitCards.swift; sourceTree = "<group>"; };
-		5DAA7D7678FED25D50E5CCC0 /* DecisionUnitCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5103A9E1563E301993CDE665 /* DecisionUnitCards.swift */; };
-		9F6CB36935EC27F2EB9FF287 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		CE01288C100B663069181611 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6CB36935EC27F2EB9FF287 /* HomeView.swift */; };
-		653BCEDC9CF9156D330172E9 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		BA285A3A2732C55A4F33E92C /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653BCEDC9CF9156D330172E9 /* HomeViewModel.swift */; };
-		2D888C6F8FE68A8585A8BC12 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		95E12F406D1EA60F4942FBAE /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D888C6F8FE68A8585A8BC12 /* MainTabView.swift */; };
-		EB44D0F024DE0FD79195AFB0 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		34214045AB147BC85973E041 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB44D0F024DE0FD79195AFB0 /* OnboardingView.swift */; };
-		732EDD40694B81447390F3B3 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
-		3DA336DDAB64C56B54795D75 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732EDD40694B81447390F3B3 /* OnboardingViewModel.swift */; };
-		B545A983E53B19DF94D87798 /* RecordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordInputView.swift; sourceTree = "<group>"; };
+		18A88E251EBB98ACBEAF616B /* RecocoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FC6F0FAC9451EB82C5B57F /* RecocoApp.swift */; };
+		2085302921445D55613BF1EE /* RNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDA9864F5FAFCBAABA49981 /* RNavigation.swift */; };
+		2318006388B2E801C9CD5ACF /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F37176347CA26BB9EA5B59 /* Typography.swift */; };
 		283539814EB24B824E33B637 /* RecordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B545A983E53B19DF94D87798 /* RecordInputView.swift */; };
-		2E803A652B151A773AA09F0D /* RecordResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordResultView.swift; sourceTree = "<group>"; };
-		ED4987CC268D0A527BDF88A3 /* RecordResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E803A652B151A773AA09F0D /* RecordResultView.swift */; };
-		96B66E644ED700EA98B41630 /* RecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewModel.swift; sourceTree = "<group>"; };
-		EB2EB09B40B9826464D569E0 /* RecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B66E644ED700EA98B41630 /* RecordViewModel.swift */; };
-		0804EF847D94EF4DFFEBD214 /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
-		364A9CA1EA26E35FF6BDC340 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0804EF847D94EF4DFFEBD214 /* ReportView.swift */; };
-		1728B91BD7206E6A6360865D /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		2EA95D78DE2E888925575FFD /* RCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1134239CFAEAD3E444552B2 /* RCard.swift */; };
+		328A49BB6F36E232B6B6A424 /* RButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD9C755DC91BAC36052AE94 /* RButton.swift */; };
+		34214045AB147BC85973E041 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB44D0F024DE0FD79195AFB0 /* OnboardingView.swift */; };
 		3520CC3A6407D5C26CB4E9D2 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1728B91BD7206E6A6360865D /* ProfileView.swift */; };
-		FF68B3E3A28E9728C0FF7D13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 487A19F9D65B67A9F422433A /* Assets.xcassets */; };
+		364A9CA1EA26E35FF6BDC340 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0804EF847D94EF4DFFEBD214 /* ReportView.swift */; };
+		AA9000000000000000020002 /* CleanupInterestPollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9000000000000000020001 /* CleanupInterestPollView.swift */; };
+		3C4CA2F956E216AACC147816 /* PhotoPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730AD2F7965BB2BAA4D886CB /* PhotoPermissionView.swift */; };
+		3DA336DDAB64C56B54795D75 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732EDD40694B81447390F3B3 /* OnboardingViewModel.swift */; };
+		471D5BDEC67EB7E6A5E68629 /* DecisionUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DA021CB0996B3C6AA32954 /* DecisionUnit.swift */; };
+		5DAA7D7678FED25D50E5CCC0 /* DecisionUnitCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5103A9E1563E301993CDE665 /* DecisionUnitCards.swift */; };
+		63406CA6132399561C3E83E0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8CD0E39F9A5391597DF38F /* LoginView.swift */; };
+		827A59037729BB31CBE760F3 /* CleanupConfirmSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEE2F44935DB2880D8788FD /* CleanupConfirmSheet.swift */; };
+		871CC82BA8CB4AE28458B9CC /* PhotoCurationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A7E07C9B704A9885167F03 /* PhotoCurationService.swift */; };
+		AA9000000000000000010002 /* CleanupInterestPoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9000000000000000010001 /* CleanupInterestPoll.swift */; };
 		8A6B2A6BA0E3C7A31D12C03A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = DD4739CF7BDCCAE38DE32DF3 /* FirebaseAuth */; };
-		7CD3347B3DCFDC460CF3F73A /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 551BBB385C3B0CA13B2D8227 /* FirebaseFirestore */; };
-		CFA165EC8B51DCD375B2AC75 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 58592F8E42CD13D441E00727 /* FirebaseFunctions */; };
-		04D893A56F571FB9DE1C8071 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 069CCC7226EE4F416553F6A6 /* FirebaseCrashlytics */; };
-		F77A534DB032726709F4A137 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = F5EACBA562EBE76B73552182 /* FirebaseAnalytics */; };
-		5D1597B4DB9F60CEEEF021F6 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = F5D262BCB5ACFDD6E68BA0B8 /* GoogleSignIn */; };
-		F6CFB2F91DB4E1B2C3A8AFC8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/firebase/firebase-ios-sdk"; requirement = {kind = upToNextMajorVersion; minimumVersion = 11.0.0; }; };
-		7C38C9CC20DEFA7395CF4B39 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/google/GoogleSignIn-iOS"; requirement = {kind = upToNextMajorVersion; minimumVersion = 8.0.0; }; };
-		DD4739CF7BDCCAE38DE32DF3 /* FirebaseAuth */ = {isa = XCSwiftPackageProductDependency; package = F6CFB2F91DB4E1B2C3A8AFC8 /* firebase-ios-sdk */; productName = FirebaseAuth; };
-		551BBB385C3B0CA13B2D8227 /* FirebaseFirestore */ = {isa = XCSwiftPackageProductDependency; package = F6CFB2F91DB4E1B2C3A8AFC8 /* firebase-ios-sdk */; productName = FirebaseFirestore; };
-		58592F8E42CD13D441E00727 /* FirebaseFunctions */ = {isa = XCSwiftPackageProductDependency; package = F6CFB2F91DB4E1B2C3A8AFC8 /* firebase-ios-sdk */; productName = FirebaseFunctions; };
-		069CCC7226EE4F416553F6A6 /* FirebaseCrashlytics */ = {isa = XCSwiftPackageProductDependency; package = F6CFB2F91DB4E1B2C3A8AFC8 /* firebase-ios-sdk */; productName = FirebaseCrashlytics; };
-		F5EACBA562EBE76B73552182 /* FirebaseAnalytics */ = {isa = XCSwiftPackageProductDependency; package = F6CFB2F91DB4E1B2C3A8AFC8 /* firebase-ios-sdk */; productName = FirebaseAnalytics; };
-		F5D262BCB5ACFDD6E68BA0B8 /* GoogleSignIn */ = {isa = XCSwiftPackageProductDependency; package = 7C38C9CC20DEFA7395CF4B39 /* GoogleSignIn-iOS */; productName = GoogleSignIn; };
-		0009E914A8D7D85505C37963 /* Recoco */ = {isa = PBXGroup; children = (
-			AE5483175CF1AAD64427CA1F /* Info.plist */,
-			3C524A2CD02F93C615491ED5 /* Recoco.entitlements */,
-			CDAED1FF0DFC907C01D86A5C /* App */,
-			6B22C7593D48F4DC7BF1DB84 /* Core */,
-			6182A5BEC2DDBF8E132CA1C9 /* DesignSystem */,
-			F44DA5E39CBB38054F382D66 /* Features */,
-			5479B38EFEE93D06EAD11C27 /* Resources */,
-		); path = Recoco; sourceTree = "<group>"; };
-		CDAED1FF0DFC907C01D86A5C /* App */ = {isa = PBXGroup; children = (
-			9A603697F768BE31D36F8A7A /* AppRouter.swift */,
-			C1FC6F0FAC9451EB82C5B57F /* RecocoApp.swift */,
-		); path = App; sourceTree = "<group>"; };
-		6B22C7593D48F4DC7BF1DB84 /* Core */ = {isa = PBXGroup; children = (
-			D940F9B2FDF9746B8100D711 /* Models */,
-			81E99B6232853B22343CE4F1 /* Services */,
-		); path = Core; sourceTree = "<group>"; };
-		6182A5BEC2DDBF8E132CA1C9 /* DesignSystem */ = {isa = PBXGroup; children = (
-			9CB76DAA7DE2AE633DAEE82C /* Components */,
-			367A71EE3574BFB9D9206C25 /* Colors.swift */,
-			F8E17DD0D40CFCF65A421C7B /* DesignSystem.swift */,
-			A00F49E30D22872A6F6BAD06 /* Spacing.swift */,
-			E1F37176347CA26BB9EA5B59 /* Typography.swift */,
-		); path = DesignSystem; sourceTree = "<group>"; };
-		F44DA5E39CBB38054F382D66 /* Features */ = {isa = PBXGroup; children = (
-			735BCEA8EF5E66E93A0DCB03 /* Auth */,
-			75201C90D6651F2B2B05DDA9 /* Curation */,
-			0A493537558C5192C2161932 /* Home */,
-			4325E7A3F4D3F038E84D0DEB /* Onboarding */,
-			0874AB4A48B2B487C632A798 /* Record */,
-			584C368D2FD786EB3DA6E6E7 /* Report */,
-			7F605C02946127019723770B /* Settings */,
-		); path = Features; sourceTree = "<group>"; };
-		5479B38EFEE93D06EAD11C27 /* Resources */ = {isa = PBXGroup; children = (
-			CDD821D8B3CFA9BDE65E64BE /* Assets.xcassets */,
-			9FF0CAB0E746463D76D55F67 /* Fonts */,
-			487A19F9D65B67A9F422433A /* Assets.xcassets */,
-		); path = Resources; sourceTree = "<group>"; };
-		D940F9B2FDF9746B8100D711 /* Models */ = {isa = PBXGroup; children = (
-			43DA021CB0996B3C6AA32954 /* DecisionUnit.swift */,
-		); path = Models; sourceTree = "<group>"; };
-		81E99B6232853B22343CE4F1 /* Services */ = {isa = PBXGroup; children = (
-		); path = Services; sourceTree = "<group>"; };
-		9CB76DAA7DE2AE633DAEE82C /* Components */ = {isa = PBXGroup; children = (
-			2DD9C755DC91BAC36052AE94 /* RButton.swift */,
-			C1134239CFAEAD3E444552B2 /* RCard.swift */,
-			FFDA9864F5FAFCBAABA49981 /* RNavigation.swift */,
-		); path = Components; sourceTree = "<group>"; };
-		735BCEA8EF5E66E93A0DCB03 /* Auth */ = {isa = PBXGroup; children = (
-			7320C168A3636F1CA32D76D6 /* AuthViewModel.swift */,
-			BD8CD0E39F9A5391597DF38F /* LoginView.swift */,
-			730AD2F7965BB2BAA4D886CB /* PhotoPermissionView.swift */,
-			F508FEEAB65C8995B99B0D64 /* SplashView.swift */,
-		); path = Auth; sourceTree = "<group>"; };
-		75201C90D6651F2B2B05DDA9 /* Curation */ = {isa = PBXGroup; children = (
-			3AEE2F44935DB2880D8788FD /* CleanupConfirmSheet.swift */,
-		); path = Curation; sourceTree = "<group>"; };
-		0A493537558C5192C2161932 /* Home */ = {isa = PBXGroup; children = (
-			5103A9E1563E301993CDE665 /* DecisionUnitCards.swift */,
-			9F6CB36935EC27F2EB9FF287 /* HomeView.swift */,
-			653BCEDC9CF9156D330172E9 /* HomeViewModel.swift */,
-			2D888C6F8FE68A8585A8BC12 /* MainTabView.swift */,
-		); path = Home; sourceTree = "<group>"; };
-		4325E7A3F4D3F038E84D0DEB /* Onboarding */ = {isa = PBXGroup; children = (
-			EB44D0F024DE0FD79195AFB0 /* OnboardingView.swift */,
-			732EDD40694B81447390F3B3 /* OnboardingViewModel.swift */,
-		); path = Onboarding; sourceTree = "<group>"; };
-		0874AB4A48B2B487C632A798 /* Record */ = {isa = PBXGroup; children = (
-			B545A983E53B19DF94D87798 /* RecordInputView.swift */,
-			2E803A652B151A773AA09F0D /* RecordResultView.swift */,
-			96B66E644ED700EA98B41630 /* RecordViewModel.swift */,
-		); path = Record; sourceTree = "<group>"; };
-		584C368D2FD786EB3DA6E6E7 /* Report */ = {isa = PBXGroup; children = (
-			0804EF847D94EF4DFFEBD214 /* ReportView.swift */,
-		); path = Report; sourceTree = "<group>"; };
-		7F605C02946127019723770B /* Settings */ = {isa = PBXGroup; children = (
-			1728B91BD7206E6A6360865D /* ProfileView.swift */,
-		); path = Settings; sourceTree = "<group>"; };
-		CDD821D8B3CFA9BDE65E64BE /* Assets.xcassets */ = {isa = PBXGroup; children = (
-			8F8EEACC99A6C29A403419DA /* AccentColor.colorset */,
-			818F2117DE63943B238FAF00 /* AppIcon.appiconset */,
-		); path = Assets.xcassets; sourceTree = "<group>"; };
-		9FF0CAB0E746463D76D55F67 /* Fonts */ = {isa = PBXGroup; children = (
-		); path = Fonts; sourceTree = "<group>"; };
-		8F8EEACC99A6C29A403419DA /* AccentColor.colorset */ = {isa = PBXGroup; children = (
-		); path = AccentColor.colorset; sourceTree = "<group>"; };
-		818F2117DE63943B238FAF00 /* AppIcon.appiconset */ = {isa = PBXGroup; children = (
-		); path = AppIcon.appiconset; sourceTree = "<group>"; };
-		1F887247C2BF57B1C60EE06C /* Products */ = {isa = PBXGroup; children = (
-			F225EB276641382468272892 /* Recoco.app */,
-		); name = Products; sourceTree = "<group>"; };
-		D0F8D5311154B6F668369DB6 = {isa = PBXGroup; children = (
-			0009E914A8D7D85505C37963 /* Recoco */,
-			395579961ADF49A2377A5094 /* Config.xcconfig */,
-			1F887247C2BF57B1C60EE06C /* Products */,
-		); sourceTree = "<group>"; };
-		56A457A1F6719AE3DA74EA47 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (
-			B2F3C33211B2FF0874DF604C /* AppRouter.swift in Sources */,
-			18A88E251EBB98ACBEAF616B /* RecocoApp.swift in Sources */,
-			471D5BDEC67EB7E6A5E68629 /* DecisionUnit.swift in Sources */,
-			BA698E9EFC533A83FC82F0E6 /* Colors.swift in Sources */,
-			328A49BB6F36E232B6B6A424 /* RButton.swift in Sources */,
-			2EA95D78DE2E888925575FFD /* RCard.swift in Sources */,
-			2085302921445D55613BF1EE /* RNavigation.swift in Sources */,
-			F4ED7B9BA6F026FF28179A68 /* DesignSystem.swift in Sources */,
-			A4F5953E1CF47C5716A280BA /* Spacing.swift in Sources */,
-			2318006388B2E801C9CD5ACF /* Typography.swift in Sources */,
-			1577FAC98E40B54B3D373102 /* AuthViewModel.swift in Sources */,
-			63406CA6132399561C3E83E0 /* LoginView.swift in Sources */,
-			3C4CA2F956E216AACC147816 /* PhotoPermissionView.swift in Sources */,
-			E709C2B4622A4E4AD9175694 /* SplashView.swift in Sources */,
-			827A59037729BB31CBE760F3 /* CleanupConfirmSheet.swift in Sources */,
-			5DAA7D7678FED25D50E5CCC0 /* DecisionUnitCards.swift in Sources */,
-			CE01288C100B663069181611 /* HomeView.swift in Sources */,
-			BA285A3A2732C55A4F33E92C /* HomeViewModel.swift in Sources */,
-			95E12F406D1EA60F4942FBAE /* MainTabView.swift in Sources */,
-			34214045AB147BC85973E041 /* OnboardingView.swift in Sources */,
-			3DA336DDAB64C56B54795D75 /* OnboardingViewModel.swift in Sources */,
-			283539814EB24B824E33B637 /* RecordInputView.swift in Sources */,
-			ED4987CC268D0A527BDF88A3 /* RecordResultView.swift in Sources */,
-			EB2EB09B40B9826464D569E0 /* RecordViewModel.swift in Sources */,
-			364A9CA1EA26E35FF6BDC340 /* ReportView.swift in Sources */,
-			3520CC3A6407D5C26CB4E9D2 /* ProfileView.swift in Sources */,
-		); runOnlyForDeploymentPostprocessing = 0; };
-		12514B38C2998BB043C01D8D /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (
-			8A6B2A6BA0E3C7A31D12C03A /* FirebaseAuth in Frameworks */,
-			7CD3347B3DCFDC460CF3F73A /* FirebaseFirestore in Frameworks */,
-			CFA165EC8B51DCD375B2AC75 /* FirebaseFunctions in Frameworks */,
-			04D893A56F571FB9DE1C8071 /* FirebaseCrashlytics in Frameworks */,
-			F77A534DB032726709F4A137 /* FirebaseAnalytics in Frameworks */,
-			5D1597B4DB9F60CEEEF021F6 /* GoogleSignIn in Frameworks */,
-		); runOnlyForDeploymentPostprocessing = 0; };
-		F560CA960A6B5CCF75C6BAB4 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (
-			FF68B3E3A28E9728C0FF7D13 /* Assets.xcassets in Resources */,
-		); runOnlyForDeploymentPostprocessing = 0; };
-		430722F68F85E2AD452C5B75 /* Recoco */ = {isa = PBXNativeTarget; buildConfigurationList = 2B20794A9D321682F2F48F36 /* Build configuration list for PBXNativeTarget "Recoco" */; buildPhases = (
-			56A457A1F6719AE3DA74EA47 /* Sources */,
-			12514B38C2998BB043C01D8D /* Frameworks */,
-			F560CA960A6B5CCF75C6BAB4 /* Resources */,
-		); buildRules = (
-		); dependencies = (
-		); name = Recoco; packageProductDependencies = (
-			DD4739CF7BDCCAE38DE32DF3 /* FirebaseAuth */,
-			551BBB385C3B0CA13B2D8227 /* FirebaseFirestore */,
-			58592F8E42CD13D441E00727 /* FirebaseFunctions */,
-			069CCC7226EE4F416553F6A6 /* FirebaseCrashlytics */,
-			F5EACBA562EBE76B73552182 /* FirebaseAnalytics */,
-			F5D262BCB5ACFDD6E68BA0B8 /* GoogleSignIn */,
-		); productName = Recoco; productReference = F225EB276641382468272892 /* Recoco.app */; productType = "com.apple.product-type.application"; };
-		CB69A7B89CA4F61C36433B6C /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {
+		95E12F406D1EA60F4942FBAE /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D888C6F8FE68A8585A8BC12 /* MainTabView.swift */; };
+		A10000000000000000000004 /* LocalActivityStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000002 /* LocalActivityStoreTests.swift */; };
+		A10000000000000000000005 /* RecordViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000003 /* RecordViewModelTests.swift */; };
+		A20000000000000000000003 /* RecocoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* RecocoUITests.swift */; };
+		A30000000000000000000002 /* NarrativeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30000000000000000000001 /* NarrativeService.swift */; };
+		A30000000000000000000004 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = A30000000000000000000003 /* FirebaseFunctions */; };
+		A4F5953E1CF47C5716A280BA /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00F49E30D22872A6F6BAD06 /* Spacing.swift */; };
+		B2F3C33211B2FF0874DF604C /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A603697F768BE31D36F8A7A /* AppRouter.swift */; };
+		BA285A3A2732C55A4F33E92C /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653BCEDC9CF9156D330172E9 /* HomeViewModel.swift */; };
+		BA698E9EFC533A83FC82F0E6 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A71EE3574BFB9D9206C25 /* Colors.swift */; };
+		C117A1B67E004A40B9E4B412 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A60E8D94E62A4F86B14F8D2A /* PrivacyInfo.xcprivacy */; };
+		C3F49C515A554FD8B741CF2A /* LocalActivityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7CA7400C164B6DA3AA22EE /* LocalActivityStore.swift */; };
+		CE01288C100B663069181611 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6CB36935EC27F2EB9FF287 /* HomeView.swift */; };
+		E709C2B4622A4E4AD9175694 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F508FEEAB65C8995B99B0D64 /* SplashView.swift */; };
+		EB2EB09B40B9826464D569E0 /* RecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B66E644ED700EA98B41630 /* RecordViewModel.swift */; };
+		ED4987CC268D0A527BDF88A3 /* RecordResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E803A652B151A773AA09F0D /* RecordResultView.swift */; };
+		F4ED7B9BA6F026FF28179A68 /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E17DD0D40CFCF65A421C7B /* DesignSystem.swift */; };
+		FF68B3E3A28E9728C0FF7D13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 487A19F9D65B67A9F422433A /* Assets.xcassets */; };
+		A40000000000000000000002 /* RBrand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40000000000000000000001 /* RBrand.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A1000000000000000000000E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FFD308F8DC433B230E5B179B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 430722F68F85E2AD452C5B75;
+			remoteInfo = Recoco;
+		};
+		A2000000000000000000000C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FFD308F8DC433B230E5B179B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 430722F68F85E2AD452C5B75;
+			remoteInfo = Recoco;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A93000000000000000000001 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		A92000000000000000000001 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A93000000000000000000033 /* is */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "is"; path = "is.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000032 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nb"; path = "nb.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000031 /* mt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "mt"; path = "mt.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000030 /* ga */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ga"; path = "ga.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000029 /* et */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "et"; path = "et.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000028 /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "lt"; path = "lt.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000027 /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "lv"; path = "lv.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000026 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "el"; path = "el.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000025 /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "hu"; path = "hu.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000024 /* sl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "sl"; path = "sl.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000023 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "hr"; path = "hr.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000022 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ro"; path = "ro.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000021 /* bg */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bg"; path = "bg.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000020 /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "sk"; path = "sk.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000019 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "cs"; path = "cs.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000018 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pl"; path = "pl.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000017 /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fi"; path = "fi.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000016 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "sv"; path = "sv.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000015 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "da"; path = "da.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000014 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nl"; path = "nl.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000013 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000012 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es"; path = "es.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000011 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "it"; path = "it.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000010 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr"; path = "fr.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000009 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "de"; path = "de.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000008 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "th"; path = "th.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000007 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi"; path = "vi.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000006 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000005 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ja"; path = "ja.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A93000000000000000000004 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en"; path = "en.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A88000000000000000000001 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		A88000000000000000000003 /* StartupSafetyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupSafetyTests.swift; sourceTree = "<group>"; };
+		AA9000000000000000030001 /* CleanupInterestPollTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanupInterestPollTests.swift; sourceTree = "<group>"; };
+		A84000000000000000000001 /* Info.Release.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.Release.plist; sourceTree = "<group>"; };
+		A84000000000000000000002 /* Recoco.Release.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Recoco.Release.entitlements; sourceTree = "<group>"; };
+		A82000000000000000000001 /* CurationBatchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurationBatchTests.swift; sourceTree = "<group>"; };
+		A81000000000000000000005 /* RecordPhotoPreservationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordPhotoPreservationTests.swift; sourceTree = "<group>"; };
+		A81000000000000000000003 /* RecordPhotoPreviewServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordPhotoPreviewServiceTests.swift; sourceTree = "<group>"; };
+		A81000000000000000000001 /* RecordPhotoPreviewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordPhotoPreviewService.swift; sourceTree = "<group>"; };
+		A71000000000000000000007 /* RecocoSubscriptions.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = RecocoSubscriptions.storekit; sourceTree = "<group>"; };
+		A71000000000000000000005 /* SubscriptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionTests.swift; sourceTree = "<group>"; };
+		A71000000000000000000003 /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription/SubscriptionView.swift; sourceTree = "<group>"; };
+		A71000000000000000000001 /* SubscriptionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionStore.swift; sourceTree = "<group>"; };
+		A50000000000000000000001 /* CurationContextPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurationContextPolicy.swift; sourceTree = "<group>"; };
+		0804EF847D94EF4DFFEBD214 /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
+		AA9000000000000000020001 /* CleanupInterestPollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanupInterestPollView.swift; sourceTree = "<group>"; };
+		1728B91BD7206E6A6360865D /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		2D888C6F8FE68A8585A8BC12 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		2DD9C755DC91BAC36052AE94 /* RButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RButton.swift; sourceTree = "<group>"; };
+		2E803A652B151A773AA09F0D /* RecordResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordResultView.swift; sourceTree = "<group>"; };
+		367A71EE3574BFB9D9206C25 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		395579961ADF49A2377A5094 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		3AEE2F44935DB2880D8788FD /* CleanupConfirmSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanupConfirmSheet.swift; sourceTree = "<group>"; };
+		3C524A2CD02F93C615491ED5 /* Recoco.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Recoco.entitlements; sourceTree = "<group>"; };
+		43DA021CB0996B3C6AA32954 /* DecisionUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecisionUnit.swift; sourceTree = "<group>"; };
+		487A19F9D65B67A9F422433A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5103A9E1563E301993CDE665 /* DecisionUnitCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecisionUnitCards.swift; sourceTree = "<group>"; };
+		653BCEDC9CF9156D330172E9 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		6F7CA7400C164B6DA3AA22EE /* LocalActivityStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalActivityStore.swift; sourceTree = "<group>"; };
+		730AD2F7965BB2BAA4D886CB /* PhotoPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPermissionView.swift; sourceTree = "<group>"; };
+		7320C168A3636F1CA32D76D6 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		732EDD40694B81447390F3B3 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		96B66E644ED700EA98B41630 /* RecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewModel.swift; sourceTree = "<group>"; };
+		9A603697F768BE31D36F8A7A /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
+		9F6CB36935EC27F2EB9FF287 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		A00F49E30D22872A6F6BAD06 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
+		A10000000000000000000001 /* RecocoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecocoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000000000000000000002 /* LocalActivityStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalActivityStoreTests.swift; sourceTree = "<group>"; };
+		A10000000000000000000003 /* RecordViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewModelTests.swift; sourceTree = "<group>"; };
+		A20000000000000000000001 /* RecocoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecocoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A20000000000000000000002 /* RecocoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecocoUITests.swift; sourceTree = "<group>"; };
+		A30000000000000000000001 /* NarrativeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NarrativeService.swift; sourceTree = "<group>"; };
+		A60E8D94E62A4F86B14F8D2A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		AE5483175CF1AAD64427CA1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B545A983E53B19DF94D87798 /* RecordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordInputView.swift; sourceTree = "<group>"; };
+		BD8CD0E39F9A5391597DF38F /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		C1134239CFAEAD3E444552B2 /* RCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCard.swift; sourceTree = "<group>"; };
+		C1FC6F0FAC9451EB82C5B57F /* RecocoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecocoApp.swift; sourceTree = "<group>"; };
+		E1F37176347CA26BB9EA5B59 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
+		E2A7E07C9B704A9885167F03 /* PhotoCurationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCurationService.swift; sourceTree = "<group>"; };
+		AA9000000000000000010001 /* CleanupInterestPoll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanupInterestPoll.swift; sourceTree = "<group>"; };
+		EB44D0F024DE0FD79195AFB0 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		F225EB276641382468272892 /* Recoco.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Recoco.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F508FEEAB65C8995B99B0D64 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		F8E17DD0D40CFCF65A421C7B /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
+		FFDA9864F5FAFCBAABA49981 /* RNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNavigation.swift; sourceTree = "<group>"; };
+		A40000000000000000000001 /* RBrand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RBrand.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		12514B38C2998BB043C01D8D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A6B2A6BA0E3C7A31D12C03A /* FirebaseAuth in Frameworks */,
+				A30000000000000000000004 /* FirebaseFunctions in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A10000000000000000000008 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A20000000000000000000006 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0009E914A8D7D85505C37963 /* Recoco */ = {
+			isa = PBXGroup;
+			children = (
+				AE5483175CF1AAD64427CA1F /* Info.plist */,
+				A84000000000000000000001 /* Info.Release.plist */,
+				A84000000000000000000002 /* Recoco.Release.entitlements */,
+				3C524A2CD02F93C615491ED5 /* Recoco.entitlements */,
+				CDAED1FF0DFC907C01D86A5C /* App */,
+				6B22C7593D48F4DC7BF1DB84 /* Core */,
+				6182A5BEC2DDBF8E132CA1C9 /* DesignSystem */,
+				F44DA5E39CBB38054F382D66 /* Features */,
+				5479B38EFEE93D06EAD11C27 /* Resources */,
+			);
+			path = Recoco;
+			sourceTree = "<group>";
+		};
+		0874AB4A48B2B487C632A798 /* Record */ = {
+			isa = PBXGroup;
+			children = (
+				B545A983E53B19DF94D87798 /* RecordInputView.swift */,
+				2E803A652B151A773AA09F0D /* RecordResultView.swift */,
+				96B66E644ED700EA98B41630 /* RecordViewModel.swift */,
+			);
+			path = Record;
+			sourceTree = "<group>";
+		};
+		0A493537558C5192C2161932 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				5103A9E1563E301993CDE665 /* DecisionUnitCards.swift */,
+				9F6CB36935EC27F2EB9FF287 /* HomeView.swift */,
+				653BCEDC9CF9156D330172E9 /* HomeViewModel.swift */,
+				2D888C6F8FE68A8585A8BC12 /* MainTabView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		1F887247C2BF57B1C60EE06C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F225EB276641382468272892 /* Recoco.app */,
+				A10000000000000000000001 /* RecocoTests.xctest */,
+				A20000000000000000000001 /* RecocoUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4325E7A3F4D3F038E84D0DEB /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				EB44D0F024DE0FD79195AFB0 /* OnboardingView.swift */,
+				732EDD40694B81447390F3B3 /* OnboardingViewModel.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		5479B38EFEE93D06EAD11C27 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CDD821D8B3CFA9BDE65E64BE /* Assets.xcassets */,
+				9FF0CAB0E746463D76D55F67 /* Fonts */,
+				A93000000000000000000001 /* Localizable.xcstrings */,
+				A92000000000000000000002 /* InfoPlist.strings */,
+				487A19F9D65B67A9F422433A /* Assets.xcassets */,
+				A60E8D94E62A4F86B14F8D2A /* PrivacyInfo.xcprivacy */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		584C368D2FD786EB3DA6E6E7 /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				0804EF847D94EF4DFFEBD214 /* ReportView.swift */,
+				AA9000000000000000020001 /* CleanupInterestPollView.swift */,
+			);
+			path = Report;
+			sourceTree = "<group>";
+		};
+		6182A5BEC2DDBF8E132CA1C9 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				9CB76DAA7DE2AE633DAEE82C /* Components */,
+				367A71EE3574BFB9D9206C25 /* Colors.swift */,
+				F8E17DD0D40CFCF65A421C7B /* DesignSystem.swift */,
+				A00F49E30D22872A6F6BAD06 /* Spacing.swift */,
+				E1F37176347CA26BB9EA5B59 /* Typography.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		6B22C7593D48F4DC7BF1DB84 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				D940F9B2FDF9746B8100D711 /* Models */,
+				81E99B6232853B22343CE4F1 /* Services */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		735BCEA8EF5E66E93A0DCB03 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				7320C168A3636F1CA32D76D6 /* AuthViewModel.swift */,
+				BD8CD0E39F9A5391597DF38F /* LoginView.swift */,
+				730AD2F7965BB2BAA4D886CB /* PhotoPermissionView.swift */,
+				F508FEEAB65C8995B99B0D64 /* SplashView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		75201C90D6651F2B2B05DDA9 /* Curation */ = {
+			isa = PBXGroup;
+			children = (
+				3AEE2F44935DB2880D8788FD /* CleanupConfirmSheet.swift */,
+			);
+			path = Curation;
+			sourceTree = "<group>";
+		};
+		7F605C02946127019723770B /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				1728B91BD7206E6A6360865D /* ProfileView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		818F2117DE63943B238FAF00 /* AppIcon.appiconset */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AppIcon.appiconset;
+			sourceTree = "<group>";
+		};
+		81E99B6232853B22343CE4F1 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A71000000000000000000001 /* SubscriptionStore.swift */,
+				E2A7E07C9B704A9885167F03 /* PhotoCurationService.swift */,
+				AA9000000000000000010001 /* CleanupInterestPoll.swift */,
+				A50000000000000000000001 /* CurationContextPolicy.swift */,
+				A81000000000000000000001 /* RecordPhotoPreviewService.swift */,
+				6F7CA7400C164B6DA3AA22EE /* LocalActivityStore.swift */,
+				A30000000000000000000001 /* NarrativeService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		8F8EEACC99A6C29A403419DA /* AccentColor.colorset */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AccentColor.colorset;
+			sourceTree = "<group>";
+		};
+		9CB76DAA7DE2AE633DAEE82C /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				2DD9C755DC91BAC36052AE94 /* RButton.swift */,
+				C1134239CFAEAD3E444552B2 /* RCard.swift */,
+				A40000000000000000000001 /* RBrand.swift */,
+				FFDA9864F5FAFCBAABA49981 /* RNavigation.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		9FF0CAB0E746463D76D55F67 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000006 /* RecocoTests */ = {
+			isa = PBXGroup;
+			children = (
+				A71000000000000000000007 /* RecocoSubscriptions.storekit */,
+				A71000000000000000000005 /* SubscriptionTests.swift */,
+				A88000000000000000000003 /* StartupSafetyTests.swift */,
+				AA9000000000000000030001 /* CleanupInterestPollTests.swift */,
+				A10000000000000000000002 /* LocalActivityStoreTests.swift */,
+				A10000000000000000000003 /* RecordViewModelTests.swift */,
+				A81000000000000000000005 /* RecordPhotoPreservationTests.swift */,
+				A82000000000000000000001 /* CurationBatchTests.swift */,
+				A81000000000000000000003 /* RecordPhotoPreviewServiceTests.swift */,
+			);
+			path = RecocoTests;
+			sourceTree = "<group>";
+		};
+		A20000000000000000000004 /* RecocoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000002 /* RecocoUITests.swift */,
+			);
+			path = RecocoUITests;
+			sourceTree = "<group>";
+		};
+		CDAED1FF0DFC907C01D86A5C /* App */ = {
+			isa = PBXGroup;
+			children = (
+				9A603697F768BE31D36F8A7A /* AppRouter.swift */,
+				C1FC6F0FAC9451EB82C5B57F /* RecocoApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		CDD821D8B3CFA9BDE65E64BE /* Assets.xcassets */ = {
+			isa = PBXGroup;
+			children = (
+				8F8EEACC99A6C29A403419DA /* AccentColor.colorset */,
+				818F2117DE63943B238FAF00 /* AppIcon.appiconset */,
+			);
+			path = Assets.xcassets;
+			sourceTree = "<group>";
+		};
+		D0F8D5311154B6F668369DB6 = {
+			isa = PBXGroup;
+			children = (
+				0009E914A8D7D85505C37963 /* Recoco */,
+				A10000000000000000000006 /* RecocoTests */,
+				A20000000000000000000004 /* RecocoUITests */,
+				395579961ADF49A2377A5094 /* Config.xcconfig */,
+				1F887247C2BF57B1C60EE06C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D940F9B2FDF9746B8100D711 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				43DA021CB0996B3C6AA32954 /* DecisionUnit.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F44DA5E39CBB38054F382D66 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				A71000000000000000000003 /* SubscriptionView.swift */,
+				735BCEA8EF5E66E93A0DCB03 /* Auth */,
+				75201C90D6651F2B2B05DDA9 /* Curation */,
+				0A493537558C5192C2161932 /* Home */,
+				4325E7A3F4D3F038E84D0DEB /* Onboarding */,
+				0874AB4A48B2B487C632A798 /* Record */,
+				584C368D2FD786EB3DA6E6E7 /* Report */,
+				7F605C02946127019723770B /* Settings */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		430722F68F85E2AD452C5B75 /* Recoco */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2B20794A9D321682F2F48F36 /* Build configuration list for PBXNativeTarget "Recoco" */;
+			buildPhases = (
+				56A457A1F6719AE3DA74EA47 /* Sources */,
+				12514B38C2998BB043C01D8D /* Frameworks */,
+				F560CA960A6B5CCF75C6BAB4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Recoco;
+			packageProductDependencies = (
+				DD4739CF7BDCCAE38DE32DF3 /* FirebaseAuth */,
+				A30000000000000000000003 /* FirebaseFunctions */,
+			);
+			productName = Recoco;
+			productReference = F225EB276641382468272892 /* Recoco.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A1000000000000000000000A /* RecocoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A1000000000000000000000D /* Build configuration list for PBXNativeTarget "RecocoTests" */;
+			buildPhases = (
+				A10000000000000000000007 /* Sources */,
+				A10000000000000000000008 /* Frameworks */,
+				A10000000000000000000009 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A1000000000000000000000F /* PBXTargetDependency */,
+			);
+			name = RecocoTests;
+			packageProductDependencies = (
+			);
+			productName = RecocoTests;
+			productReference = A10000000000000000000001 /* RecocoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A20000000000000000000008 /* RecocoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A2000000000000000000000B /* Build configuration list for PBXNativeTarget "RecocoUITests" */;
+			buildPhases = (
+				A20000000000000000000005 /* Sources */,
+				A20000000000000000000006 /* Frameworks */,
+				A20000000000000000000007 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A2000000000000000000000D /* PBXTargetDependency */,
+			);
+			name = RecocoUITests;
+			packageProductDependencies = (
+			);
+			productName = RecocoUITests;
+			productReference = A20000000000000000000001 /* RecocoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FFD308F8DC433B230E5B179B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					430722F68F85E2AD452C5B75 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					A1000000000000000000000A = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 430722F68F85E2AD452C5B75;
+					};
+					A20000000000000000000008 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 430722F68F85E2AD452C5B75;
+					};
+				};
+			};
+			buildConfigurationList = DDFB32BD67C70E09E1B5E0E9 /* Build configuration list for PBXProject "Recoco" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = ko;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				"en",
+				"ja",
+				"zh-Hant",
+				"vi",
+				"th",
+				"de",
+				"fr",
+				"it",
+				"es",
+				"pt-PT",
+				"nl",
+				"da",
+				"sv",
+				"fi",
+				"pl",
+				"cs",
+				"sk",
+				"bg",
+				"ro",
+				"hr",
+				"sl",
+				"hu",
+				"el",
+				"lv",
+				"lt",
+				"et",
+				"ga",
+				"mt",
+				"nb",
+				"is",
+				ko,
+				Base,
+			);
+			mainGroup = D0F8D5311154B6F668369DB6;
+			packageReferences = (
+				F6CFB2F91DB4E1B2C3A8AFC8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
+			productRefGroup = 1F887247C2BF57B1C60EE06C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				430722F68F85E2AD452C5B75 /* Recoco */,
+				A1000000000000000000000A /* RecocoTests */,
+				A20000000000000000000008 /* RecocoUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A10000000000000000000009 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A71000000000000000000008 /* RecocoSubscriptions.storekit in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A20000000000000000000007 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F560CA960A6B5CCF75C6BAB4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A88000000000000000000002 /* GoogleService-Info.plist in Resources */,
+				A93000000000000000000002 /* Localizable.xcstrings in Resources */,
+				A92000000000000000000003 /* InfoPlist.strings in Resources */,
+				FF68B3E3A28E9728C0FF7D13 /* Assets.xcassets in Resources */,
+				C117A1B67E004A40B9E4B412 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A92000000000000000000002 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A93000000000000000000004 /* en */,
+				A93000000000000000000005 /* ja */,
+				A93000000000000000000006 /* zh-Hant */,
+				A93000000000000000000007 /* vi */,
+				A93000000000000000000008 /* th */,
+				A93000000000000000000009 /* de */,
+				A93000000000000000000010 /* fr */,
+				A93000000000000000000011 /* it */,
+				A93000000000000000000012 /* es */,
+				A93000000000000000000013 /* pt-PT */,
+				A93000000000000000000014 /* nl */,
+				A93000000000000000000015 /* da */,
+				A93000000000000000000016 /* sv */,
+				A93000000000000000000017 /* fi */,
+				A93000000000000000000018 /* pl */,
+				A93000000000000000000019 /* cs */,
+				A93000000000000000000020 /* sk */,
+				A93000000000000000000021 /* bg */,
+				A93000000000000000000022 /* ro */,
+				A93000000000000000000023 /* hr */,
+				A93000000000000000000024 /* sl */,
+				A93000000000000000000025 /* hu */,
+				A93000000000000000000026 /* el */,
+				A93000000000000000000027 /* lv */,
+				A93000000000000000000028 /* lt */,
+				A93000000000000000000029 /* et */,
+				A93000000000000000000030 /* ga */,
+				A93000000000000000000031 /* mt */,
+				A93000000000000000000032 /* nb */,
+				A93000000000000000000033 /* is */,
+				A92000000000000000000001 /* ko */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin PBXSourcesBuildPhase section */
+		56A457A1F6719AE3DA74EA47 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A71000000000000000000004 /* SubscriptionView.swift in Sources */,
+				A71000000000000000000002 /* SubscriptionStore.swift in Sources */,
+				B2F3C33211B2FF0874DF604C /* AppRouter.swift in Sources */,
+				18A88E251EBB98ACBEAF616B /* RecocoApp.swift in Sources */,
+				471D5BDEC67EB7E6A5E68629 /* DecisionUnit.swift in Sources */,
+				871CC82BA8CB4AE28458B9CC /* PhotoCurationService.swift in Sources */,
+				AA9000000000000000010002 /* CleanupInterestPoll.swift in Sources */,
+				A50000000000000000000002 /* CurationContextPolicy.swift in Sources */,
+				A81000000000000000000002 /* RecordPhotoPreviewService.swift in Sources */,
+				C3F49C515A554FD8B741CF2A /* LocalActivityStore.swift in Sources */,
+				A30000000000000000000002 /* NarrativeService.swift in Sources */,
+				BA698E9EFC533A83FC82F0E6 /* Colors.swift in Sources */,
+				328A49BB6F36E232B6B6A424 /* RButton.swift in Sources */,
+				2EA95D78DE2E888925575FFD /* RCard.swift in Sources */,
+				A40000000000000000000002 /* RBrand.swift in Sources */,
+				2085302921445D55613BF1EE /* RNavigation.swift in Sources */,
+				F4ED7B9BA6F026FF28179A68 /* DesignSystem.swift in Sources */,
+				A4F5953E1CF47C5716A280BA /* Spacing.swift in Sources */,
+				2318006388B2E801C9CD5ACF /* Typography.swift in Sources */,
+				1577FAC98E40B54B3D373102 /* AuthViewModel.swift in Sources */,
+				63406CA6132399561C3E83E0 /* LoginView.swift in Sources */,
+				3C4CA2F956E216AACC147816 /* PhotoPermissionView.swift in Sources */,
+				E709C2B4622A4E4AD9175694 /* SplashView.swift in Sources */,
+				827A59037729BB31CBE760F3 /* CleanupConfirmSheet.swift in Sources */,
+				5DAA7D7678FED25D50E5CCC0 /* DecisionUnitCards.swift in Sources */,
+				CE01288C100B663069181611 /* HomeView.swift in Sources */,
+				BA285A3A2732C55A4F33E92C /* HomeViewModel.swift in Sources */,
+				95E12F406D1EA60F4942FBAE /* MainTabView.swift in Sources */,
+				34214045AB147BC85973E041 /* OnboardingView.swift in Sources */,
+				3DA336DDAB64C56B54795D75 /* OnboardingViewModel.swift in Sources */,
+				283539814EB24B824E33B637 /* RecordInputView.swift in Sources */,
+				ED4987CC268D0A527BDF88A3 /* RecordResultView.swift in Sources */,
+				EB2EB09B40B9826464D569E0 /* RecordViewModel.swift in Sources */,
+				364A9CA1EA26E35FF6BDC340 /* ReportView.swift in Sources */,
+				AA9000000000000000020002 /* CleanupInterestPollView.swift in Sources */,
+				3520CC3A6407D5C26CB4E9D2 /* ProfileView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A10000000000000000000007 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A71000000000000000000006 /* SubscriptionTests.swift in Sources */,
+				A88000000000000000000004 /* StartupSafetyTests.swift in Sources */,
+				AA9000000000000000030002 /* CleanupInterestPollTests.swift in Sources */,
+				A10000000000000000000004 /* LocalActivityStoreTests.swift in Sources */,
+				A10000000000000000000005 /* RecordViewModelTests.swift in Sources */,
+				A81000000000000000000006 /* RecordPhotoPreservationTests.swift in Sources */,
+				A82000000000000000000002 /* CurationBatchTests.swift in Sources */,
+				A81000000000000000000004 /* RecordPhotoPreviewServiceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A20000000000000000000005 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A20000000000000000000003 /* RecocoUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A1000000000000000000000F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 430722F68F85E2AD452C5B75 /* Recoco */;
+			targetProxy = A1000000000000000000000E /* PBXContainerItemProxy */;
+		};
+		A2000000000000000000000D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 430722F68F85E2AD452C5B75 /* Recoco */;
+			targetProxy = A2000000000000000000000C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0D9ED828D6CDCDF063812021 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 395579961ADF49A2377A5094 /* Config.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Recoco/Recoco.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Recoco/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Recoco;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.recoco.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		A1000000000000000000000B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.recoco.iosTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Recoco.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Recoco";
+			};
+			name = Debug;
+		};
+		A1000000000000000000000C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.recoco.iosTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Recoco.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Recoco";
+			};
+			name = Release;
+		};
+		A20000000000000000000009 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.recoco.iosUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = Recoco;
+			};
+			name = Debug;
+		};
+		A2000000000000000000000A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.recoco.iosUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = Recoco;
+			};
+			name = Release;
+		};
+		CB69A7B89CA4F61C36433B6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = gnu++20;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -264,7 +881,10 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = \"DEBUG=1 $(inherited)\";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -276,14 +896,18 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = \"-Onone\";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-			}; name = Debug; };
-		F03119882A7EA4DBBF77FBE1 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {
+			};
+			name = Debug;
+		};
+		F03119882A7EA4DBBF77FBE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = gnu++20;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -310,7 +934,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = \"dwarf-with-dsym\";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
@@ -327,63 +951,102 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
-			}; name = Release; };
-		0D9ED828D6CDCDF063812021 /* Debug */ = {isa = XCBuildConfiguration; baseConfigurationReference = 395579961ADF49A2377A5094 /* Config.xcconfig */; buildSettings = {
+			};
+			name = Release;
+		};
+		F203A72F2BB0254B783A1B1A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Recoco/Recoco.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Recoco/Recoco.Release.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "Recoco/Preview Content";
+				CURRENT_PROJECT_VERSION = 99;
+				DEVELOPMENT_TEAM = JKT7S3ARZ5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = Recoco/Info.plist;
+				INFOPLIST_FILE = Recoco/Info.Release.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Recoco;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.recoco.ios;
-				PRODUCT_NAME = $(TARGET_NAME);
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
-			}; name = Debug; };
-		F203A72F2BB0254B783A1B1A /* Release */ = {isa = XCBuildConfiguration; baseConfigurationReference = 395579961ADF49A2377A5094 /* Config.xcconfig */; buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Recoco/Recoco.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "Recoco/Preview Content";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = Recoco/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Recoco;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = app.recoco.ios;
-				PRODUCT_NAME = $(TARGET_NAME);
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-			}; name = Release; };
-		DDFB32BD67C70E09E1B5E0E9 /* Build configuration list for PBXProject "Recoco" */ = {isa = XCConfigurationList; buildConfigurations = (
-			CB69A7B89CA4F61C36433B6C /* Debug */,
-			F03119882A7EA4DBBF77FBE1 /* Release */,
-		); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
-		2B20794A9D321682F2F48F36 /* Build configuration list for PBXNativeTarget "Recoco" */ = {isa = XCConfigurationList; buildConfigurations = (
-			0D9ED828D6CDCDF063812021 /* Debug */,
-			F203A72F2BB0254B783A1B1A /* Release */,
-		); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
-		FFD308F8DC433B230E5B179B /* Project object */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = YES; LastSwiftUpdateCheck = 1600; LastUpgradeCheck = 1600; TargetAttributes = {430722F68F85E2AD452C5B75 = {CreatedOnToolsVersion = 16.0; }; }; }; buildConfigurationList = DDFB32BD67C70E09E1B5E0E9 /* Build configuration list for PBXProject "Recoco" */; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base); mainGroup = D0F8D5311154B6F668369DB6; packageReferences = (
-			F6CFB2F91DB4E1B2C3A8AFC8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-			7C38C9CC20DEFA7395CF4B39 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
-		); productRefGroup = 1F887247C2BF57B1C60EE06C /* Products */; projectDirPath = ""; projectRoot = ""; targets = (
-			430722F68F85E2AD452C5B75 /* Recoco */,
-		); };
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2B20794A9D321682F2F48F36 /* Build configuration list for PBXNativeTarget "Recoco" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0D9ED828D6CDCDF063812021 /* Debug */,
+				F203A72F2BB0254B783A1B1A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A1000000000000000000000D /* Build configuration list for PBXNativeTarget "RecocoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1000000000000000000000B /* Debug */,
+				A1000000000000000000000C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A2000000000000000000000B /* Build configuration list for PBXNativeTarget "RecocoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A20000000000000000000009 /* Debug */,
+				A2000000000000000000000A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DDFB32BD67C70E09E1B5E0E9 /* Build configuration list for PBXProject "Recoco" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CB69A7B89CA4F61C36433B6C /* Debug */,
+				F03119882A7EA4DBBF77FBE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F6CFB2F91DB4E1B2C3A8AFC8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A30000000000000000000003 /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F6CFB2F91DB4E1B2C3A8AFC8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
+		};
+		DD4739CF7BDCCAE38DE32DF3 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F6CFB2F91DB4E1B2C3A8AFC8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FFD308F8DC433B230E5B179B /* Project object */;
 }

@@ -4,7 +4,7 @@ import SwiftUI
 // 앱 전체 라우팅 상태 관리
 // S-01(스플래시) 이후 분기 기준
 
-enum AppRoute {
+enum AppRoute: Equatable {
     case splash
     case onboarding
     case login
@@ -14,24 +14,31 @@ enum AppRoute {
 
 @MainActor
 final class AppRouter: ObservableObject {
-    @Published var route: AppRoute = .splash
+    @Published var route: AppRoute
+
+    init(route: AppRoute = .splash) {
+        self.route = route
+    }
 
     // MARK: 상태 전이 메서드
 
     func resolveInitialRoute(
         isLoggedIn: Bool,
         hasCompletedOnboarding: Bool,
-        photoAuthStatus: PhotoAuthStatus
+        photoAuthStatus: PhotoAuthStatus,
+        hasLocalSession: Bool = false
     ) {
         if !hasCompletedOnboarding {
             route = .onboarding
             return
         }
-        if !isLoggedIn {
+        if !isLoggedIn && !hasLocalSession {
             route = .login
             return
         }
-        if photoAuthStatus == .notDetermined || photoAuthStatus == .denied {
+        // The system prompt is useful only before a choice has been made. A denied
+        // user must reach Home, where Settings is the only actionable recovery path.
+        if photoAuthStatus == .notDetermined {
             route = .photoPermission
             return
         }

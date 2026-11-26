@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 // MARK: - recoco Design System: Cards & Badges
 // 명세서 §11.3 기반
@@ -6,7 +7,8 @@ import SwiftUI
 // MARK: - 기본 카드 컨테이너
 
 struct RCard<Content: View>: View {
-    var padding: CGFloat = RSpacing.md
+    var padding: CGFloat = RLayout.cardInset
+    var showsBorder: Bool = true
     @ViewBuilder let content: () -> Content
 
     var body: some View {
@@ -14,6 +16,7 @@ struct RCard<Content: View>: View {
             .padding(padding)
             .background(Color.rSurface)
             .cornerRadius(RRadius.lg)
+            .overlay(RoundedRectangle(cornerRadius: RRadius.lg).strokeBorder(showsBorder ? Color.rBorder : .clear, lineWidth: 1))
     }
 }
 
@@ -55,6 +58,7 @@ struct RBadge: View {
 // MARK: - 프로그레스 바
 
 struct RProgressBar: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     /// 0.0 ~ 1.0
     let progress: Double
     var animated: Bool = true
@@ -74,7 +78,7 @@ struct RProgressBar: View {
                         width: geo.size.width * min(max(progress, 0), 1),
                         height: RSize.progressBarHeight
                     )
-                    .animation(animated ? .easeInOut(duration: 0.4) : nil, value: progress)
+                    .animation(animated && !reduceMotion ? RMotion.transition : nil, value: progress)
             }
         }
         .frame(height: RSize.progressBarHeight)
@@ -115,31 +119,42 @@ struct RToastModifier: ViewModifier {
     @Binding var isPresented: Bool
     let message: String
     var duration: Double = 2.0
+    var alignment: Alignment = .bottom
+    var inset: CGFloat = RSpacing.xxxl
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     func body(content: Content) -> some View {
-        ZStack(alignment: .bottom) {
+        ZStack(alignment: alignment) {
             content
 
             if isPresented {
                 RToast(message: message)
-                    .padding(.bottom, RSpacing.xxxl)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
-                            withAnimation(.easeOut(duration: 0.3)) {
-                                isPresented = false
-                            }
-                        }
-                    }
+                    .padding(alignment == .top ? .top : .bottom, inset)
+                    .padding(.horizontal, RLayout.screenInset)
+                    .transition(.opacity)
+                    .accessibilityElement(children: .combine)
+                    .allowsHitTesting(false)
             }
         }
-        .animation(.spring(response: 0.4), value: isPresented)
+        .animation(reduceMotion ? nil : RMotion.feedback, value: isPresented)
+        .task(id: isPresented ? message : nil) {
+            guard isPresented else { return }
+            UIAccessibility.post(notification: .announcement, argument: message)
+            let visibleDuration = UIAccessibility.isVoiceOverRunning ? max(duration, 5) : duration
+            do {
+                try await Task.sleep(for: .seconds(visibleDuration))
+                guard !Task.isCancelled else { return }
+                isPresented = false
+            } catch { /* A newer message or a dismissed view cancels this timer. */ }
+        }
     }
 }
 
 extension View {
-    func rToast(isPresented: Binding<Bool>, message: String, duration: Double = 2.0) -> some View {
-        modifier(RToastModifier(isPresented: isPresented, message: message, duration: duration))
+    func rToast(isPresented: Binding<Bool>, message: String, duration: Double = 2.0,
+                alignment: Alignment = .bottom, inset: CGFloat = RSpacing.xxxl) -> some View {
+        modifier(RToastModifier(isPresented: isPresented, message: message, duration: duration,
+                               alignment: alignment, inset: inset))
     }
 }
 
@@ -150,18 +165,22 @@ struct RTextField: View {
     @Binding var text: String
     var axis: Axis = .horizontal
     var minLines: Int = 1
+    @FocusState private var isFocused: Bool
 
     var body: some View {
         TextField(placeholder, text: $text, axis: axis)
+            .focused($isFocused)
+            .lineLimit(axis == .vertical ? minLines...max(minLines, 6) : 1...1)
+            .accessibilityLabel(placeholder)
             .rTextStyle(.body, color: .rTextPrimary)
             .padding(RSpacing.md)
             .background(Color.rSurface)
             .cornerRadius(RRadius.md)
             .overlay(
                 RoundedRectangle(cornerRadius: RRadius.md)
-                    .strokeBorder(Color.rBorder, lineWidth: 1)
+                    .strokeBorder(isFocused ? Color.rAccent : Color.rBorder, lineWidth: isFocused ? 2 : 1)
             )
-            .tint(.rTextPrimary)
+            .tint(.rAccent)
     }
 }
 
@@ -170,11 +189,14 @@ struct RTextField: View {
 struct REmptyState: View {
     let title: String
     let message: String
+    var pose: RSealIllustration.Pose = .neutral
     var actionTitle: String? = nil
     var action: (() -> Void)? = nil
 
     var body: some View {
         VStack(spacing: RSpacing.md) {
+            RSealIllustration(pose: pose, width: RCharacterSize.state)
+
             Text(title)
                 .rTextStyle(.headline)
                 .multilineTextAlignment(.center)
@@ -241,3 +263,26 @@ struct REmptyState: View {
     .background(Color.rBackground)
 }
 #endif
+
+// Shared media and feedback surfaces; copy remains selectable and scales with Dynamic Type.
+extension View {
+    func rPhotoPreview(height: CGFloat = RSize.photoPreview) -> some View {
+        frame(maxWidth: .infinity)
+            .frame(height: height)
+            .background(Color.rSurface)
+            .clipShape(RoundedRectangle(cornerRadius: RRadius.photo))
+    }
+}
+
+struct RInlineFeedback: View {
+    enum Tone { case information, error, success }
+    let message: String
+    var tone: Tone = .information
+    var body: some View {
+        Label(message, systemImage: tone == .error ? "exclamationmark.circle" : tone == .success ? "checkmark.circle" : "info.circle")
+            .rTextStyle(.subLabel, color: tone == .error ? .rDestructive : .rTextSecondary)
+            .fixedSize(horizontal: false, vertical: true)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .accessibilityElement(children: .combine)
+    }
+}

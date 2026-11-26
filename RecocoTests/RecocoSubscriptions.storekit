@@ -1,0 +1,58 @@
+{
+  "identifier": "AC865046-4EA4-41B5-AC20-9C2C2CCAB777",
+  "nonRenewingSubscriptions": [],
+  "products": [],
+  "settings": {
+    "_applicationInternalID": "",
+    "_developerTeamID": "",
+    "_failTransactionsEnabled": false,
+    "_locale": "ko_KR",
+    "_storefront": "KOR",
+    "_storeKitErrors": []
+  },
+  "subscriptionGroups": [
+    {
+      "id": "REC0C0001",
+      "localizations": [
+        {
+          "description": "새로운 사진을 함께 살펴보세요.",
+          "displayName": "리코코",
+          "locale": "ko_KR"
+        }
+      ],
+      "name": "Recoco Premium",
+      "subscriptions": [
+        {
+          "adHocOffers": [],
+          "codeOffers": [],
+          "displayPrice": "4900",
+          "familyShareable": false,
+          "groupNumber": 1,
+          "internalID": "REC0C0002",
+          "introductoryOffer": {
+            "internalID": "REC0C0003",
+            "numberOfPeriods": 1,
+            "paymentMode": "free",
+            "subscriptionPeriod": "P1W"
+          },
+          "localizations": [
+            {
+              "description": "첫 7일 무료, 이후 월 4,900원.",
+              "displayName": "리코코 월 구독",
+              "locale": "ko_KR"
+            }
+          ],
+          "productID": "app.recoco.ios.premium.monthly",
+          "recurringSubscriptionPeriod": "P1M",
+          "referenceName": "Recoco Monthly",
+          "subscriptionGroupID": "REC0C0001",
+          "type": "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version": {
+    "major": 3,
+    "minor": 0
+  }
+}

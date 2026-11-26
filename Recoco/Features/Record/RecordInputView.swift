@@ -8,15 +8,26 @@ import SwiftUI
 // - Keep과 Record는 별개 (강제 진입 없음)
 
 struct RecordInputView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @StateObject private var vm: RecordViewModel
     @Environment(\.dismiss) private var dismiss
 
+    private let selectedImage: UIImage?
+    private let onOpenRecords: (() -> Void)?
+    private let returnsAfterSave: Bool
     @State private var showResult: Bool = false
     @FocusState private var isMeaningFocused: Bool
 
-    init(unit: DecisionUnit, onCompleted: @escaping () -> Void) {
+    init(unit: DecisionUnit, selectedImage: UIImage? = nil,
+         onOpenRecords: (() -> Void)? = nil,
+         returnsAfterSave: Bool = false,
+         onCompleted: @escaping (SavedMemoryRecord) -> Void) {
+        self.selectedImage = selectedImage
+        self.onOpenRecords = onOpenRecords
+        self.returnsAfterSave = returnsAfterSave
         _vm = StateObject(wrappedValue: RecordViewModel(
             unit: unit,
+            selectedImage: selectedImage,
             onCompleted: onCompleted
         ))
     }
@@ -28,13 +39,15 @@ struct RecordInputView: View {
             VStack(spacing: 0) {
                 // 네비게이션
                 RNavigationBar(
-                    title: "기록하기",
+                    title: String(localized: "기록하기"),
                     leadingAction: {
                         // 뒤로가기: 초안 유지 (자동 저장됨)
+                        guard !vm.isSaving else { return }
+                        vm.cancelPendingWork()
                         dismiss()
                     }
                 )
-                .padding(.horizontal, RSpacing.xs)
+                .disabled(vm.isSaving)
 
                 RDivider()
 
@@ -49,23 +62,36 @@ struct RecordInputView: View {
                         // 액션 버튼
                         actionButtons
                     }
-                    .padding(RSpacing.md)
-                    .padding(.bottom, RSpacing.xxxl)
+                    .rScreenPadding()
                 }
+                .scrollDismissesKeyboard(.interactively)
+            }
+        }
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("완료") { isMeaningFocused = false }
             }
         }
         .rToast(isPresented: $vm.showToast, message: vm.toastMessage)
-        // S-08: 생성 성공 시 결과 화면으로
-        .fullScreenCover(isPresented: $showResult) {
-            RecordResultView(vm: vm) {
-                showResult = false
-                dismiss()
-            }
+        .interactiveDismissDisabled(vm.isSaving)
+        .onDisappear {
+            if !showResult { vm.cancelPendingWork() }
         }
-        .onChange(of: vm.generationState) { state in
-            if case .success = state {
-                showResult = true
-            }
+        // S-08: 생성 성공 시 결과 화면으로
+        .fullScreenCover(isPresented: $showResult, onDismiss: {
+            // Finish the nested presentation before dismissing this input.
+            // The parent handles any requested library route after its cover closes.
+            if vm.isSaved { dismiss() }
+        }) {
+            RecordResultView(vm: vm, onDismiss: {
+                showResult = false
+            }, onOpenRecords: onOpenRecords, returnsAfterSave: returnsAfterSave)
+        }
+        .task {
+            async let metadata: Void = vm.loadPhotoMetadata()
+            async let preview: Void = vm.loadPhotoPreview()
+            _ = await (metadata, preview)
         }
     }
 
@@ -73,21 +99,24 @@ struct RecordInputView: View {
 
     private var selectedPhotoSection: some View {
         VStack(alignment: .leading, spacing: RSpacing.xs) {
-            Text("SELECTED MOMENT")
+            Text("선택한 사진")
                 .rTextStyle(.caption, color: .rTextTertiary)
-                .tracking(1)
 
-            PHAssetImageView(
-                localIdentifier: vm.unit.displayIdentifier ?? "",
-                targetSize: CGSize(width: 400, height: 300)
-            )
-            .frame(maxWidth: .infinity)
-            .frame(height: 220)
-            .clipShape(RoundedRectangle(cornerRadius: RRadius.lg))
-            .overlay(
-                RoundedRectangle(cornerRadius: RRadius.lg)
-                    .strokeBorder(Color.rBorder, lineWidth: 0.5)
-            )
+            Group {
+                if let selectedImage {
+                    Image(uiImage: selectedImage).resizable().scaledToFit()
+                } else {
+                    PHAssetImageView(localIdentifier: vm.unit.displayIdentifier ?? "", targetSize: CGSize(width: 400, height: 300), scalesToFit: true,
+                                     fallbackImage: vm.draft.photoThumbnailData.flatMap { UIImage(data: $0) })
+                }
+            }
+            .rPhotoPreview()
+
+            if let locationHint = vm.photoLocationHint {
+                Label("장소 단서 · \(locationHint) 근처", systemImage: "mappin.and.ellipse")
+                    .rTextStyle(.caption, color: .rTextTertiary)
+                    .accessibilityLabel("촬영 장소 추정, \(locationHint) 근처")
+            }
         }
     }
 
@@ -95,14 +124,23 @@ struct RecordInputView: View {
 
     private var meaningSection: some View {
         VStack(alignment: .leading, spacing: RSpacing.sm) {
-            Text("MEANING")
-                .rTextStyle(.caption, color: .rTextTertiary)
-                .tracking(1)
+            HStack {
+                Text("나의 한 줄")
+                    .rTextStyle(.caption, color: .rTextTertiary)
+                    Spacer()
+                if isGenerating {
+                    RLoadingIndicator(size: RCharacterSize.companion * 0.75)
+                        .frame(width: RCharacterSize.companion)
+                        .accessibilityHidden(true)
+                } else {
+                    RSealIllustration(pose: .writing, width: RCharacterSize.companion)
+                }
+            }
 
             ZStack(alignment: .topLeading) {
                 // placeholder
                 if vm.draft.meaning.isEmpty {
-                    Text("이 순간은 당신에게 어떤 의미인가요?")
+                    Text("이 사진에서 기억하고 싶은 순간이 있나요?")
                         .rTextStyle(.body, color: .rTextTertiary)
                         .padding(RSpacing.md)
                         .allowsHitTesting(false)
@@ -115,86 +153,75 @@ struct RecordInputView: View {
                 .rTextStyle(.body, color: .rTextPrimary)
                 .scrollContentBackground(.hidden)
                 .padding(RSpacing.sm)
-                .frame(minHeight: 100)
+                .frame(minHeight: RSize.inputMinHeight)
                 .focused($isMeaningFocused)
+                .accessibilityLabel("나의 한 줄")
             }
             .background(Color.rSurface)
             .cornerRadius(RRadius.md)
             .overlay(
                 RoundedRectangle(cornerRadius: RRadius.md)
                     .strokeBorder(
-                        isMeaningFocused ? Color.rTextPrimary : Color.rBorder,
+                        isMeaningFocused ? Color.rAccent : Color.rBorder,
                         lineWidth: isMeaningFocused ? 1.5 : 1
                     )
             )
-            .animation(.easeInOut(duration: 0.15), value: isMeaningFocused)
+            .animation(reduceMotion ? nil : RMotion.feedback, value: isMeaningFocused)
 
-            Text("길게 쓰지 않아도 괜찮아요.")
-                .rTextStyle(.caption, color: .rTextTertiary)
         }
     }
 
     // MARK: - 액션 버튼
 
-    private var actionButtons: some View {
-        VStack(spacing: RSpacing.sm) {
-            let isGenerating = {
-                if case .generating = vm.generationState { return true }
-                return false
-            }()
+    private var isGenerating: Bool {
+        if case .generating = vm.generationState { return true }
+        return false
+    }
 
-            RButton(
-                title: isGenerating ? "기억을 분석하는 중..." : "기록 만들기",
-                variant: .primary,
-                isLoading: isGenerating,
-                isDisabled: vm.draft.meaning.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            ) {
-                isMeaningFocused = false
-                Task { await vm.generateNarrative() }
-            }
-
-            // 실패 상태 안내
-            if case .failed = vm.generationState {
-                HStack(spacing: RSpacing.xs) {
-                    Image(systemName: "exclamationmark.circle")
-                        .font(.system(size: 13))
-                        .foregroundColor(.rDestructive)
-                    Text("기록을 만들지 못했어요.")
-                        .rTextStyle(.caption, color: .rDestructive)
-                    Spacer()
-                    Button("다시 시도") {
-                        Task { await vm.retryGeneration() }
-                    }
-                    .rTextStyle(.caption, color: .rTextPrimary)
-                }
-                .padding(.horizontal, RSpacing.xs)
-            }
-
-            // 오프라인 상태 안내
-            if case .pendingOffline = vm.generationState {
-                HStack(spacing: RSpacing.xs) {
-                    Image(systemName: "wifi.slash")
-                        .font(.system(size: 13))
-                        .foregroundColor(.rTextTertiary)
-                    Text("인터넷 연결 후 기록을 만들 수 있어요.")
-                        .rTextStyle(.caption, color: .rTextTertiary)
-                }
-                .padding(.horizontal, RSpacing.xs)
-            }
-
-            Button("나중에 할게요") {
-                dismiss()
-            }
-            .rTextStyle(.subLabel, color: .rTextTertiary)
-            .frame(minHeight: RSize.minTouchTarget)
+    private var needsRetry: Bool {
+        switch vm.generationState {
+        case .failed, .pendingOffline: return true
+        default: return false
         }
     }
+
+    private var actionButtons: some View {
+        VStack(spacing: RSpacing.sm) {
+            if vm.draft.hasMeaningChangesAfterEditing == true {
+                Text("미리보기에서 수정한 글은 그대로예요. 이어서 다듬을 수 있어요.")
+                    .rTextStyle(.caption, color: .rTextSecondary)
+                    .accessibilityIdentifier("record.editedPreviewPreserved")
+            }
+            if case .failed = vm.generationState {
+                RInlineFeedback(message: String(localized: "기록을 만들지 못했어요. 적어둔 글은 그대로예요."), tone: .error)
+            }
+            if case .pendingOffline = vm.generationState {
+                RInlineFeedback(message: String(localized: "인터넷 연결을 확인한 뒤 다시 시도해주세요."))
+            }
+            RButton(
+                title: isGenerating ? String(localized: "기록을 준비하고 있어요") : needsRetry ? String(localized: "다시 시도하기") : String(localized: "기록 미리보기"),
+                variant: .primary,
+                isLoading: isGenerating,
+                isDisabled: !vm.canOpenPreview
+            ) {
+                isMeaningFocused = false
+                Task {
+                    if needsRetry { await vm.retryGeneration() }
+                    else { await vm.generateNarrative() }
+                    // Existing edited previews may keep the same success state.
+                    // Opening them must not depend on a new state transition.
+                    if case .success = vm.generationState { showResult = true }
+                }
+            }
+        }
+    }
+
 }
 
 // MARK: - Preview
 
 #if DEBUG
 #Preview {
-    RecordInputView(unit: .mockRecall) {}
+    RecordInputView(unit: .mockRecall) { _ in }
 }
 #endif

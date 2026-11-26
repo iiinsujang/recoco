@@ -7,86 +7,149 @@ import UIKit
 // MARK: - Button Style 열거
 
 enum RButtonVariant {
-    case primary      // #1A1A1A 배경, #FFFFFF 텍스트
-    case secondary    // #F7F7F5 배경, #E3E2DE 테두리, #1A1A1A 텍스트
-    case destructive  // #EB5757 배경, #FFFFFF 텍스트
-    case ghost        // 배경 없음, #1A1A1A 텍스트
+    case primary      // rAccent 배경, rAccentText 텍스트
+    case secondary    // rSurface 배경, rBorder 테두리, rTextPrimary 텍스트
+    case destructive  // rDestructive 배경, rAccentText 텍스트
+    case ghost        // 배경 없음, rTextPrimary 텍스트
 }
 
 // MARK: - RButton
 
+enum RButtonSize {
+    case regular, compact
+
+    var height: CGFloat { self == .regular ? RSize.buttonHeight : RSize.minTouchTarget }
+    var radius: CGFloat { self == .regular ? RRadius.md : RRadius.compact }
+    var font: Font { self == .regular ? .rButton : .rSubLabel.weight(.semibold) }
+}
+
+struct RPressFeedbackStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label.opacity(configuration.isPressed ? 0.72 : 1)
+    }
+}
+
 struct RButton: View {
     let title: String
     let variant: RButtonVariant
+    var size: RButtonSize = .regular
     var isLoading: Bool = false
     var isDisabled: Bool = false
+    var font: Font? = nil
+    var cornerRadius: CGFloat? = nil
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
-            ZStack {
+            HStack(spacing: RSpacing.xs) {
                 if isLoading {
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                        .tint(foregroundColor)
-                        .scaleEffect(0.8)
-                } else {
-                    Text(title)
-                        .rTextStyle(.subLabel, color: foregroundColor)
-                        .fontWeight(.medium)
+                    RLoadingIndicator(style: .compact, size: 20,
+                                      tint: variant == .primary || variant == .destructive ? .rAccentText : .rAccent)
+                        .accessibilityHidden(true)
                 }
+                Text(title)
             }
-            .frame(maxWidth: .infinity)
-            .frame(height: RSize.buttonHeight)
-            .background(backgroundColor)
-            .cornerRadius(RRadius.md)
-            .overlay(
-                RoundedRectangle(cornerRadius: RRadius.md)
-                    .strokeBorder(borderColor, lineWidth: borderWidth)
-            )
+            .rButtonSurface(variant, size: size, font: font, cornerRadius: cornerRadius)
         }
+        .buttonStyle(RPressFeedbackStyle())
+        .accessibilityLabel(title)
+        .accessibilityValue(isLoading ? String(localized: "처리 중") : "")
         .disabled(isDisabled || isLoading)
         .opacity((isDisabled && !isLoading) ? 0.4 : 1.0)
         // 접근성: 최소 터치 영역 보장
         .contentShape(Rectangle())
     }
 
-    // MARK: 색상 계산
+}
+
+/// Buttons and ShareLink share one surface, including multiline and loading geometry.
+private struct RButtonSurface: ViewModifier {
+    let variant: RButtonVariant
+    let size: RButtonSize
+    var font: Font? = nil
+    var cornerRadius: CGFloat? = nil
+
+    func body(content: Content) -> some View {
+        content
+            .font(font ?? size.font)
+            .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
+            .foregroundColor(variant == .primary || variant == .destructive ? .rAccentText : (variant == .ghost ? .rTextSecondary : .rTextPrimary))
+            .padding(.horizontal, RLayout.cardInset)
+            .padding(.vertical, RSpacing.sm)
+            .frame(maxWidth: .infinity, minHeight: size.height)
+            .background(backgroundColor, in: RoundedRectangle(cornerRadius: cornerRadius ?? size.radius))
+            .overlay(RoundedRectangle(cornerRadius: cornerRadius ?? size.radius)
+                .strokeBorder(variant == .secondary ? Color.rBorder : .clear, lineWidth: 1))
+            .contentShape(RoundedRectangle(cornerRadius: cornerRadius ?? size.radius))
+    }
 
     private var backgroundColor: Color {
         switch variant {
-        case .primary:     return .rAccent
-        case .secondary:   return .rSurface
+        case .primary: return .rAccent
+        case .secondary: return .rSurface
         case .destructive: return .rDestructive
-        case .ghost:       return .clear
-        }
-    }
-
-    private var foregroundColor: Color {
-        switch variant {
-        case .primary:     return .rAccentText
-        case .secondary:   return .rTextPrimary
-        case .destructive: return .rAccentText
-        case .ghost:       return .rTextPrimary
-        }
-    }
-
-    private var borderColor: Color {
-        switch variant {
-        case .secondary: return .rBorder
-        default:         return .clear
-        }
-    }
-
-    private var borderWidth: CGFloat {
-        switch variant {
-        case .secondary: return 1
-        default:         return 0
+        case .ghost: return .clear
         }
     }
 }
 
-// MARK: - Dark 배경 전용 버튼 (S-01, S-02, S-03)
+extension View {
+    func rButtonSurface(_ variant: RButtonVariant, size: RButtonSize = .regular,
+                        font: Font? = nil, cornerRadius: CGFloat? = nil) -> some View {
+        modifier(RButtonSurface(variant: variant, size: size, font: font, cornerRadius: cornerRadius))
+    }
+}
+
+/// The right action has greater width; accessibility text uses a vertical layout.
+struct RActionPair<Secondary: View, Primary: View>: View {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @ViewBuilder let secondary: () -> Secondary
+    @ViewBuilder let primary: () -> Primary
+
+    var body: some View {
+        if dynamicTypeSize.isAccessibilitySize {
+            VStack(spacing: RLayout.actionGap) {
+                primary()
+                secondary()
+            }
+        } else {
+            RActionPairLayout {
+                secondary()
+                primary()
+            }
+        }
+    }
+}
+
+private struct RActionPairLayout: Layout {
+    private func widths(_ width: CGFloat) -> (CGFloat, CGFloat) {
+        let available = max(0, width - RLayout.actionGap)
+        let secondary = available / (1 + RLayout.primaryActionRatio)
+        return (secondary, available - secondary)
+    }
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        let width = proposal.width ?? 320
+        let (left, right) = widths(width)
+        let heights = zip(subviews, [left, right]).map { view, width in
+            view.sizeThatFits(ProposedViewSize(width: width, height: nil)).height
+        }
+        return CGSize(width: width, height: heights.max() ?? RSize.buttonHeight)
+    }
+
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        let (left, right) = widths(bounds.width)
+        var x = bounds.minX
+        for (view, width) in zip(subviews, [left, right]) {
+            view.place(at: CGPoint(x: x, y: bounds.minY), anchor: .topLeading,
+                       proposal: ProposedViewSize(width: width, height: bounds.height))
+            x += width + RLayout.actionGap
+        }
+    }
+}
+
+// MARK: - 브랜드 소개 화면 버튼 (S-01, S-02, S-03)
 
 struct RDarkButton: View {
     let title: String
@@ -94,26 +157,7 @@ struct RDarkButton: View {
     let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
-            ZStack {
-                if isLoading {
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                        .tint(.rDarkBackground)
-                        .scaleEffect(0.8)
-                } else {
-                    Text(title)
-                        .rTextStyle(.subLabel, color: .rDarkBackground)
-                        .fontWeight(.medium)
-                }
-            }
-            .frame(maxWidth: .infinity)
-            .frame(height: RSize.buttonHeight)
-            .background(Color.rDarkTextPrimary)
-            .cornerRadius(RRadius.md)
-        }
-        .disabled(isLoading)
-        .contentShape(Rectangle())
+        RButton(title: title, variant: .primary, isLoading: isLoading, action: action)
     }
 }
 
@@ -141,17 +185,17 @@ struct RGoogleSignInButton: View {
                 }
 
                 if isLoading {
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                        .scaleEffect(0.8)
-                } else {
-                    Text("Google 계정으로 계속하기")
-                        .rTextStyle(.subLabel, color: .rTextPrimary)
-                        .fontWeight(.medium)
+                    RLoadingIndicator(style: .compact, size: 20, tint: .rAccent)
+                        .accessibilityHidden(true)
                 }
+                Text(isLoading ? String(localized: "로그인 중…") : String(localized: "Google 계정으로 계속하기"))
+                        .font(.rButton)
+                        .foregroundColor(.rTextPrimary)
+                        .multilineTextAlignment(.center)
             }
-            .frame(maxWidth: .infinity)
-            .frame(height: RSize.buttonHeight)
+            .padding(.horizontal, RLayout.cardInset)
+            .padding(.vertical, RSpacing.sm)
+            .frame(maxWidth: .infinity, minHeight: RSize.buttonHeight)
             .background(Color.rBackground)
             .cornerRadius(RRadius.md)
             .overlay(
@@ -159,7 +203,9 @@ struct RGoogleSignInButton: View {
                     .strokeBorder(Color.rBorder, lineWidth: 1)
             )
         }
+        .buttonStyle(RPressFeedbackStyle())
         .disabled(isLoading)
+        .accessibilityLabel(isLoading ? String(localized: "Google 로그인 중") : String(localized: "Google 계정으로 계속하기"))
         .contentShape(Rectangle())
     }
 }

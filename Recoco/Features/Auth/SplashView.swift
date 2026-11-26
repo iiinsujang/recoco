@@ -1,83 +1,98 @@
+import FirebaseAuth
+import FirebaseCore
+import Photos
 import SwiftUI
 import UIKit
 
 // MARK: - S-01 스플래시
 // 명세서 §8 S-01
-// - 다크 배경
+// - 흰 배경, 기존 물범과 브랜드 컬러 유지
 // - RECOCO 워드마크 중앙 표시
 // - 최대 1.5초, 초기화 완료 시 즉시 분기
 
 struct SplashView: View {
     @EnvironmentObject private var router: AppRouter
 
-    // Mock: 실제 구현에서는 AuthService, PhotoKitService로 교체
-    var isLoggedIn: Bool = false
-    var hasCompletedOnboarding: Bool = false
-    var photoAuthStatus: PhotoAuthStatus = .notDetermined
-
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.scenePhase) private var scenePhase
     @State private var opacity: Double = 0
 
     var body: some View {
         ZStack {
-            Color.rDarkBackground.ignoresSafeArea()
+            Color.rBackground.ignoresSafeArea()
 
-            VStack(spacing: RSpacing.sm) {
-                // 브랜드 심볼: 에셋 없으면 공백 유지 (SF Symbol 임의 사용 금지)
-                if UIImage(named: "recoco_symbol") != nil {
-                    Image("recoco_symbol")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 32, height: 32)
-                }
-
-                Text("RECOCO")
-                    .rTextStyle(.wordmark, color: .rDarkTextPrimary)
-                    .tracking(4)
+            VStack(spacing: RSpacing.xl) {
+                RBrandWordmark()
+                RSealIllustration(pose: .hello, width: 250)
+                Text("쌓인 사진, 세 장부터 가볍게.")
+                    .rTextStyle(.body, color: .rTextPrimary)
             }
             .opacity(opacity)
         }
         .onAppear {
             // 페이드인
-            withAnimation(.easeIn(duration: 0.4)) {
+            withAnimation(reduceMotion ? nil : RMotion.transition) {
                 opacity = 1
             }
-            // 초기화 완료 후 즉시 분기 (최대 1.5초)
-            resolveRoute()
+        }
+        .task(id: scenePhase) {
+            guard scenePhase == .active else { return }
+            await resolveRoute()
         }
     }
 
-    private func resolveRoute() {
-        // TODO: 실제 구현에서는 async/await로 AuthService 상태 확인
-        let delay = hasCompletedOnboarding && isLoggedIn ? 0.6 : 1.0
+    @MainActor
+    private func resolveRoute() async {
+        let completedOnboarding = UserDefaults.standard.bool(
+            forKey: "recoco_onboarding_completed"
+        )
+        let signedIn = FirebaseApp.app() != nil && Auth.auth().currentUser != nil
+        let delay: UInt64 = completedOnboarding && (signedIn || LocalSession.isActive)
+            ? 300_000_000 : 700_000_000
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-            withAnimation(.easeOut(duration: 0.3)) {
-                router.resolveInitialRoute(
-                    isLoggedIn: isLoggedIn,
-                    hasCompletedOnboarding: hasCompletedOnboarding,
-                    photoAuthStatus: photoAuthStatus
-                )
-            }
+        // Cancel when the scene becomes inactive or Splash leaves the tree.
+        // A delayed callback must not overwrite a newer route after returning.
+        do { try await Task.sleep(nanoseconds: delay) }
+        catch { return }
+        guard !Task.isCancelled, scenePhase == .active, router.route == .splash else { return }
+
+        // Permission and session state can change while the app is inactive.
+        withAnimation(reduceMotion ? nil : RMotion.transition) {
+            router.resolveInitialRoute(
+                isLoggedIn: FirebaseApp.app() != nil && Auth.auth().currentUser != nil,
+                hasCompletedOnboarding: UserDefaults.standard.bool(forKey: "recoco_onboarding_completed"),
+                photoAuthStatus: PhotoAuthStatus(PHPhotoLibrary.authorizationStatus(for: .readWrite)),
+                hasLocalSession: LocalSession.isActive
+            )
+        }
+    }
+}
+
+private extension PhotoAuthStatus {
+    init(_ status: PHAuthorizationStatus) {
+        switch status {
+        case .authorized:
+            self = .authorized
+        case .limited:
+            self = .limited
+        case .notDetermined:
+            self = .notDetermined
+        case .denied, .restricted:
+            self = .denied
+        @unknown default:
+            self = .denied
         }
     }
 }
 
 #if DEBUG
 #Preview("첫 실행") {
-    SplashView(
-        isLoggedIn: false,
-        hasCompletedOnboarding: false,
-        photoAuthStatus: .notDetermined
-    )
-    .environmentObject(AppRouter())
+    SplashView()
+        .environmentObject(AppRouter())
 }
 
 #Preview("재실행 (로그인 유지)") {
-    SplashView(
-        isLoggedIn: true,
-        hasCompletedOnboarding: true,
-        photoAuthStatus: .authorized
-    )
-    .environmentObject(AppRouter())
+    SplashView()
+        .environmentObject(AppRouter())
 }
 #endif

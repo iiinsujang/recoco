@@ -27,5 +27,5 @@
 // Inter 폰트 설치:
 //   1. https://rsms.me/inter/ 에서 Inter 다운로드
 //   2. TTF 파일을 Xcode 프로젝트 Resources에 추가
-//   3. Info.plist > UIAppFonts 에 파일명 등록
+//   3. 브랜드 폰트 확정 시 실제 폰트 파일과 Info.plist 등록을 함께 추가
 //   Inter 미설치 시 시스템 폰트로 자동 폴백됩니다.
